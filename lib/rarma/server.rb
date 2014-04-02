@@ -1,5 +1,4 @@
 require 'socket'
-require 'rarma/client'
 
 class Rarma::Server
   def self.start(opts)
@@ -23,9 +22,10 @@ class Rarma::Server
     server = TCPServer.new @opts[:port]
     loop do
       Thread.start(server.accept) do |client|
-        @clients << Rarma::Client.new(client)
+        @clients << Rarma::Server::Client.new(client)
       end
     end
   end
 end
 require 'rarma/server/handler'
+require 'rarma/server/client'

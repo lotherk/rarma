@@ -1,7 +1,7 @@
-class Rarma::Client
+class Rarma::Server::Client
   def initialize client
     @client = client
-    @handler = Rarma::Server::Handler.new
+    @handler = Rarma::Server::Handler.new(@client)
     run
   end
 
@@ -14,11 +14,10 @@ class Rarma::Client
       break if line.length == 0 # end connection
 
       cmd, rest = line.split(" ", 2)
-      if @handler.respond_to?cmd.to_sym
-        @handler.send(cmd.to_sym, [@client, rest])
-      else
-        @client.puts "Unknown command: #{line}"
-      end
+      cmd = "process_#{cmd}".to_sym 
+      break unless @handler.respond_to?cmd
+
+      @handler.send(cmd, rest)
     end
     @client.puts "CLOSE"
     @client.close
