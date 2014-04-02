@@ -33,7 +33,7 @@ class Rarma::Array
   __native :add
   def add _value, _set=@dataset
     <<-SQF
-    _set = _set + _value;
+    _set = _set + [_value];
     MEMBER("@dataset", _set);
     SQF
   end
