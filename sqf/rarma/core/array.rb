@@ -92,6 +92,6 @@ class Rarma::Array
   __native :to_a
   # Returns native array
   def to_a
-    "FUNC_GETVAR(\"@dataset\")"
+    "MEMBER(\"@dataset\", nil)"
   end
 end
