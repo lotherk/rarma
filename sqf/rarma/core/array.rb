@@ -2,12 +2,12 @@
 class Rarma::Array
   __classname :Array
 
-  attr_reader :set
+  attr_reader :dataset
 
   __native :initialize
   def initialize #:nodoc:
     <<-SQF
-    MEMBER("@set", []);
+    MEMBER("@dataset", []);
     SQF
   end
 
@@ -24,22 +24,22 @@ class Rarma::Array
   #     _array = ["new"] call Array;
   #     ["set", 0, "this is the value"] call _array;
   #     hint (["get", 0] call _array);
-  def set _index, _value, _set=@set
+  def set _index, _value, _set=@dataset
     <<-SQF
-    FUNC_GETVAR("@set") set[_index, _value]
+    FUNC_GETVAR("@dataset") set[_index, _value]
     SQF
   end
 
   __native :add
-  def add _value, _set=@set
+  def add _value, _set=@dataset
     <<-SQF
     _set = _set + _value;
-    MEMBER("@set", _set);
+    MEMBER("@dataset", _set);
     SQF
   end
 
   __native :get
-  def get _index, _set=@set
+  def get _index, _set=@dataset
     <<-SQF
     _set select _index
     SQF
@@ -59,7 +59,7 @@ class Rarma::Array
   #        _index = DEFAULT_PARAM(1, nil)
   #        hint format["Current index is %1, the value is %2", _index, _value];
   #    }] call _array;
-  def each_with_index _code, _set=@set
+  def each_with_index _code, _set=@dataset
     <<-SQF
     {
       _args = _x + _forEachIndex
@@ -81,7 +81,7 @@ class Rarma::Array
   #        _value = DEFAULT_PARAM(0, nil)
   #        hint format["The value is %1", _value];
   #    }] call _array;
-  def each _code, _set=@set
+  def each _code, _set=@dataset
     <<-SQF
     {
         [_x] call _code;
@@ -92,6 +92,6 @@ class Rarma::Array
   __native :to_a
   # Returns native array
   def to_a
-    "FUNC_GETVAR(\"@set\")"
+    "FUNC_GETVAR(\"@dataset\")"
   end
 end
