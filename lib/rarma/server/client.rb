@@ -14,7 +14,7 @@ class Rarma::Server::Client
       break if line.length == 0 # end connection
 
       cmd, rest = line.split(" ", 2)
-      cmd = "process_#{cmd}".to_sym 
+      cmd = "process_#{cmd}".downcase.to_sym 
       break unless @handler.respond_to?cmd
 
       @handler.send(cmd, rest)
