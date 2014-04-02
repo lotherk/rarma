@@ -5,11 +5,14 @@ class Rarma::Array
   attr_reader :dataset
 
   __native :initialize
-  def initialize #:nodoc:
-    <<-SQF
-    MEMBER("@dataset", []);
-    SQF
-  end
+  def initialize _default
+     <<-SQF
+     if (typeName _default != 'ARRAY' then) {
+       _default = []
+     };
+     MEMBER("@dataset", _default);
+     SQF
+   end
 
   __native :set
   # Sets a value at the given index - Overwrites existing value if any.
