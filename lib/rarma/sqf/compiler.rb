@@ -1,4 +1,3 @@
-require 'method_source'
 require 'rarma'
 require 'rarma/sqf'
 module Rarma::SQF::Compiler

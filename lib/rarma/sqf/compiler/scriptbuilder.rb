@@ -46,76 +46,7 @@ class Rarma::SQF::Compiler::ScriptBuilder
     @script << p.script
   end
   def build_from_class instance
-    require 'sqf/rarma/object'
-#    raise "#{instance} must be an instance of Rarma::Object" unless instance < Rarma::Object
-    Rarma.logger.debug "Building script from class #{instance}"
-    
-    classname = instance.options[:classname] ? instance.options[:classname].to_s : instance.to_s.gsub("::", "_") 
-#    classname = instance.to_s 
-    # class header
-    if instance.superclass.instance_of? Rarma::Object or instance.superclass == Rarma::Object
-      @script << 'CLASS_EXTEND("%s", "%s"):' % [classname, instance.superclass.to_s.gsub("::", "_")]
-    elsif instance == Rarma::Object
-      @script << 'CLASS("%s"):' % classname
-    else
-      @script << 'UNKNOWN STATE'
-    end
-
-    # class variables
-    klass = instance.new
-    klass.instance_variables.each do |var|
-      val = klass.instance_variable_get(var)
-      val = '"%s"' % val if val.is_a? String
-      @script << '    PRIVATE VARIABLE("%s", %s);' % [var, val]
-    end
-
-    # public methods
-    (klass.methods - instance.superclass.new.methods + instance.native_methods).uniq.each do |m|
-      params = klass.method(m).parameters
-      argtype = nil
-      if params.count > 1
-        argtype = "array"
-      elsif params.count == 1
-        argtype = "object"
-      end
-
-      source = klass.method(m).source
-
-      if instance.native_methods.include? m
-        src_header = source.split("\n")[0]
-        sexp = RubyParser.new.parse("#{src_header}; end")
-        Rarma.logger.debug "sexp #{sexp}"
-
-        p = Rarma::SQF::Compiler::Processor.new
-        p.current_class = classname
-        p.process sexp
-        require 'pp'
-        pp p.script
-        @script << p.script[0..-2]
-
-        Rarma.logger.debug "processing native method #{m}"
-        args = []
-        params.count { |k,v| args << nil }
-        body = klass.send(m, *args)
-        @script << body
-      @script << '}'
-      else 
-        Rarma.logger.debug "processing method #{m}"
-
-        sexp = RubyParser.new.parse(source)
-        Rarma.logger.debug "sexp #{sexp}"
-
-        require 'pp'
-        pp sexp
-
-        p = Rarma::SQF::Compiler::Processor.new
-        p.current_class = classname
-        p.process(sexp)
-
-        @script << p.script
-      end
-    end
-    @script << 'ENDCLASS'
+    raise "do not use build_from_class!"
   end
 
   def build!
