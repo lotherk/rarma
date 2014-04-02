@@ -29,8 +29,9 @@ CLASS("Array")
         _code = DEFAULT_PARAM(0, nil);
         _set = DEFAULT_PARAM(1, MEMBER("@dataset",nil));
         {
-            _args = _x + _forEachIndex;
-            [_args] call _code;
+            _args = [];
+            _args = _args + [_x] + [_forEachIndex];
+            _args call _code;
         } forEach _set;
     };
     PUBLIC FUNCTION("array", "each") {

@@ -62,8 +62,9 @@ class Rarma::Array
   def each_with_index _code, _set=@dataset
     <<-SQF
     {
-      _args = _x + _forEachIndex
-      [_args] call _code;
+      _args = [];
+      _args = _args + [_x] + [_forEachIndex];
+      _args call _code;
     } forEach _set;
     SQF
   end
