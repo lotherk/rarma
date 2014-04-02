@@ -26,7 +26,7 @@ class Rarma::Array
   #     hint (["get", 0] call _array);
   def set _index, _value
     <<-SQF
-    MEMBER("@dataset") set [_index, _value];
+    MEMBER("@dataset", nil) set [_index, _value];
     SQF
   end
 

@@ -2,7 +2,7 @@
 class Rarma::Hash
   __classname :Hash
 
-  attr_reader :set
+  attr_reader :dataset
 
   def initialize #:nodoc:
     @dataset = []
@@ -29,10 +29,10 @@ class Rarma::Hash
   end
 
   __native :add
-  # Alias method for #set
-  def add _key, _value, _set=@dataset
+  # adds an element to the hash
+  def add _key, _value
     <<-SQF
-    MEMBER("set", [_key, _value]);
+    ["add", [_key, _value]] call MEMBER("@dataset", nil);
     SQF
   end
 
@@ -51,8 +51,9 @@ class Rarma::Hash
   #        _index = DEFAULT_PARAM(2, nil);
   #        hint format["Current index is %1, the key is %2 and it's value is %3", _index, _key, _value];
   #    }] call _hash;
-  def each_with_index _code, _set=@dataset
+  def each_with_index _code
     <<-SQF
+	_set = MEMBER("@dataset", nil);
     {
       private "_args";
       _args = [];
@@ -76,8 +77,9 @@ class Rarma::Hash
   #        _value = DEFAULT_PARAM(1, nil);
   #        hint format["The key is %1 and it's value is %2", _key, _value];
   #    }] call _hash;
-  def each _code, _set=@dataset
+  def each _code
     <<-SQF
+	_set = MEMBER("@dataset", nil);
     {
       [_x] call _code;
     } count _set;
@@ -85,8 +87,9 @@ class Rarma::Hash
   end
 
   __native :get
-  def get _key, _set=@dataset
+  def get _key
     <<-SQF
+	_set = MEMBER("@dataset", nil);
     {
       _k = _x select 0;
       _v = _x select 1;
@@ -98,6 +101,6 @@ class Rarma::Hash
   __native :to_a
   # Returns native array
   def to_a
-    "MEMBER(\"@dataset\", nil)"
+    "[\"to_a\"] call MEMBER(\"@dataset\", nil)"
   end
 end
