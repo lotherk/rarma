@@ -31,7 +31,7 @@ module Rarma::SQF::Compiler::Processor::Args
       end
       vargs << '%s' % vname if vname =~ /^_/
       makro = "RPARAM"
-      marko = "RPARAMS" if args.count > 1
+      makro = "RPARAMS" if args.count > 1
       vals << '%s = %s(%i, %s)' % [vname, makro, i, default]
       Rarma.logger.debug("#{self} arg#{i}: #{arg}")
     end
