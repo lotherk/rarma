@@ -18,7 +18,6 @@ module Rarma::SQF::Compiler::Processor::Args
     Rarma.logger.debug("#{self} Got args: #{args}")
     vals = []
     vargs = []
-    single = args.count == 1
     args.each_with_index do |arg, i|
       vname = nil
       default = nil
@@ -39,8 +38,7 @@ module Rarma::SQF::Compiler::Processor::Args
     if vargs.count > 0
       @script << 'private ["%s"]' % vargs.join('", "')
     end
-      @script << vals
-    end
+    @script << vals
     exp
   end
 end
