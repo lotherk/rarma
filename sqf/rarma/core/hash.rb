@@ -1,11 +1,11 @@
 # Represents a key value Hash
-class Rarma::Hash < Rarma::Rarma
+class Rarma::Hash
   __classname :Hash
 
   attr_reader :set
 
   def initialize #:nodoc:
-    @set = []
+    @dataset = []
   end
 
   # Sets a key with a value - Overwrites existing key if any.
@@ -21,16 +21,16 @@ class Rarma::Hash < Rarma::Rarma
   #     ["set", "aKey", "this is the value"] call _hash;
   #     hint (["get", "aKey"] call _hash);
   def set _key, _value
-    @set.each_with_index do |_array, _i|
+    @dataset.each_with_index do |_array, _i|
       if _array[_i] == _key
-        @set[_i] = [_key, _value]
+        @dataset[_i] = [_key, _value]
       end
     end
   end
 
   __native :add
   # Alias method for #set
-  def add _key, _value, _set=@set
+  def add _key, _value, _set=@dataset
     <<-SQF
     MEMBER("set", [_key, _value]);
     SQF
@@ -51,12 +51,13 @@ class Rarma::Hash < Rarma::Rarma
   #        _index = DEFAULT_PARAM(2, nil);
   #        hint format["Current index is %1, the key is %2 and it's value is %3", _index, _key, _value];
   #    }] call _hash;
-  def each_with_index _code, _set=@set
+  def each_with_index _code, _set=@dataset
     <<-SQF
     {
       private "_args";
-      _args = _x + _forEeachIndex
-      [_args] call _code;
+      _args = [];
+	  _args = _args + [_x] + [_forEeachIndex]
+      _args call _code;
     } forEach _set;
     SQF
   end
@@ -75,7 +76,7 @@ class Rarma::Hash < Rarma::Rarma
   #        _value = DEFAULT_PARAM(1, nil);
   #        hint format["The key is %1 and it's value is %2", _key, _value];
   #    }] call _hash;
-  def each _code, _set=@set
+  def each _code, _set=@dataset
     <<-SQF
     {
       [_x] call _code;
@@ -84,7 +85,7 @@ class Rarma::Hash < Rarma::Rarma
   end
 
   __native :get
-  def get _key, _set=@set
+  def get _key, _set=@dataset
     <<-SQF
     {
       _k = _x select 0;
@@ -97,6 +98,6 @@ class Rarma::Hash < Rarma::Rarma
   __native :to_a
   # Returns native array
   def to_a
-    @set.to_a
+    "MEMBER(\"@dataset\", nil)"
   end
 end
