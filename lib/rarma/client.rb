@@ -10,6 +10,9 @@ class Rarma::Client
       line = @client.gets
       line.chomp!
       line.strip!
+
+      break if line.length == 0 # end connection
+
       cmd, rest = line.split(" ", 2)
       if @handler.respond_to?cmd.to_sym
         @handler.send(cmd.to_sym, [@client, rest])
