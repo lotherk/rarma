@@ -24,14 +24,15 @@ def self.options
       end
       banner ""
       banner "Global options:"
-      opt :language, "Language", :default => "en", :short => '-l'
       opt :debug, "Enable debug messages", :default => false, :short => '-d'
       stop_on subs
     end
-    @options = Trollop::with_standard_exception_handling p do
+    opts = Trollop::with_standard_exception_handling p do
       raise Trollop::HelpNeeded if ARGV.empty?
       p.parse
     end
+
+    Rarma.logger.level = Logger::DEBUG if opts[:debug]
     subcmd = ARGV.shift
     Rarma::CLI::Subcommand[subcmd].main
   end

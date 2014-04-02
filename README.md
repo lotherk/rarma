@@ -1,5 +1,7 @@
-THIS IS NOTHING YOU CAN OR SHOULD USE RIGHT NOW!
+# Rarma - Ruby Arma Library
 
-IT IS HEAVY PROTOTYPING IN THE SOURCE IS FAR AWAY FROM BEAUTIFUL.
+This is rarma!
 
-BEST WOULD BE TO COME BACK AGAIN IN A FEW WEEKS.
+## Compiler
+
+Rarma includes the worlds first ruby-to-sqf transcompiler. It transforms pure ruby code into sqf code and does even more. 

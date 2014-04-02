@@ -19,11 +19,3 @@ sleep 5
 
 hint "Testvar is #{_test.testvar}"
 
-
-class FooBar
-  def foo
-    puts "bla" if true
-    f = true ? "bla" : "blubb"
-    puts "bar"
-  end
-end
