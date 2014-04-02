@@ -1,5 +1,5 @@
 # Represents an array
-class Rarma::Array < Rarma::Object
+class Rarma::Array
   __classname :Array
 
   attr_reader :set
@@ -30,9 +30,6 @@ class Rarma::Array < Rarma::Object
     SQF
   end
 
-  def << _value, _set=@set
-    add _value
-  end
   __native :add
   def add _value, _set=@set
     <<-SQF
