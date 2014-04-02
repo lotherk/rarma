@@ -31,15 +31,14 @@ module Rarma::SQF::Compiler::Processor::Args
         default = "nil"
       end
       vargs << '%s' % vname if vname =~ /^_/
-      vals << '%s = DEFAULT_PARAM(%i, %s)' % [vname, i, default]
+      makro = "RPARAM"
+      marko = "RPARAMS" if args.count > 1
+      vals << '%s = %s(%i, %s)' % [vname, makro, i, default]
       Rarma.logger.debug("#{self} arg#{i}: #{arg}")
     end
     if vargs.count > 0
       @script << 'private ["%s"]' % vargs.join('", "')
     end
-    if single
-      @script << '%s = _this' % vargs.shift
-    else
       @script << vals
     end
     exp
