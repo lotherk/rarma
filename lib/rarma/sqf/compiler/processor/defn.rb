@@ -19,7 +19,7 @@ module Rarma::SQF::Compiler::Processor::Defn
     end
     body = a.script.pop
     type = ''
-    type = 'array' if argsc >= 2
+    type = 'any' if argsc >= 2
 
     if @current_class
       @script << 'PUBLIC FUNCTION("%s", "%s") {' % [type, name]
