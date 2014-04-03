@@ -1,21 +1,16 @@
 module Rarma::SQF::Compiler::Processor::Args
   def process_args exp
-    Rarma.logger.debug "#{self} Processing args #{exp}"
     args = []
     while exp.count > 0
       cur = exp.shift
       if cur.is_a? Sexp
-        Rarma.logger.debug "#{self} Args Sexp: #{cur}"
         a = self.class.new
         a.process cur
         args << a.script
       else
-        Rarma.logger.debug "#{self} Args No Sexp: #{cur}"
         args << cur
       end
-#      args << a.script
     end
-    Rarma.logger.debug("#{self} Got args: #{args}")
     vals = []
     vargs = []
     args.each_with_index do |arg, i|
@@ -30,11 +25,12 @@ module Rarma::SQF::Compiler::Processor::Args
         default = "nil"
       end
       vargs << '%s' % vname if vname =~ /^_/
-      makro = "RPARAM"
-      makro = "RPARAMS" if args.count > 1
-      vals << '%s = %s(%i, %s)' % [vname, makro, i, default]
-      Rarma.logger.debug("#{self} arg#{i}: #{arg}")
-    end
+      if args.count > 1
+        vals << '%s = RPARAMS(%i, %s)' % [vname, i, default]
+      elsif args.count == 1
+        vals << '%s = RPARAM(%s)' % [vname, default]
+      end
+    end 
     if vargs.count > 0
       @script << 'private ["%s"]' % vargs.join('", "')
     end
