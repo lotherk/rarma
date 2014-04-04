@@ -22,6 +22,7 @@ class Rarma::Server
     server = TCPServer.new @opts[:port]
     loop do
       Thread.start(server.accept) do |client|
+        Rarma.logger.debug "Accepting new client: #{client}"
         @clients << Rarma::Server::Client.new(client)
       end
     end
