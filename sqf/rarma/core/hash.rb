@@ -4,8 +4,8 @@ class Rarma::Hash
 
   attr_reader :dataset
 
-  def initialize #:nodoc:
-    @dataset = []
+  def initialize _default=[] 
+    @dataset = _default
   end
 
   # Sets a key with a value - Overwrites existing key if any.

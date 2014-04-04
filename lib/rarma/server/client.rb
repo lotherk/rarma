@@ -1,3 +1,4 @@
+require 'json'
 class Rarma::Server::Client
   def initialize client
     @client = client
@@ -8,19 +9,27 @@ class Rarma::Server::Client
   def run
     while !@client.closed?
       line = @client.gets
-      line.chomp!
       line.strip!
-
-      break if line.length == 0 # end connection
-
-      cmd, rest = line.split(" ", 2)
-      cmd = "process_#{cmd}".downcase.to_sym 
-      break unless @handler.respond_to?cmd
-
-      @handler.send(cmd, rest)
+      line.chomp!
+      Rarma.logger.debug "Client sent: #{line}"
+      begin
+        json = JSON.load(line)
+        Rarma.logger.debug "JSON: #{json}"
+      rescue Exception => e
+        Rarma.logger.error "Error parsing json: #{e.message}"
+        break
+      end
+      send_message JSON.dump({ :this => "is", :a => ["simple"],:test => { "with" => "some things."}})
     end
-    @client.puts "CLOSE"
+    begin
+      send_message JSON.dump({ :message => "Good bye" })
+    rescue Exception => e
+        Rarma.logger.error "Error sending json: #{e.message}"
+    end
     @client.close
-    destroy
+  end
+
+  def send_message json
+    @client.puts json
   end
 end

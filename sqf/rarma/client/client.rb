@@ -33,10 +33,12 @@ class Rarma::Client
     _index = 0;
     _size = 786;
     _packet = [];
+    _results = [];
     {
       if(_index == _size) then {
         _msg = [_packet, ""] call CBA_fnc_join;
         _result = RARMA_PY(format["%1.send(%2, %3)", RGVAR("@ref"), _tid, _msg])
+        _results = _results + [_result];
         _packet = [];
         _index = 0;
       } else {
@@ -44,6 +46,7 @@ class Rarma::Client
       };
       _index = _index + 1;
     } count _split;
+    _results;
     SQF
   end
 end
