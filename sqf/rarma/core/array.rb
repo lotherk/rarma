@@ -1,11 +1,12 @@
 # Represents an array
+require 'rarma'
 class Rarma::Array
   __classname :Array
 
   attr_reader :dataset
 
   __native :initialize
-  def initialize _default
+  def initialize _default=[]
      <<-SQF
      if (typeName _default != 'ARRAY' then) {
        _default = []
