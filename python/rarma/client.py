@@ -1,7 +1,5 @@
 import socket
 import json
-import numpy
-import re
 
 class Client():
     def __init__(self):
@@ -25,6 +23,7 @@ class Client():
             return '[["error","malformed message. must be hash"]]'
         self.sock.send(json.dumps(jdic) + "\n")
         ret = self.sock.recv(1024)
+        print ret
         print str(self.deunicode(self.rhash(json.loads(ret))))
 
     def rhash(self, json):
