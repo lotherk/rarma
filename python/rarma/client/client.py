@@ -5,6 +5,9 @@ import json
 
 
 class Client():
+    def __init__(self):
+        pass
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def connect(self, host, port):
@@ -14,6 +17,6 @@ class Client():
         self.sock.close()
 
     def send(self, tid, message):
-        bmsg = bytes(message, "utf-8")
+        bmsg = bytes(message)
         self.sock.send(bmsg)
-        return self.sock.recv(4)
+        return str(self.sock.recv(1024))
