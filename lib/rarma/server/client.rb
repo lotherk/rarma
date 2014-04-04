@@ -14,12 +14,11 @@ class Rarma::Server::Client
       Rarma.logger.debug "Client sent: #{line}"
       begin
         json = JSON.load(line)
-        Rarma.logger.debug "JSON: #{json}"
+        parse json
       rescue Exception => e
         Rarma.logger.error "Error parsing json: #{e.message}"
         break
       end
-      send_message JSON.dump({ :this => "is", :a => ["simple"],:test => { "with" => "some things."}})
     end
     begin
       send_message JSON.dump({ :message => "Good bye" })
@@ -27,6 +26,17 @@ class Rarma::Server::Client
         Rarma.logger.error "Error sending json: #{e.message}"
     end
     @client.close
+  end
+
+  def parse json
+    raise "no command in json found #{json}" unless json["command"]
+    command = ("process_" + json["command"].downcase).to_sym
+    if @handler.respond_to?command
+      @handler.send(command, json)
+    else
+      raise "Unknown command or unknown json #{json}"
+    end
+    
   end
 
   def send_message json
