@@ -1,6 +1,4 @@
-__author__ = 'lukrop'
-
-from client.client import Client
+from client import Client
 
 rarmaClient = Client()
 print("connecting")

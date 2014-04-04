@@ -1,5 +1,3 @@
-__author__ = 'lukrop'
-
 import socket
 import json
 
