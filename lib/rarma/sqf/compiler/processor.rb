@@ -5,7 +5,7 @@ class Rarma::SQF::Compiler::Processor < SexpProcessor
   attr_reader :script
   attr_accessor :current_class, :current_module
 
-  Dir["#{Rarma.gem_root}/lib/rarma/sqf/compiler/processor2/*.rb"].each do |f|
+  Dir["#{Rarma.gem_root}/lib/rarma/sqf/compiler/processor/*.rb"].each do |f|
     Rarma.logger.debug "Loading processor #{f}"
     load f
   end
