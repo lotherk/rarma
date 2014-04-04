@@ -23,10 +23,9 @@ class Client():
                 jdic.update({kv[0]:kv[1]})
         except:
             return '[["error","malformed message. must be hash"]]'
-        bmsg = bytes(message)
         self.sock.send(json.dumps(jdic) + "\n")
         ret = self.sock.recv(1024)
-        print eval(str(self.rhash(json.loads(ret))))
+        print str(self.deunicode(self.rhash(json.loads(ret))))
 
     def rhash(self, json):
         ret = []
@@ -34,4 +33,14 @@ class Client():
             if type(v) == dict:
                 v = self.rhash(v)
             ret.append([str(k),v])
-        return str(ret)
+        return ret
+
+    def deunicode(self,lst):
+        res = []
+        for l in lst:
+            if type(l) == list:
+                l = self.deunicode(l)
+            if type(l) == unicode:
+                l = str(l)
+            res.append(l)
+        return res
