@@ -14,9 +14,8 @@ class Rarma::Server::Client
       Rarma.logger.debug "Client sent: #{line}"
       begin
         json = JSON.load(line)
-        parse json
+        @client.puts parse(json)
       rescue Exception => e
-        str = { :type => :exception, :body => e.message }
         @client.puts JSON.dump(str)
         Rarma.logger.debug e
       end
@@ -27,11 +26,11 @@ class Rarma::Server::Client
     raise "no command in json found #{json}" unless json["module"]
     command = ("process_" + json["module"].downcase).to_sym
     if @handler.respond_to?command
-      @handler.send(command, json)
+      res = @handler.send(command, json)
+      return JSON.dump(res)
     else
       raise "Unknown command or unknown json #{json}"
     end
-    
   end
 
   def send_message json
