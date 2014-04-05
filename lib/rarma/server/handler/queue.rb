@@ -4,7 +4,6 @@ module Rarma::Server::Handler::Queue
     queue = Rarma::Queue.get(@client)
     queue.respond_to?meth
     Rarma.logger.debug "calling method #{meth}"
-    res = queue.send(meth, json).to_s
-    { :result => res }
+    queue.send(meth, json)
   end
 end

@@ -24,18 +24,16 @@ class Client():
             for kv in result:
                 jdic.update({kv[0]:kv[1]})
         except Exception, e:
-            return "Error while parsing input " + str(e)
 
         try:
             self.sock.send(json.dumps(jdic) + "\n")
         except Exception, e:
-            return "Error while sending" + str(e)
 
         try:
             ret = self.sock.recv(1024)
-            return str(self.deunicode(self.rhash(json.loads(ret))))
+            return self.deunicode(self.rhash(json.loads(ret)))
         except Exception, e:
-            return "Error while recieving " + str(e)
+
         return False
 
     def rhash(self, json):

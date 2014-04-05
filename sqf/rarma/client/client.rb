@@ -56,26 +56,9 @@ class Rarma::Client
 
     _str = format["py %1.q_send(%2)", MEMBER("@ref",nil), _tid];
     _res = call compile ("Arma2Net.Unmanaged" callExtension _str);
-    if(typeName _res == 'string') then {
-      _res = call compile _res;
-    };
-    _key = _res select 0;
-    _val = _res select 1;
-    if(isNil "_val" exitWith {
-      false;
-    };
-    switch(_key) do {
-      case 'result': {
-        if(typeName _val == 'string') then {
-          _res = call compile _val;
-        } else {
-          _res = _val;
-        };
-      };
-      default {
-        _res = _val;
-      };
-    };
+    _res = _res select 0;
+    _res = _res select 1;
+    _res = call compile _res;
     _res;
     SQF
   end

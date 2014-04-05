@@ -14,7 +14,10 @@ class Rarma::Server::Client
       Rarma.logger.debug "Client sent: #{line}"
       begin
         json = JSON.load(line)
-        @client.puts parse(json)
+        res = parse(json)
+        # move this to somewhere
+        res = '"nil"' if res.to_s == 'null'
+        @client.puts JSON.dump({ :result => res.to_s })
       rescue Exception => e
         @client.puts JSON.dump(str)
         Rarma.logger.debug e

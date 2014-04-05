@@ -29,17 +29,14 @@ class Quexecutor
 
       _fetch = false;
       waitUntil {
+        _id = nil;
         waitUntil {
           sleep 0.5;
           try {
             diag_log "checking for new input";
             _rson = format["[['module', 'queue'], ['method', 'next?']]"];
-            _res = ["send", _rson] call _client;
-            if(typeName _res != 'boolean') then {
-              false;
-            } else {
-              _res;
-            };
+            _id = call compile (["send", _rson] call _client);
+            if(isNil "_id") then { false } else { true }
           } catch {
             diag_log _exception;
           };
@@ -49,8 +46,8 @@ class Quexecutor
         while { _fetch } do {
           diag_log "fetching from queue";
           try {
-            _rson = format["[['module', 'queue'], ['method', 'pop']"];
-            _res = ["send", _rson] call _client;
+            _rson = format["[['module', 'queue'], ['method', 'pop'], ['id', %1]]", _id];
+            _res = (["send", _rson] call _client);
             if(isNil "_res") exitWith { _fetch = false };
             _queue = _queue + [_res];
           } catch {
