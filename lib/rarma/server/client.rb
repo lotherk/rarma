@@ -16,21 +16,16 @@ class Rarma::Server::Client
         json = JSON.load(line)
         parse json
       rescue Exception => e
-        Rarma.logger.error "Error parsing json: #{e.message}"
-        break
+        str = { :type => :exception, :body => e.message }
+        @client.puts JSON.dump(str)
+        Rarma.logger.debug e
       end
     end
-    begin
-      send_message JSON.dump({ :message => "Good bye" })
-    rescue Exception => e
-        Rarma.logger.error "Error sending json: #{e.message}"
-    end
-    @client.close
   end
 
   def parse json
-    raise "no command in json found #{json}" unless json["command"]
-    command = ("process_" + json["command"].downcase).to_sym
+    raise "no command in json found #{json}" unless json["module"]
+    command = ("process_" + json["module"].downcase).to_sym
     if @handler.respond_to?command
       @handler.send(command, json)
     else

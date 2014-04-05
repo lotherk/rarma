@@ -6,19 +6,22 @@ class Rarma::Queue
   end
 
   def initialize
+    Rarma.logger.debug "Initializing queue #{self}"
     @queue = []
   end
 
-  def next?
+  def next? json
     Rarma.logger.debug "queue has next?"
     @queue.count > 0
   end
 
-  def shift
+  def shift json
     Rarma.logger.debug "shift from queue"
+    @queue.shift
   end
-  def pop
+  def pop json
     Rarma.logger.debug "pop from queue"
+    @queue.pop
   end
 
 end
