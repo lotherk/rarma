@@ -1,25 +1,18 @@
 
-def RarmaClient _message
-  if client.nil?
-    client = Rarma::Client.new
-    client.connect
-  end
-  client.send _message
-end
 class Rarma::Client
   attr_reader :ref
 
   __native
   def initialize
     <<-SQF
-    RARMA_PY("from rarma.client import Client")
+  ("Arma2Net.Unmanaged" callExtension "from rarma.client import Client");
 
     if(isNil "rarma_client_ref_index") then { rarma_client_ref_index = 0 };
-    
+
     _varname = format["client_ref_%1", rarma_client_ref_index];
 
-    RARMA_PY(format["%1 = Client()"]);
-
+    _str = format["PY %1 = Client()];
+    _res = ("Arma2Net.Unmanaged" callExtension _str);
     MEMBER("@ref", _varname);
     rarma_client_ref_index = rarma_client_ref_index + 1;
     SQF
@@ -28,34 +21,44 @@ class Rarma::Client
   __native
   def connect _hostname="127.0.0.1", _port=31337
     <<-SQF
-    _result = RARMA_PY(format["%1.connect(%2, %3)", RCVAR("ref"), _hostname, _port]);
+    _ref = MEMBER("@ref", nil)
+    _result = ("Arma2Net.Unmanaged" callExtension format["Py %1.connect(""%2"", %3)", _ref, _hostname, _port]);
     SQF
   end
 
   __native
   def send _message
     <<-SQF
-    _tid = RARMA_PY(format["%1.get_tid()", RCVAR("ref")]);
-    
+    _ref = MEMBER("@ref",nil);
+    _tid = ("Arma2Net.Unmanaged" callExtension format["Py %1.get_tid()", _ref]);
     // this is.. ugly
     _split = [_message, ""] call CBA_fnc_split;
+    _length = count _split;
     _index = 0;
     _size = 448;
     _packet = [];
     _result = nil;
 
     {
-      if(_index == _size) then {
+      _packet = _packet + [_x];
+
+      if(_index == _size or _index == _length) then {
         _msg = [_packet, ""] call CBA_fnc_join;
-        RARMA_PY(format["%1.q_append(%2, ""%3"")", RCVAR("ref"), _tid, _msg]);
+        _msg = [_msg, '"', '\"'] call CBA_fnc_replace;
+        _str = format["py %1.q_append(%2, %3)", MEMBER("@ref",nil), _tid, str(_msg)];
+        _res = ("Arma2Net.Unmanaged" callExtension _str);
         _index = 0;
-      } else {
-        _packet = _packet + [_x];
       };
       _index = _index + 1;
     } count _split;
 
-    RARMA_PY(format["%1.q_send(%2)", RCVAR("ref"), _tid]);
+    _str = format["py %1.q_send(%2)", MEMBER("@ref",nil), _tid];
+    _res = ("Arma2Net.Unmanaged" callExtension _str);
+    _res;
     SQF
   end
 end
+
+_client = Client.new
+_client.connect "172.16.210.101"
+_client.send "[['this is a key', 'this is the value']]"

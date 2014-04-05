@@ -5,12 +5,14 @@ class Client():
     def __init__(self):
         self.tid = 0
         self.queue = {}
-        pass
+        self.sock = None
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def connect(self, host, port):
-        self.sock.connect((host, port))
+
+
+    def connect(self, host="localhost", port=31337):
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((host, int(port)))
 
     def close(self):
         self.sock.close()
@@ -21,12 +23,20 @@ class Client():
             result = eval(message) # whaaaaat??? yes.
             for kv in result:
                 jdic.update({kv[0]:kv[1]})
+        except Exception, e:
+            return "Error while parsing input " + str(e)
+
+        try:
             self.sock.send(json.dumps(jdic) + "\n")
+        except Exception, e:
+            return "Error while sending" + str(e)
+
+        try:
             ret = self.sock.recv(1024)
             return str(self.deunicode(self.rhash(json.loads(ret))))
-        except:
-            return '[["exception","Unknown error"]]'
-        return false
+        except Exception, e:
+            return "Error while recieving " + str(e)
+        return False
 
     def rhash(self, json):
         ret = []
@@ -57,5 +67,6 @@ class Client():
 
     def q_send(self, tid):
         if tid in self.queue:
-            return self.send(self.queue.pop(tid, None))
-        return false
+            return self.send(self.queue.pop(tid, None) + "\n")
+        return False
+
