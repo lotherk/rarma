@@ -5,13 +5,12 @@ class Rarma::Client
   __native
   def initialize
     <<-SQF
-  ("Arma2Net.Unmanaged" callExtension "from rarma.client import Client");
-
+    _str = ("Py from rarma.client import Client");
+    ("Arma2Net.Unmanaged" callExtension _str);
+    
     if(isNil "rarma_client_ref_index") then { rarma_client_ref_index = 0 };
-
     _varname = format["client_ref_%1", rarma_client_ref_index];
-
-    _str = format["PY %1 = Client()];
+    _str = format["PY %1 = Client(); print %1;", _varname];
     _res = ("Arma2Net.Unmanaged" callExtension _str);
     MEMBER("@ref", _varname);
     rarma_client_ref_index = rarma_client_ref_index + 1;
@@ -59,6 +58,3 @@ class Rarma::Client
   end
 end
 
-_client = Client.new
-_client.connect "172.16.210.101"
-_client.send "[['this is a key', 'this is the value']]"
