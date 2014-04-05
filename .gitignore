@@ -15,6 +15,6 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
-sqf/rarma/core/*.rb.sqf
+*.rb.sqf
 *.pyc
 python/rarma/.idea
