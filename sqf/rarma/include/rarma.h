@@ -5,3 +5,5 @@
 #define RPARAM(dft) if(!isNil "_this") then {_this} else {def}
 #define RPARAMS(idx, dft) RDEFAULT_PARAM(idx, dft)
 #define RCVAR(var) MEMBER("@"+var,nil)
+
+#define RARMA_PY(python) ("Arma2Net.Unmanaged" callExtension format["PY %1", python])
