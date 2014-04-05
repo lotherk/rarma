@@ -9,7 +9,7 @@ module Rarma::SQF::Compiler::Processor::If
     n = exp.shift
     a.process n if n
     @script << "if (%s) then {\n" % condition
-    @script << a.script.join("")
+    @script << a.script.join("\n")
 
     els = exp.shift
     if els

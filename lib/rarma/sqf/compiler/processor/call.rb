@@ -38,6 +38,8 @@ module Rarma::SQF::Compiler::Processor::Call
         @script << 'PRIVATE VARIABLE("any", "%s")' % "@#{reader}"
         @script << 'PUBLIC FUNCTION("", "%s") FUNC_GETVAR("@%s")' % [reader, reader]
       end
+    elsif func.to_s == 'nil?'
+      @script << '(isNil "%s")' % left
     elsif func.to_s =~ /^__/
       # rarma preprocessor command
       ppcmd = "process_preprocessor_#{func.to_s.gsub(/^__/, '')}".to_sym
@@ -81,9 +83,9 @@ module Rarma::SQF::Compiler::Processor::Call
         #@script << a.script
       else
         if a.script.count > 0
-          @script << "([%s] call %s)\n" % [a.script.join(", "), func]
+          @script << "([%s] call %s)" % [a.script.join(", "), func]
         else
-          @script << "(%s)\n" % func
+          @script << "%s" % func
         end
       end
       #@script << "\n" if @root

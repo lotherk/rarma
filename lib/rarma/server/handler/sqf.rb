@@ -8,7 +8,7 @@ module Rarma::Server::Handler::Sqf
     sqf = <<-SQF
 [[[], { #{script} }],"BIS_fnc_spawn",#{target},#{jip}] spawn BIS_fnc_MP
     SQF
-    Rarma.logger.debug "Executing SQF:\n#{sqf}"
+    Rarma.logger.debug "Executing SQF on #{client}:\n#{sqf}"
     #Rarma::Queue.for(target).script(script)
   end
 end
