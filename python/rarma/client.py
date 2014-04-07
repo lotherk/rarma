@@ -7,9 +7,6 @@ class Client():
         self.queue = {}
         self.sock = None
 
-
-
-
     def connect(self, host="localhost", port=31337):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((host, int(port)))

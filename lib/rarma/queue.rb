@@ -7,7 +7,7 @@ class Rarma::Queue
 
   def initialize
     Rarma.logger.debug "Initializing queue #{self}"
-    @queue = ["hint 'this is a test!'"]
+    #@queue = ["hint 'this is a test!'"]
   end
 
   def next? json
