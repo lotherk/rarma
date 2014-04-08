@@ -1,4 +1,5 @@
 #include "oop.h"
+#include "debug.h"
 
 #define CONSTRUCTOR_METHOD "initialize"
 #define RPARAMS(idx,dflt) if(!isNil "_this") then {\
