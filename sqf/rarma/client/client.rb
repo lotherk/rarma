@@ -58,7 +58,6 @@ class Rarma::Client
     _res = call compile ("Arma2Net.Unmanaged" callExtension _str);
     _res = _res select 0;
     _res = _res select 1;
-    _res = call compile _res;
     _res;
     SQF
   end
