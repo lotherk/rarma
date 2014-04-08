@@ -11,7 +11,7 @@ class Rarma::SQF::Compiler::Processor < SexpProcessor
   end
 
   Rarma::SQF::Compiler::Processor.constants.select do |c|
-    Rarma::SQF::Compiler::Processor.const_get(c).instance_of? Module
+    Rarma::SQF::Compiler::Processor.const_get(c).instance_of? ::Module
   end.each do |c|
     str = "Rarma::SQF::Compiler::Processor::#{c}"
     include eval(str)

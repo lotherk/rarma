@@ -18,9 +18,7 @@ module Rarma::SQF::Compiler::Processor::Module
       @current_class = a.current_class
       body << a.script
     end
-    @script << "%s = {\n" % @current_class
     @script << body.join("\n")
-    @script << "};\n"
     @current_class = nil
     exp
   end
