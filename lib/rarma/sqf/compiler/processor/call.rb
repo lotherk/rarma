@@ -3,6 +3,7 @@ module Rarma::SQF::Compiler::Processor::Call
     Rarma.logger.debug("#{self} Processing call with #{exp}")
     left = exp.shift
     func = exp.shift
+    func ||= exp.shift
     a = self.class.new
     Rarma.logger.debug "#{left} is a #{left.class}"
     if left.is_a? Sexp

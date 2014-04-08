@@ -9,7 +9,6 @@ module Rarma::SQF::Compiler::Processor::Module
       name = name.to_s
     end
     @current_class = name
-    inherit = exp.shift
     body = []
     while exp.count > 0
       a = self.class.new

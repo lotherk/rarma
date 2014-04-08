@@ -1,9 +1,9 @@
-module Rarma::SQF::Compiler::Processor::Defn
-  def process_defn exp
-  Rarma.logger.debug "#{self} Processing defn #{exp}"
+module Rarma::SQF::Compiler::Processor::Defs
+  def process_defs exp
+  Rarma.logger.debug "#{self} Processing defs #{exp}"
+    exp.shift
     name = exp.shift
     args = exp.shift
-    argsc = args.count
     $natives ||= []
     if $native_next
       $natives << name
@@ -17,19 +17,16 @@ module Rarma::SQF::Compiler::Processor::Defn
     while exp.count > 0
       a.process exp.shift
     end
-    body = a.script.pop
-    type = ''
-    type = 'any' if argsc >= 2
-
+    body = a.script.join("\n")
     if @current_class
-      @script << 'PUBLIC FUNCTION("%s", "%s") {' % [type, name]
+      @script << '%s_fnc_%s = {' % [@current_class, name]
     else
       @script << "#{name} = {"
     end
     @script << args
-    @script << a.script
+#    @script << a.script
     if $natives.include?name
-      @script << body.gsub(/\A"/, '').gsub(/"\z/, '')
+      @script << body.strip.gsub(/\A"/, '').gsub(/"\z/, '')
       $natives.delete(name)
     else
       @script << body
