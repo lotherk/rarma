@@ -7,13 +7,19 @@ class Rarma::Queue
 
   def initialize
     Rarma.logger.debug "Initializing queue #{self}"
-    @queue = []
-    #@queue = ["hint 'this is a test!'"]
+    #@queue = []
+    @queue = ["hint 'this is a test!'"]
+    @tid = -1;
   end
 
   def next? json
     Rarma.logger.debug "queue has next?"
-    @queue.count > 0
+    if @queue.count > 0 
+        @tid += 1
+        return @tid
+    else
+       return false 
+    end
   end
 
   def shift json
@@ -22,7 +28,9 @@ class Rarma::Queue
   end
   def pop json
     Rarma.logger.debug "pop from queue"
-    @queue.pop
+    ret = @queue.first
+    @queue = @queue.drop(@queue.first)
+    ret
   end
 
 end

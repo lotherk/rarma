@@ -55,11 +55,26 @@ class Rarma::Client
     } count _split;
 
     _str = format["py %1.q_send(%2)", MEMBER("@ref",nil), _tid];
+    private ["_res"];
     _res = call compile ("Arma2Net.Unmanaged" callExtension _str);
-    _res = _res select 0;
-    _res = _res select 1;
+    if(typeName _res == "BOOL") then {
+        if(not _res) then {
+            _res = ""
+        };
+    } else {
+        _res = _res select 0;
+        _res = _res select 1;
+    };
     _res;
     SQF
+  end
+
+  __native
+  def close
+      <<-SQF
+      _ref = MEMBER("@ref", nil);
+      "Arma2Net.Unmanaged" callExtension format["Py %1.close()", _ref];
+      SQF
   end
 end
 
