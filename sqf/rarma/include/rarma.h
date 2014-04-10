@@ -1,5 +1,5 @@
-#include "oop.h"
-#include "debug.h"
+call compile preProcessFileLineNumbers "include/oop.h"
+call compile preProcessFileLineNumbers "include/debug.h"
 
 #define CONSTRUCTOR_METHOD "initialize"
 #define RPARAMS(idx,dflt) if(!isNil "_this") then {\
@@ -16,4 +16,3 @@
 
 #define RPARAM(dft) if(!isNil "_this") then {_this} else {dft}
 // not working: #define RCVAR(var) MEMBER(format["@%1",var],nil)
-#define RARMA_PY(python) ("Arma2Net.Unmanaged" callExtension format["PY %1", python]) // also not working
