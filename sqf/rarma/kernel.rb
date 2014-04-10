@@ -5,11 +5,16 @@
 
 module Rarma::Kernel
   __native
-  def initialize
+  def self.initialize
     <<-SQF
-    LOGGER_DEBUG("Loading Ruby from Python");
-    LOGGER_DEBUG(("Arma2Net.Unmanaged" callExtension "PY import rarma"));
-    LOGGER_DEBUG(("Arma2Net.Unmanaged" callEXtension "PY rarma.ruby('1+1')"));
+    _succ = ("Arma2Net.Unmanaged" callExtension "PY import rarma");
+    if(_succ == "") then { 
+        LOGGER("Loaded Ruby from Python successfully")
+    } else { 
+        LOGGER_FATAL("Couldn't load Ruby from Python."); 
+        LOGGER_FATAL("Output:\n" + _succ);
+        LOGGER_FATAL("End of output.");
+    };
     
     SQF
   end

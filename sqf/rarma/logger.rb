@@ -5,7 +5,7 @@ module Rarma::Logger
     // strip mission path from _file
 
     _format = format["%1|%2|%3 %4:%5 %6", time, diag_frameno, diag_fps, _file, _lineno, _message];
-    diag_log _format;
+    diag_log (text _format);
     SQF
   end
 end
