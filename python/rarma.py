@@ -1,9 +1,9 @@
 import clr
 clr.AddReference('IronRuby') # ensure that IronRuby is installed.
-from IronPython import Ruby
+from IronRuby import Ruby
 
 ruby_engine = Ruby.CreateEngine()
-ruby_scope = self.ruby_engine.CreateScope()
+ruby_scope = ruby_engine.CreateScope()
 
 def ruby(script):
-    return ruby_engine.Execute(script,scope)
+    return ruby_engine.Execute(script, ruby_scope)
