@@ -8,7 +8,7 @@ class Rarma::Array
   __native :initialize
   def initialize _default=[]
      <<-SQF
-     if (typeName _default != 'ARRAY' then) {
+     if (typeName _default != 'ARRAY') then {
        _default = []
      };
      MEMBER("@dataset", _default);
