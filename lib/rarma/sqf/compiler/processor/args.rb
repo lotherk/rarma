@@ -1,5 +1,6 @@
 module Rarma::SQF::Compiler::Processor::Args
   def process_args exp
+    @meth[:args] ||= []
     args = []
     while exp.count > 0
       cur = exp.shift
@@ -25,11 +26,14 @@ module Rarma::SQF::Compiler::Processor::Args
         default = "nil"
       end
       vargs << '%s' % vname if vname =~ /^_/
+      type = :private if vname =~ /^_/
+      type ||= :public
       if args.count > 1
         vals << '%s = RPARAMS(%i, %s)' % [vname, i, default]
       elsif args.count == 1
         vals << '%s = RPARAM(%s)' % [vname, default]
       end
+      @meth[:args] << [vname, default, type]
     end 
     if vargs.count > 0
       @script << 'private ["%s"]' % vargs.join('", "')

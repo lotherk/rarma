@@ -1,6 +1,5 @@
 module Rarma::SQF::Compiler::Processor::Class
   def process_class exp
-    $CLASSLOADER ||= {}
     name = exp.shift
     if name.is_a? Sexp
       a = self.class.new
@@ -19,22 +18,13 @@ module Rarma::SQF::Compiler::Processor::Class
 #      @current_class = a.current_class
       body << a.script
     end
-    if inherit.nil?
-      @script << "CLASS(\"%s\")\n" % @current_class
-    else
+    unless inherit.nil?
       a = self.class.new
       a.process inherit
       inherit = a.script.join("")
       @current_class.inherit=inherit.to_s
-      if $CLASSLOADER[inherit.to_s]
-        inherit = $CLASSLOADER[inherit.to_s]
-      end
-      @script << "CLASS_EXTEND(\"%s\", \"%s\")\n" % [@current_class, inherit]
     end
-    @script << body.join("\n")
-    @script << "ENDCLASS\n"
-    $CLASSLOADER[name.to_s] = @current_class
-    Rarma::SQF::Compiler::Script.get_instance.add_class @current_class
+    Rarma::SQF::Compiler::Script.get_instance.classes << @current_class
     @current_class = nil
     exp
   end

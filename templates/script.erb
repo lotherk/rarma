@@ -1,0 +1,13 @@
+#include "include/rarma.h"
+
+<% @script.requires.each do |req| -%>
+RARMA_REQUIRE("<%= req -%>")
+<% end %>
+
+<%= ERB.new(File.read(Rarma.gem_root + "/templates/functions.erb").result(binding)) %>
+
+<%= ERB.new(File.read(Rarma.gem_root + "/templates/module.erb").result(binding)) %>
+
+<%= ERB.new(File.read(Rarma.gem_root + "/templates/class.erb").result(binding)) %>
+
+<%= ERB.new(File.read(Rarma.gem_root + "/templates/code.erb").result(binding)) %>
