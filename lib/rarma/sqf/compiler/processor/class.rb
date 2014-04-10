@@ -9,14 +9,14 @@ module Rarma::SQF::Compiler::Processor::Class
     else
       name = name.to_s
     end
-    @current_class = name
+    @current_class = Rarma::SQF::Compiler::Script::Class.new(name)
     inherit = exp.shift
     body = []
     while exp.count > 0
       a = self.class.new
       a.current_class=@current_class
       a.process exp.shift
-      @current_class = a.current_class
+#      @current_class = a.current_class
       body << a.script
     end
     if inherit.nil?
@@ -25,6 +25,7 @@ module Rarma::SQF::Compiler::Processor::Class
       a = self.class.new
       a.process inherit
       inherit = a.script.join("")
+      @current_class.inherit=inherit.to_s
       if $CLASSLOADER[inherit.to_s]
         inherit = $CLASSLOADER[inherit.to_s]
       end
@@ -33,6 +34,7 @@ module Rarma::SQF::Compiler::Processor::Class
     @script << body.join("\n")
     @script << "ENDCLASS\n"
     $CLASSLOADER[name.to_s] = @current_class
+    Rarma::SQF::Compiler::Script.get_instance.add_class @current_class
     @current_class = nil
     exp
   end
