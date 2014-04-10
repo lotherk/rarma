@@ -6,11 +6,10 @@ class Rarma::Array
   attr_reader :dataset
 
   __native :initialize
-  def initialize _default=[]
+  def initialize 
      <<-SQF
-     if (typeName _default != 'ARRAY') then {
-       _default = []
-     };
+     private ["_default"];
+     _default = RPARAM([]);
      MEMBER("@dataset", _default);
      SQF
    end
