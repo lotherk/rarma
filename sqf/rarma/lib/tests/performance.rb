@@ -21,19 +21,20 @@ module Rarma::Performance
     _time
     SQF
   end
-end
 
-=begin
-def run
-  start = SQF.diag_tickTime
-  for i in 0..@cycles do
-    SQF.call.compile @code
+  def self.measure
+    _start = diag_tickTime
+    while _i < @cycles do
+      call compile @code
+      _i += 1
+    end
+    _stop = diag_tickTime
+    _time = _stop - _start
+    if @log
+      _msg = format ["%1 cycles of %2 needed %3 ms to run.", @cycles, @code, _time]
+      LOGGER(_msg)
+    end
+    _time
   end
-  stop = SQF.diag_tickTime
-  time = stop - start
-  if @log
-    Logger.debug(SQF.format "%1 cycles of %2 needed %3 ms to run.", @cycles, @code, time)
-  end
-  return time
+
 end
-=end
