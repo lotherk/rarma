@@ -16,7 +16,7 @@ module Rarma::SQF::Compiler::Processor::Args
     vargs = []
     args.each_with_index do |arg, i|
       vname = nil
-      default = nil
+      default = "nil"
       if arg.is_a? Array
         x = arg.shift.to_s.split("=")
         vname = x[0].strip
@@ -28,11 +28,6 @@ module Rarma::SQF::Compiler::Processor::Args
       vargs << '%s' % vname if vname =~ /^_/
       type = :private if vname =~ /^_/
       type ||= :public
-      if args.count > 1
-        vals << '%s = RPARAMS(%i, %s)' % [vname, i, default]
-      elsif args.count == 1
-        vals << '%s = RPARAM(%s)' % [vname, default]
-      end
       @meth[:args] << [vname, default, type]
     end 
     if vargs.count > 0

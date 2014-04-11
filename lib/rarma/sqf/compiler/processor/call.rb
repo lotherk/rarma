@@ -30,6 +30,10 @@ module Rarma::SQF::Compiler::Processor::Call
       @script << '(%s %s %s)' % [left, func, a.script.join("")]
       Rarma.logger.debug "Comparison #{left} #{func} #{a.script.join("")}"
 #    elsif func.to_s == '%'
+    elsif func.to_s == 'raise'
+      a = self.class.new
+      a.process exp.shift
+      @script << 'if(true) exitWith { throw [%s] }' % a.script.join(", ")
     elsif func.to_s =~ /^attr_/ 
       a = self.class.new
       while exp.count > 0
