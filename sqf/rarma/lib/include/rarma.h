@@ -2,6 +2,10 @@
 #include "debug.h"
 
 #define CONSTRUCTOR_METHOD "initialize"
+#define FINALIZE_CLASS default {\
+                           if(CHECK_MEMBER("method_missing")) then { MEMBER("method_missing",[_member, _this]) }; \
+}};};};};}]
+
 #define RPARAMS(idx,dflt) if(!isNil "_this") then {\
     if(typeName _this == 'ARRAY') then {\
       if(count _this > idx) then {\
