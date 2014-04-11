@@ -46,13 +46,15 @@ module Rarma::SQF::Compiler::Processor::Call
       ppcmd = "process_preprocessor_#{func.to_s.gsub(/^__/, '')}".to_sym
       raise "Unknown preprocessor command #{ppcmd}" unless respond_to?(ppcmd)
       send(ppcmd, exp)
-    elsif Rarma::SQF::Functions.instance_methods.include?func and left.strip.empty?
+    elsif Rarma::SQF::Commands.instance_methods.include?func and left.strip.empty?
       a = self.class.new
       while exp.count > 0
         a.process exp.shift
       end
-      if a.script.count > 1
+      if a.script.count == 1
         @script << '(%s %s %s)' % [a.script.shift, func, a.script.join(", ").strip.chomp]
+      elsif a.script.count > 1
+        @script << '(%s %s [%s])' % [a.script.shift, func, a.script.join(", ").strip.chomp]
       else
         @script << '(%s %s)' % [func, a.script.join(", ").strip.chomp]
       end

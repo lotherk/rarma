@@ -13,7 +13,7 @@
 #
 # It does not cover 100% of the available commands as it was not possible (yet) to 
 # parse them all correctly out of the (bad) html Bohemia's wiki is written in.
-module Rarma::SQF::Functions
+module Rarma::SQF::Commands
     # Alternative Injury Simulation (AIS) end state.
     # 
     # ==== Description
