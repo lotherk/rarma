@@ -1,5 +1,5 @@
-call compile preProcessFileLineNumbers "include/oop.h"
-call compile preProcessFileLineNumbers "include/debug.h"
+#include "oop.h"
+#include "debug.h"
 
 #define CONSTRUCTOR_METHOD "initialize"
 #define RPARAMS(idx,dflt) if(!isNil "_this") then {\
