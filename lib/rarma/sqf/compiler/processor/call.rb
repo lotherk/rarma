@@ -30,14 +30,24 @@ module Rarma::SQF::Compiler::Processor::Call
       @script << '(%s %s %s)' % [left, func, a.script.join("")]
       Rarma.logger.debug "Comparison #{left} #{func} #{a.script.join("")}"
 #    elsif func.to_s == '%'
-    elsif func.to_s == 'attr_reader'
+    elsif func.to_s =~ /^attr_/ 
       a = self.class.new
       while exp.count > 0
         a.process exp.shift
       end
       a.script.each do |reader|
-        @script << 'PRIVATE VARIABLE("any", "%s")' % "@#{reader}"
-        @script << 'PUBLIC FUNCTION("", "%s") FUNC_GETVAR("@%s")' % [reader, reader]
+        var = {}
+        var[:name] = reader
+        var[:type] = reader =~/s$/ ? :multi : :single
+        case func
+          when :attr_reader
+            var[:access] = :reader
+          when :attr_writer
+            var[:access] = :writer
+          when :attr_accessor
+            var[:access] = :accessor
+        end
+        @current_class.vars << var
       end
     elsif func.to_s == 'nil?'
       @script << '(isNil "%s")' % left
