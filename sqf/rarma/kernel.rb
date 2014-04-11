@@ -12,7 +12,7 @@ module Rarma::Kernel
         LOGGER("Loaded Ruby from Python successfully")
     } else {
         LOGGER_FATAL("Couldn't load Ruby from Python."); 
-        LOGGER_FATAL("Output:\n" + _succ);
+        LOGGER_FATAL("Output:\\n" + _succ);
         LOGGER_FATAL("End of output.");
     };
     SQF
