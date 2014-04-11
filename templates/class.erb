@@ -6,13 +6,13 @@ CLASS("<%= c -%>")
 <%   end -%>
 <%-%>
 <%  c.vars.each do |v| -%>
-        PRIVATE VARIABLE("any", "@<%= v[:name] -%>");
+    PRIVATE VARIABLE("any", "@<%= v[:name] -%>");
 <%    if v[:access] == :accessor or v[:access] == :reader -%>
-        PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("@<%= v[:name] -%>");
+    PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("@<%= v[:name] -%>");
 <%    end -%>
 <%    if v[:access] == :accessor or v[:access] == :writer -%>
-        PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
-        PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
+    PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
+    PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
 <%    end -%>
 <%  end -%>
 <%   c.meths.each do |m| -%>
@@ -26,7 +26,7 @@ CLASS("<%= c -%>")
 <%       m[:args].each_with_index do |a,i| -%>
 <%         if a[0] =~/^_/ -%>
         private "<%= a[0] -%>";
-        <%= a[1] -%> = RPARAMS(<%= i -%>, <%= a[1] -%>);
+        <%= a[0] -%> = RPARAMS(<%= i -%>, <%= a[1] -%>);
 <%         end -%>
 <%       end -%>
 <%     end -%>
