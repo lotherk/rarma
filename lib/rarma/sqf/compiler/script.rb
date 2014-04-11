@@ -27,6 +27,30 @@ class Rarma::SQF::Compiler::Script
     template = File.read(file)
     template
   end
+  def self.indent script
+    spaces = 4
+    indent = 0
+    res = []
+    script.flatten.each do |n|
+      n.chomp!
+      n.strip!
+      next if n.empty?
+      if n=~/^CLASS.*;$/
+        n.gsub!(/;/, '')
+      end
+      if n=~/^}/ or n =~ /^ENDCLASS/
+        indent -= spaces
+      end
+      indent = 0 if indent < 0
+      line = "#{" " * indent}#{n}"
+      line += ";" unless line.match(/(\;$|\{$|\:$|^CLASS|^\s*\/|^\s*\*)/)
+      res << line
+      if n.strip =~ /{$/ or n.strip =~ /^CLASS.*$/
+        indent += spaces
+      end
+    end
+    res
+  end
 end
 require "rarma/sqf/compiler/script/class"
 require "rarma/sqf/compiler/script/module"

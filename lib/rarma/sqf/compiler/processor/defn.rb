@@ -14,22 +14,21 @@ module Rarma::SQF::Compiler::Processor::Defn
     while exp.count > 0
       a.process exp.shift
     end
-    body = a.script.pop
+    body = a.script.join("\n") # .pop <- dafuq?
     type = ''
     type = 'any' if argsc >= 2
     @meth = {}
     @meth[:name] = name
     @meth[:type] = type
     @meth[:sig] = :public # ..
+    @meth[:body] = []
     process args
 
     if $natives.include?name
       body = body.gsub(/\A"/, '').gsub(/"\z/, '')
       $natives.delete(name)
-      @meth[:body] = body
-    else
-      @meth[:body] = body.split("\n").join(";\n")
     end
+    @meth[:body] = Rarma::SQF::Compiler::Script.indent(body.split("\n"))
 
     if @current_class
       @current_class.meths << @meth

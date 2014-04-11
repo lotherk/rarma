@@ -11,6 +11,7 @@ module Rarma::SQF::Compiler::Processor::Defs
     end
     @meth = {}
     @meth[:name] = name
+    @meth[:body] = []
     process args
 
     a = self.class.new
@@ -23,7 +24,7 @@ module Rarma::SQF::Compiler::Processor::Defs
       body = body.strip.gsub(/\A"/, '').gsub(/"\z/, '')
       $natives.delete(name)
     end
-    @meth[:body] = body
+    @meth[:body] = Rarma::SQF::Compiler::Script.indent(body.split("\n"))
     if @current_class
       @current_class.meths << @meth
     else

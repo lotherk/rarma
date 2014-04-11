@@ -45,9 +45,9 @@ class Rarma::SQF::Compiler::ScriptBuilder
 #    pp sexp
     p = Rarma::SQF::Compiler::Processor.new
     p.process sexp
-    puts Rarma::SQF::Compiler::Script.get_instance.to_sqf
+    Rarma::SQF::Compiler::Script.get_instance.code << Rarma::SQF::Compiler::Script.indent(p.script).join("\n")
+    @script << Rarma::SQF::Compiler::Script.get_instance.to_sqf
     Rarma::SQF::Compiler::Script.get_instance.reset
-    @script << p.script
   end
   def build_from_class instance
     raise "do not use build_from_class!"

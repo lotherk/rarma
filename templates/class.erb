@@ -1,28 +1,28 @@
 <% @classes.each do |c| -%>
-<% if c.inherit -%>
+<%   if c.inherit -%>
 CLASS_EXTEND("<%= c -%>", "<%= c.inherit %>")
-<% else -%>
+<%   else -%>
 CLASS("<%= c -%>")
-<% end -%>
-<% c.meths.each do |m| -%>
+<%   end -%>
+<%   c.meths.each do |m| -%>
     <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= m[:name] -%>") {
-<% if m[:args].count == 1 -%>
-<% if m[:args][0][0] =~/^_/ -%>
+<%     if m[:args].count == 1 -%>
+<%       if m[:args][0][0] =~/^_/ -%>
         private "<%= m[:args][0][0] -%>";
-<% end -%>
+<%       end -%>
         <%= m[:args][0][0] -%> = RPARAM(<%= m[:args][0][1] -%>);
-<% else -%>
-<% m[:args].each_with_index do |a,i| -%>
-<% if a[0] =~/^_/ -%>
+<%     else -%>
+<%       m[:args].each_with_index do |a,i| -%>
+<%         if a[0] =~/^_/ -%>
         private "<%= a[0] -%>";
         <%= a[1] -%> = RPARAMS(<%= i -%>, <%= a[1] -%>);
-<% end -%>
-<% end -%>
-<% end -%>
-<% m[:body].split("\n").each do |b| -%>
-        <%= b.strip.chomp %>
-<% end -%>
+<%         end -%>
+<%       end -%>
+<%     end -%>
+<%     m[:body].each do |b| -%>
+        <%= b.chomp %>
+<%     end -%>
     };
-<% end -%>
+<%   end -%>
 ENDCLASS;
 <% end %>
