@@ -1,13 +1,9 @@
 #include "include/rarma.h"
 
-<% @script.requires.each do |req| -%>
+<% @requires.each do |req| %>
 RARMA_REQUIRE("<%= req -%>")
-<% end %>
-
-<%= ERB.new(File.read(Rarma.gem_root + "/templates/functions.erb").result(binding)) %>
-
-<%= ERB.new(File.read(Rarma.gem_root + "/templates/module.erb").result(binding)) %>
-
-<%= ERB.new(File.read(Rarma.gem_root + "/templates/class.erb").result(binding)) %>
-
-<%= ERB.new(File.read(Rarma.gem_root + "/templates/code.erb").result(binding)) %>
+<% end  %>
+<%= ERB.new(load_template("function"), nil, "-",eoutvar='_sub01').result(binding) -%>
+<%= ERB.new(load_template("module"), nil, "-",eoutvar='_sub02').result(binding) -%>
+<%= ERB.new(load_template("class"), nil, "-",eoutvar='_sub03').result(binding) -%>
+<%= ERB.new(load_template("code"), nil, "-",eoutvar='_sub04').result(binding) -%>

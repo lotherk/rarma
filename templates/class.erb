@@ -1,84 +1,28 @@
-/**
- * Class <%= @class_name %>
- * Compiled at <%= Time.now %>
- * By <%= ENV['USER'] %>
- */
-
-<% @includes.each do |inc| %>
-#include "<%= inc %>"
+<% @classes.each do |c| -%>
+<% if c.inherit -%>
+CLASS_EXTEND("<%= c -%>", "<%= c.inherit %>")
+<% else -%>
+CLASS("<%= c -%>")
 <% end -%>
-
-// Static Methods
-
-<% @static_functions.each do |modifier, data| -%>
-<% data.each do |name, code| -%>
-<% modifier = modifier == :private ? "_" : "" -%>
-<%= generate_method_header("#{@class_name}_#{name}", code) -%>
-<%= modifier %><%= @class_name %>_<%= name %> = {
-<% if code[:args].count > 0 %>
-    private ["<%= code[:args].join("\", \"") %>"];
-<% end %>
-<% code[:args].each_with_index do |arg, i| -%>
-    <%= arg.to_s %> = DEFAULT_PARAM(<%= i %>, nil);
-<% end %>
-<%= code[:code] %>
-};
-<% end %>
+<% c.meths.each do |m| -%>
+    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= m[:name] -%>") {
+<% if m[:args].count == 1 -%>
+<% if m[:args][0][0] =~/^_/ -%>
+        private "<%= m[:args][0][0] -%>";
 <% end -%>
-
-// Class Definition
-CLASS("<%= @class_name %>")
-    // Variables
-<% @variables.each do |key, data| -%>
-    PRIVATE VARIABLE("<%= data[:type] %>", "<%= key %>");
-
-    // Setter for <%= key %>
-    PUBLIC FUNCTION("<%= data[:type] %>", "set<%= key.capitalize %>") {
-        MEMBER("<%= key %>", _this);
-    };
-
-    // Getter for <%= key %>
-    PUBLIC FUNCTION("", "get<%= key.capitalize %>") {
-        MEMBER("<%= key %>", nil)
-    };
+        <%= m[:args][0][0] -%> = RPARAM(<%= m[:args][0][1] -%>);
+<% else -%>
+<% m[:args].each_with_index do |a,i| -%>
+<% if a[0] =~/^_/ -%>
+        private "<%= a[0] -%>";
+        <%= a[1] -%> = RPARAMS(<%= i -%>, <%= a[1] -%>);
 <% end -%>
-
-
-    // Constructor
-    PUBLIC FUNCTION("", "constructor") {
-<% @variables.each do |key, data| -%>
-        MEMBER("<%= key %>", <%= data[:default] %>);
+<% end -%>
+<% end -%>
+<% m[:body].split("\n").each do |b| -%>
+        <%= b.strip.chomp %>
 <% end -%>
     };
-
-    // Deconstructor
-    PUBLIC FUNCTION("", "deconstructor") {
-<% @variables.each do |key, data| -%>
-        DELETE_VARIABLE("<%= key %>");
 <% end -%>
-    };
-
-    // Methods
-<% @class_functions.each do |modifier, data| -%>
-<% data.each do |name, code| -%>
-<% generate_method_header(name, code).split("\n").each do |l| %>
-    <%= l -%>
-<% end %>
-<% modifier = modifier == :private ? "PRIVATE" : "PUBLIC" -%>
-    <%= modifier %> FUNCTION("<%= code[:param_type] %>", "<%= name %>")  {
-<% if code[:args].count > 0 %>
-         private ["<%= code[:args].join("\", \"") %>"];
-  <% end %>
-<% code[:args].each_with_index do |arg, i| -%>
-         <%= arg.to_s %> = DEFAULT_PARAM(<%= i %>, nil);
-<% end %>
-<%= code[:code] %>
-    };
-<% end %>
-<% end %>
 ENDCLASS;
-
-// Snippets
-<% @scripts.each do |script| %>
-<%= script %>
 <% end %>

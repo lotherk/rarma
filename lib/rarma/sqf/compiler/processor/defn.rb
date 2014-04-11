@@ -20,13 +20,16 @@ module Rarma::SQF::Compiler::Processor::Defn
     @meth = {}
     @meth[:name] = name
     @meth[:type] = type
+    @meth[:sig] = :public # ..
     process args
 
     if $natives.include?name
       body = body.gsub(/\A"/, '').gsub(/"\z/, '')
       $natives.delete(name)
+      @meth[:body] = body
+    else
+      @meth[:body] = body.split("\n").join(";\n")
     end
-    @meth[:body] = body
 
     if @current_class
       @current_class.meths << @meth

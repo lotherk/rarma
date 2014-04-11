@@ -1,6 +1,6 @@
 require "erb"
 class Rarma::SQF::Compiler::Script
-  attr_reader :functions, :modules, :classes, :code, :requires
+  attr_reader :functions, :modules, :classes, :code, :requires, :script
 
   def initialize
     reset
@@ -19,8 +19,13 @@ class Rarma::SQF::Compiler::Script
 
   def to_sqf
     Rarma.logger.debug "Generating SQF...."
-    erb = ERB.new(File.read(Rarma.gem_root + "/templates/script.erb"))
-    erb.result(binding)
+    erb = ERB.new(load_template("script"), nil, "-").result(binding)
+  end
+
+  def load_template name
+    file = Rarma.gem_root + "/templates/#{name}.erb"
+    template = File.read(file)
+    template
   end
 end
 require "rarma/sqf/compiler/script/class"
