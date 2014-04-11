@@ -34,6 +34,12 @@ CLASS("<%= c -%>")
         <%= b.chomp %>
 <%     end -%>
     };
+    <%- m[:aliases].each do |a| -%>
+    /**
+     * Alias method for #<%= m[:name] %>
+     */
+    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= a -%>") { MEMBER("<%= m[:name] -%>", _this); };
+    <%- end -%>
 <%   end -%>
 ENDCLASS;
 <% end %>
