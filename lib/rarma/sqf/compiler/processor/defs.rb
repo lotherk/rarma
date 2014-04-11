@@ -11,6 +11,11 @@ module Rarma::SQF::Compiler::Processor::Defs
     end
     @meth = {}
     @meth[:name] = name
+    @meth[:aliases] = []
+    $aliases.each do |a|
+      @meth[:aliases] << a
+    end rescue nil
+    $aliases=nil
     @meth[:body] = []
     process args
 

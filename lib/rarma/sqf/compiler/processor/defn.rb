@@ -19,6 +19,11 @@ module Rarma::SQF::Compiler::Processor::Defn
     type = 'any' if argsc >= 2
     @meth = {}
     @meth[:name] = name
+    @meth[:aliases] = []
+    $aliases.each do |a|
+      @meth[:aliases] << a
+    end rescue nil
+    $aliases=nil
     @meth[:type] = type
     @meth[:sig] = :public # ..
     @meth[:body] = []
