@@ -13,9 +13,6 @@ CLASS("<%= c -%>")
 <%    if v[:access] == :accessor or v[:access] == :writer -%>
         PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
         PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
-        <%- if v[:name]=~/s$/ -%>
-        PUBLIC FUNCTION("any", "add_<%= v[:name].gsub(/s$/, '') -%>") { MEMBER("@<%= v[:name] -%>", _this); }
-        <%- end -%>
 <%    end -%>
 <%  end -%>
 <%   c.meths.each do |m| -%>
