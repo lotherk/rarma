@@ -11,16 +11,10 @@ CLASS("<%= c -%>")
         PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("@<%= v[:name] -%>");
 <%    end -%>
 <%    if v[:access] == :accessor or v[:access] == :writer -%>
-        PUBLIC FUNCTION("any", "<%= v[:name] -%>=") {
-          MEMBER("@<%= v[:name] -%>", _this);
-        };
-        PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") {
-          MEMBER("@<%= v[:name] -%>", _this);
-        }
+        PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
+        PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
         <%- if v[:name]=~/s$/ -%>
-        PUBLIC FUNCTION("any", "add_<%= v[:name].gsub(/s$/, '') -%>") {
-          MEMBER("@<%= v[:name] -%>", _this);
-        }
+        PUBLIC FUNCTION("any", "add_<%= v[:name].gsub(/s$/, '') -%>") { MEMBER("@<%= v[:name] -%>", _this); }
         <%- end -%>
 <%    end -%>
 <%  end -%>
