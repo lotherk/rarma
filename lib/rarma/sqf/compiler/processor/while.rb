@@ -15,7 +15,9 @@ module Rarma::SQF::Compiler::Processor::While
     end
 
     @script << "waitUntil {\n"
+    @script << "while { (%s) {" % condition
     @script << a.script.join("\n")
+    @script << "}"
     @script << "(%s)" % condition
     @script << "\n}\n"
     exp
