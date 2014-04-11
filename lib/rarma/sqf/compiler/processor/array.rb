@@ -5,7 +5,7 @@ module Rarma::SQF::Compiler::Processor::Array
     while exp.count > 0
       a.process exp.shift
     end
-    @script << "[\"new\", [#{a.script.join(", ")}]] call Array"
+    @script << "[\"new\", [#{a.script.join(", ")}]] call Rarma_Array"
     #@script << "[#{a.script.join(", ")}]"
     Rarma.logger.debug "#{self} End of array"
     exp

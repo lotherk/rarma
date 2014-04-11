@@ -14,7 +14,7 @@ module Rarma::SQF::Compiler::Processor::Hash
       kv << "[#{kscope.script[0]}, #{vscope.script[0]}]"
       Rarma.logger.debug "  Key #{kscope.script} => #{vscope.script}"
     end
-    @script << "[\"new\", [#{kv.join(", ")}]] call Hash"
+    @script << "[\"new\", [#{kv.join(", ")}]] call Rarma_Hash"
     Rarma.logger.debug "#{self} End of hash"
     exp 
   end
