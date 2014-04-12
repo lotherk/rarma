@@ -65,9 +65,9 @@ module Rarma::SQF::Compiler::Processor::Call
       while exp.count > 0
         a.process exp.shift
       end
-      if a.script.count == 1
+      if a.script.count == 2
         @script << '(%s %s %s)' % [a.script.shift, func, a.script.join(", ").strip.chomp]
-      elsif a.script.count > 1
+      elsif a.script.count > 2
         @script << '(%s %s [%s])' % [a.script.shift, func, a.script.join(", ").strip.chomp]
       else
         @script << '(%s %s)' % [func, a.script.join(", ").strip.chomp]

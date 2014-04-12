@@ -186,7 +186,7 @@ className - The name of the class [string].
 See Also:
 <CLASSEXTENDS>
 */
-#define CLASS(className) INSTANTIATE_CLASS(className) default {nil};
+#define CLASS(className) INSTANTIATE_CLASS(className) default { hint "FOOOOO" };
 
 /*
 Macro: CLASS_EXTENDS(childClassName,parentClassName)
