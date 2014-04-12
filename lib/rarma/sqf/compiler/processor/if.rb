@@ -22,16 +22,25 @@ module Rarma::SQF::Compiler::Processor::If
 
     # lazy loading
     cond=[]
-    condition.split(" and ").each do |an|
+    condition.split(" and ").each_with_index do |an, i|
+      puts an
       ors = []
-      spl = an.split(" or ")
-      spl.each do |o|
-        ors << make_lazy(o)
-      end
+      spl = an.split(/ or /)
+      spl.each_with_index do |o, y|
+        if y == 0
+          ors << o
+        else
+          ors << make_lazy(o)
+        end
+      end if spl.count > 1
       if ors.count > 0
         cond << ors.join(" or ")
       else
-        cond << make_lazy(an)
+        if i == 0
+          cond << an
+        else
+          cond << make_lazy(an)
+        end
       end
 
     end

@@ -102,7 +102,7 @@ module Rarma::SQF::Compiler::Processor::Call
         if a.script.count > 0
           @script << "([%s] call %s)" % [a.script.join(", "), func]
         else
-          @script << "%s" % func
+          @script << "(call %s)" % func
         end
       end
       #@script << "\n" if @root
