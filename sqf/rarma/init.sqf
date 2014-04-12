@@ -2,12 +2,10 @@
  * Rarma Init
  *
  */
+#include ".include\rarma.h"
 
-// Load "Kernel"
-call compile preProcessFileLineNumbers "kernel.rb.sqf";
-
-// Load core framework
-call compile preProcessFileLineNumbers "core\__init__.sqf";
+RARMA_REQUIRE("rarma\lib\kernel")
+RARMA_REQUIRE("rarma\lib\core")
 
 // Initialize Rarma Kernel
 call Rarma_Kernel_fnc_init;

@@ -1,8 +1,5 @@
 # Represents an array
-require 'rarma'
 class Rarma::Array
-  __classname :Array
-
   attr_reader :dataset
 
   __native :initialize
@@ -34,18 +31,20 @@ class Rarma::Array
   end
 
   __native :add
+  __alias :<<, :"+=", :+, :"[]="
   def add _value
     <<-SQF
-	_set = MEMBER("@dataset", nil);
+    _set = MEMBER("@dataset", nil);
     _set = _set + [_value];
     MEMBER("@dataset", _set);
     SQF
   end
 
   __native :get
+  __alias :[]
   def get _index
     <<-SQF
-	_set = MEMBER("@dataset", nil);
+    _set = MEMBER("@dataset", nil);
     _set select _index
     SQF
   end
