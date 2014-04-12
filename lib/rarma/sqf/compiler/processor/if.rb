@@ -19,6 +19,24 @@ module Rarma::SQF::Compiler::Processor::If
         else_body = a.script.flatten.compact
       end
     end
+
+    # lazy loading
+    cond=[]
+    condition.split(" and ").each do |an|
+      ors = []
+      spl = an.split(" or ")
+      spl.each do |o|
+        ors << make_lazy(o)
+      end
+      if ors.count > 0
+        cond << ors.join(" or ")
+      else
+        cond << make_lazy(an)
+      end
+
+    end
+    condition = cond.join(" and ")
+    #
     if if_body.flatten.count == 0 and else_body.flatten.count > 0
       # unless
       @script << "if (!%s) then {" % condition
@@ -35,5 +53,10 @@ module Rarma::SQF::Compiler::Processor::If
     end
     @script << "}"
     exp
+  end
+
+  def make_lazy s
+    s = "{ #{s} }" unless ['true','false'].include?s
+    s
   end
 end

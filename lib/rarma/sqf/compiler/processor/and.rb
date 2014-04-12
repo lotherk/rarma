@@ -6,14 +6,11 @@ module Rarma::SQF::Compiler::Processor::And
       a = self.class.new
       a.process exp.shift
       a.script.each do |c|
-        unless ["true","false"].include?c
-          c = "{ #{c} }" unless c.match(/(^{|}$)/)
-        end
         res << c
       end
     end
     #@script << results.join(" and ")
-    @script << res.flatten.join(" and ")
+    @script << res.join(" and ")
     exp
   end
 end
