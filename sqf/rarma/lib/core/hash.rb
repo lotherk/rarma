@@ -1,6 +1,5 @@
 # Represents a key value Hash
 class Rarma::Hash
-  __classname :Hash
 
   attr_reader :dataset
 
@@ -27,7 +26,6 @@ class Rarma::Hash
       end
     end
   end
-
   __native :add
   # adds an element to the hash
   def add _key, _value

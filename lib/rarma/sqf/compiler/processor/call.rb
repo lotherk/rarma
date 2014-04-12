@@ -102,21 +102,6 @@ module Rarma::SQF::Compiler::Processor::Call
         if a.script.count > 0
           @script << "([%s] call %s)" % [a.script.join(", "), func]
         else
-           unless @current_class.is_a?Rarma::SQF::Compiler::Script::Class
-             if func.to_s !~ /[A-Za-z0-9_]*/
-               m = func.to_s.match(/[A-Za-z0-9_]*/).to_s
-               chars = func.to_s.gsub(/#{m}/, '')
-               repl = case chars
-                     when "?"
-                       "_"
-                     when "!"
-                       "__"
-                     else
-                       "___"
-                    end
-               func = func.to_s.gsub("#{chars}", repl)
-             end
-          end
           $VARIABLES ||= []
           if $VARIABLES.include? func
             @script << "%s" % func
