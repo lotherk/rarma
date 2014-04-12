@@ -30,8 +30,13 @@ class Rarma::SQF::Compiler::Script
   def self.indent script
     spaces = 4
     indent = 0
+    flat = []
     res = []
-    script.flatten.each do |n|
+    script.flatten.each do |f|
+      flat << f.split("\n") if f.is_a?String
+      flat << f.flatten if f.is_a?Array
+    end
+    flat.flatten.each do |n|
       n.chomp!
       n.strip!
       next if n.empty?

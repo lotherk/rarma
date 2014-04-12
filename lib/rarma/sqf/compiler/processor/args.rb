@@ -12,8 +12,6 @@ module Rarma::SQF::Compiler::Processor::Args
         args << cur
       end
     end
-    vals = []
-    vargs = []
     args.each_with_index do |arg, i|
       vname = nil
       default = "nil"
@@ -25,15 +23,14 @@ module Rarma::SQF::Compiler::Processor::Args
         vname = arg.to_s
         default = "nil"
       end
-      vargs << '%s' % vname if vname =~ /^_/
       type = :private if vname =~ /^_/
       type ||= :public
+      if vname=~/^\*/
+        vname.gsub!(/\*/, '')
+        default = '_this'
+      end
       @meth[:args] << [vname, default, type]
     end 
-    if vargs.count > 0
-      @script << 'private ["%s"]' % vargs.join('", "')
-    end
-    @script << vals
     exp
   end
 end

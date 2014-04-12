@@ -13,7 +13,7 @@ module Rarma::SQF::Compiler::Processor::Lasgn
     else
       value = value.to_s
     end
-      @script << '%s = %s' % [name, value]
+    @script << '%s = %s' % [name, value]
     s()
   end
 end

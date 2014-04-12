@@ -30,7 +30,7 @@ class Rarma::SQF::Compiler::ScriptBuilder
   end
 
   def to_sqf
-    @script.join("\n") + "\n"
+    Rarma::SQF::Compiler::Script.indent(@script).join("\n") + "\n"
   end
 
   private
