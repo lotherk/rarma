@@ -3,8 +3,8 @@ module Rarma::SQF::Compiler::Processor::Defn
   Rarma.logger.debug "#{self} Processing defn #{exp}"
     name = exp.shift.to_s
     unless @current_class.is_a?Rarma::SQF::Compiler::Script::Class
-      if name !~ /^[A-Za-z0-9]*$/
-        m = name.match(/^[A-Za-z0-9]*/).to_s
+      if name !~ /[A-Za-z0-9_]*$/
+        m = name.match(/[A-Za-z0-9_]*/).to_s
         chars = name.gsub(/#{m}/, '')
         repl = case chars
                 when "?"

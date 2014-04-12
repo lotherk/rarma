@@ -1,20 +1,5 @@
 <%   @functions.each do |m| -%>
 <%= m[:name] -%> = {
-<%     if m[:args].count == 1 -%>
-<%       if m[:args][0][0] =~/^_/ -%>
-    private "<%= m[:args][0][0] -%>";
-<%       end -%>
-    <%= m[:args][0][0] -%> = [_this, <%= m[:args][0][1] -%>] call Rarma_Kernel_fnc_params;
-<%     else -%>
-<%       m[:args].each_with_index do |a,i| -%>
-<%         if a[0] =~/^_/ -%>
-    private "<%= a[0] -%>";
-    <%= a[0] -%> = [_this, [<%= i -%>, <%= a[1] -%>]] call Rarma_Kernel_fnc_params;
-<%         end -%>
-<%       end -%>
-<%     end -%>
-<%     m[:body].each do |b| -%>
-    <%= b.chomp %>
-<%     end -%>
+<%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
 };
 <%   end -%>

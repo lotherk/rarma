@@ -1,22 +1,24 @@
 <% @modules.each do |c| -%>
+<%= c -%> = {
+    private ["_method", "_methods", "_args"];
+    _method = RPARAMS(0, "")
+    _args = RPARAMS(0, [])
+    <%- methss = []; c.meths.each { |m| methss << '"' + m[:name] + '"' } -%>
+    _methods = [ <%= methss.join(", ") -%> ];
+    switch(_method) do {
 <%   c.meths.each do |m| -%>
-<%= c -%>_fnc_<%= m[:name] -%> = {
-<%     if m[:args].count == 1 -%>
-<%       if m[:args][0][0] =~/^_/ -%>
-    private "<%= m[:args][0][0] -%>";
-<%       end -%>
-    <%= m[:args][0][0] -%> = [_this, <%= m[:args][0][1] -%>] call Rarma_Kernel_fnc_params;
-<%     else -%>
-<%       m[:args].each_with_index do |a,i| -%>
-<%         if a[0] =~/^_/ -%>
-    private "<%= a[0] -%>";
-    <%= a[0] -%> = [_this, [<%= i -%>, <%= a[1] -%>]] call Rarma_Kernel_fnc_params;
-<%         end -%>
-<%       end -%>
-<%     end -%>
-<%     m[:body].each do |b| -%>
-    <%= b.chomp %>
-<%     end -%>
-};
+        case "<%= m[:name] -%>": {
+            private ["_this"];
+            _this = _args;
+<%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
+        };
 <%   end -%>
+        default {
+            if("method_missing" in _methods) then {
+                ["method_missing", [_method, _args]] call <%= c -%>;
+            };
+            // method not found handling
+        };
+    };
+};
 <% end %>

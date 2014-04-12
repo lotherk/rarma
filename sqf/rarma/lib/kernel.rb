@@ -3,6 +3,12 @@
 #
 #
 
+__native
+def Rarma_Kernel_fnc_params
+  <<-SQF
+  ["params", _this] call Rarma_Kernel;
+  SQF
+end
 module Rarma::Kernel
   __native
   def self.init
@@ -18,8 +24,12 @@ module Rarma::Kernel
     SQF
   end
   __native
-  def self.params __this, _index, _default
+  def self.params #__this, _index, _default
     <<-SQF
+    private ["__this", "_index", "_default"];
+    __this = _this select 0
+    _default = RPARAMS(1, nil);
+    _index = RPARAMS(2, nil);
     if(!isNil "__this") then {
       if(typeName __this == 'ARRAY') then {
         if(count __this > _index) then {

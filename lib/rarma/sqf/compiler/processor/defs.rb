@@ -3,24 +3,20 @@ module Rarma::SQF::Compiler::Processor::Defs
   Rarma.logger.debug "#{self} Processing defs #{exp}"
     exp.shift
     name = exp.shift.to_s
-    if name !~ /^[A-Za-z0-9]*$/
-      m = name.match(/^[A-Za-z0-9]*/).to_s
-      chars = name.gsub(/#{m}/, '')
-      unless @current_class.is_a?Rarma::SQF::Compiler::Script::Class
-         if name !~ /^[A-Za-z0-9]*$/
-           m = name.match(/^[A-Za-z0-9]*/).to_s
-           chars = name.gsub(/#{m}/, '')
-           repl = case chars
-                   when "?"
-                     "_"
-                   when "!"
-                     "__"
-                   else
-                     "___"
-                  end
-           name = name.gsub("#{chars}", repl)
-         end
-       end
+    unless @current_class.is_a?Rarma::SQF::Compiler::Script::Class
+      if name !~ /[A-Za-z0-9_]*/
+        m = name.match(/[A-Za-z0-9_]*/).to_s
+        chars = name.gsub(/#{m}/, '')
+        repl = case chars
+          when "?"
+            "_"
+          when "!"
+            "__"
+          else
+            "___"
+        end
+      name = name.gsub("#{chars}", repl)
+      end
     end
     args = exp.shift
     $natives ||= []

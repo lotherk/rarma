@@ -4,9 +4,10 @@ module Rarma::SQF::Compiler::Processor::Ensure
     ens = exp.shift
     a = self.class.new
     a.process resc
-
+    @script << a.script
     b = self.class.new
     b.process ens
+    @script << b.script
     exp
   end
 end

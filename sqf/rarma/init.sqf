@@ -8,4 +8,4 @@ RARMA_REQUIRE("rarma\lib\kernel")
 RARMA_REQUIRE("rarma\lib\core")
 
 // Initialize Rarma Kernel
-call Rarma_Kernel_fnc_init;
+"init" call Rarma_Kernel;
