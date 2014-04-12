@@ -17,6 +17,39 @@ class Rarma::Unit < Rarma::SQFObject
     @handgun_items = []
   end
 
+  def setScore _score
+    @score = _score
+    setScore @this, _score
+  end
+
+  def setRating _rating
+    @rating = _rating
+    setRating @this, _rating
+  end
+
+  def setRank _rank
+    @rank = _rank
+    setRank @this, _rank
+  end
+
+  # dunno if this works
+  def addWeapon _wep
+    addWeapon @this, _wep
+    @weapons = weapons @this
+  end
+
+  # same here
+  def addMagazine _mag
+    addMagazine @this, _mag
+    @magazines = magazines @this
+  end
+
+  # same here
+  def addMagazines _mag, _count
+    addMagazine @this, _mag, _count
+    @magazines = magazines @this
+  end
+
   def add_primary_weapon_item _item
     @primary_weapon_items << _item
     addPrimaryWeaponItem @this, _item

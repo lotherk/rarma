@@ -22,6 +22,7 @@ module Rarma::Performance
     SQF
   end
 
+=begin
   def self.measure
     _start = diag_tickTime
     while _i < @cycles do
@@ -36,5 +37,6 @@ module Rarma::Performance
     end
     _time
   end
+=end
 
 end
