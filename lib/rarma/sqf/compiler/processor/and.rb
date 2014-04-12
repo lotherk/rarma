@@ -1,13 +1,19 @@
 module Rarma::SQF::Compiler::Processor::And
   def process_and exp
     Rarma.logger.debug "#{self} Processing and #{exp}"
-    results = []
+    res = []
     while exp.count > 0
       a = self.class.new
       a.process exp.shift
-      results << a.script.join("")
+      a.script.each do |c|
+        unless ["true","false"].include?c
+          c = "{ #{c} }" unless c.match(/(^{|}$)/)
+        end
+        res << c
+      end
     end
-    @script << results.join(" and ")
+    #@script << results.join(" and ")
+    @script << res.flatten.join(" and ")
     exp
   end
 end
