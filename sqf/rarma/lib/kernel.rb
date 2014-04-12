@@ -17,4 +17,22 @@ module Rarma::Kernel
     };
     SQF
   end
+  __native
+  def self.params __this, _index, _default
+    <<-SQF
+    if(!isNil "__this") then {
+      if(typeName __this == 'ARRAY') then {
+        if(count __this > _index) then {
+          __this select _index
+        } else {
+          _default
+        }
+      } else {
+        __this
+      }
+    } else {
+      _default
+    }
+    SQF
+  end
 end
