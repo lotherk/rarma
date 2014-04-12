@@ -4,8 +4,12 @@ module Rarma::SQF::Compiler::Processor::Rescue
     a = self.class.new
     a.process block
     block = a.script
+    rescues = []
     while exp.count > 0
-      exp.shift
+      resc = exp.shift
+      a = self.class.new
+      a.process resc
+      rescues << a.script
     end
     exp
   end
