@@ -54,6 +54,7 @@ module Rarma::SQF::Compiler::Processor::Defs
     else
       Rarma::SQF::Compiler::Script.get_instance.functions << @meth
     end
+    $VARIABLES=nil
     exp 
   end
 end

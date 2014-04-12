@@ -121,7 +121,12 @@ module Rarma::SQF::Compiler::Processor::Call
              end
            end
           end
-          @script << "(call %s)" % func
+          $VARIABLES ||= []
+          if $VARIABLES.include? func
+            @script << "%s" % func
+          else
+            @script << "(call %s)" % func
+          end
         end
       end
       #@script << "\n" if @root

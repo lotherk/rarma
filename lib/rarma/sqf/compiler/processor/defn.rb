@@ -55,6 +55,8 @@ module Rarma::SQF::Compiler::Processor::Defn
     else
       Rarma::SQF::Compiler::Script.get_instance.functions << @meth
     end
+    # clear variable scope
+    $VARIABLES=nil
     exp
   end
 end

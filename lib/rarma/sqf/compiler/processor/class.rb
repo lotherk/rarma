@@ -26,6 +26,7 @@ module Rarma::SQF::Compiler::Processor::Class
     end
     Rarma::SQF::Compiler::Script.get_instance.classes << @current_class
     @current_class = nil
+    $VARIABLES=nil
     exp
   end
 end

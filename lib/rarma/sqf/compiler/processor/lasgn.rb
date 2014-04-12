@@ -13,6 +13,8 @@ module Rarma::SQF::Compiler::Processor::Lasgn
     else
       value = value.to_s
     end
+    $VARIABLES ||= []
+    $VARIABLES << name
     @script << '%s = %s' % [name, value]
     s()
   end
