@@ -1,7 +1,22 @@
 module Rarma::SQF::Compiler::Processor::Defn
   def process_defn exp
   Rarma.logger.debug "#{self} Processing defn #{exp}"
-    name = exp.shift
+    name = exp.shift.to_s
+    unless @current_class.is_a?Rarma::SQF::Compiler::Script::Class
+      if name !~ /^[A-Za-z0-9]*$/
+        m = name.match(/^[A-Za-z0-9]*/).to_s
+        chars = name.gsub(/#{m}/, '')
+        repl = case chars
+                when "?"
+                  "_"
+                when "!"
+                  "__"
+                else
+                  "___"
+               end
+        name = name.gsub("#{chars}", repl)
+      end
+    end
     args = exp.shift
     argsc = args.count
     $natives ||= []
