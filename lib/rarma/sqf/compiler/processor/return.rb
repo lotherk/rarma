@@ -4,7 +4,7 @@ module Rarma::SQF::Compiler::Processor::Return
     while exp.count > 0
       a.process exp.shift
     end
-    @script << a.script.join("")
+    @script << 'if(true) exitWith { %s }' % a.script.join("")
     s()
   end
 end
