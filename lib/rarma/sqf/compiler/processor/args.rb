@@ -27,7 +27,7 @@ module Rarma::SQF::Compiler::Processor::Args
       type ||= :public
       if vname=~/^\*/
         vname.gsub!(/\*/, '')
-        default = '_this'
+        default = '(["new", _this] call Rarma_Array)'
       end
       @meth[:args] << [vname, default, type]
     end 
