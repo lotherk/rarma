@@ -23,7 +23,6 @@ module Rarma::SQF::Compiler::Processor::If
     # lazy loading
     cond=[]
     condition.split(" and ").each_with_index do |an, i|
-      puts an
       ors = []
       spl = an.split(/ or /)
       spl.each_with_index do |o, y|

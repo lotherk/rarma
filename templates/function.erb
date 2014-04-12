@@ -4,12 +4,12 @@
 <%       if m[:args][0][0] =~/^_/ -%>
     private "<%= m[:args][0][0] -%>";
 <%       end -%>
-    <%= m[:args][0][0] -%> = RPARAM(<%= m[:args][0][1] -%>);
+    <%= m[:args][0][0] -%> = [_this, <%= m[:args][0][1] -%>] call Rarma_Kernel_fnc_params;
 <%     else -%>
 <%       m[:args].each_with_index do |a,i| -%>
 <%         if a[0] =~/^_/ -%>
     private "<%= a[0] -%>";
-    <%= a[0] -%> = RPARAMS(<%= i -%>, <%= a[1] -%>);
+    <%= a[0] -%> = [_this, [<%= i -%>, <%= a[1] -%>]] call Rarma_Kernel_fnc_params;
 <%         end -%>
 <%       end -%>
 <%     end -%>
