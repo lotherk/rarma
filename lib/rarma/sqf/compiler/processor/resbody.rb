@@ -4,7 +4,7 @@ module Rarma::SQF::Compiler::Processor::Resbody
     type = type.count > 1 ? type[1][1] : nil
   
     if type
-      @script << '{ "%s" }: {' % type
+      @script << 'case "%s": {' % type
     else
       @script << 'default {'
     end
