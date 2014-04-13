@@ -4,7 +4,7 @@ class Rarma::Hash
   attr_reader :dataset
 
   def initialize _default=[] 
-    @dataset = _default
+    __dataset = _default
   end
 
   # Sets a key with a value - Overwrites existing key if any.
@@ -20,9 +20,9 @@ class Rarma::Hash
   #     ["set", "aKey", "this is the value"] call _hash;
   #     hint (["get", "aKey"] call _hash);
   def set _key, _value
-    @dataset.each_with_index do |_array, _i|
+    __dataset.each_with_index do |_array, _i|
       if _array[_i] == _key
-        @dataset[_i] = [_key, _value]
+        __dataset[_i] = [_key, _value]
       end
     end
   end
@@ -30,7 +30,7 @@ class Rarma::Hash
   # adds an element to the hash
   def add _key, _value
     <<-SQF
-    ["add", [_key, _value]] call MEMBER("@dataset", nil);
+    ["add", [_key, _value]] call MEMBER("__dataset", nil);
     SQF
   end
 
@@ -51,7 +51,7 @@ class Rarma::Hash
   #    }] call _hash;
   def each_with_index _code
     <<-SQF
-	_set = MEMBER("@dataset", nil);
+	_set = MEMBER("__dataset", nil);
     {
       private "_args";
       _args = [];
@@ -77,7 +77,7 @@ class Rarma::Hash
   #    }] call _hash;
   def each _code
     <<-SQF
-	_set = MEMBER("@dataset", nil);
+	_set = MEMBER("__dataset", nil);
     {
       [_x] call _code;
     } count _set;
@@ -87,7 +87,7 @@ class Rarma::Hash
   __native :get
   def get _key
     <<-SQF
-	_set = MEMBER("@dataset", nil);
+	_set = MEMBER("__dataset", nil);
     {
       _k = _x select 0;
       _v = _x select 1;
@@ -99,6 +99,6 @@ class Rarma::Hash
   __native :to_a
   # Returns native array
   def to_a
-    "[\"to_a\"] call MEMBER(\"@dataset\", nil)"
+    "[\"to_a\"] call MEMBER(\"__dataset\", nil)"
   end
 end

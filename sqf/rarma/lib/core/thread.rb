@@ -5,20 +5,20 @@ class Rarma::Thread < Rarma::Object
   def initialize _code
     <<-SQF
     _ref = [_class] spawn _code;
-    MEMBER("@ref", _ref);
-    MEMBER("@terminate", false);
+    MEMBER("__ref", _ref);
+    MEMBER("__terminate", false);
    SQF
   end
 
   __native
   def running?
     <<-SQF
-    !scriptDone FUNC_GETVAR("@ref")
+    !scriptDone FUNC_GETVAR("__ref")
     SQF
   end
 
 #  __on_destroy
   def terminate!
-    terminate @ref
+    terminate __ref
   end
 end
