@@ -31,9 +31,27 @@ module Rarma::SQF::Compiler::Processor::Call
       Rarma.logger.debug "Comparison #{left} #{func} #{a.script.join("")}"
 #    elsif func.to_s == '%'
     elsif func.to_s == 'raise'
-      a = self.class.new
-      a.process exp.shift
-      @script << 'if(true) exitWith { throw [%s] }' % a.script.join(", ")
+      msg = nil
+      excp = nil
+      if exp.count == 1
+        msg = exp.shift
+        excp = "RuntimeError"
+        a = self.class.new
+        a.process msg
+        msg = a.script.join("")
+      elsif exp.count == 2
+        excp = exp.shift
+        msg = exp.shift
+        a = self.class.new
+        a.process msg
+        msg = a.script.join("")
+        a = self.class.new
+        a.process excp
+        excp = a.script.join("")
+      else
+        raise "can't handle raise, to many exps: #{exp.to_s}"
+      end
+      @script << 'if(true) exitWith { throw ["%s",%s] }' % [excp, msg]
     elsif func.to_s =~ /^attr_/ 
       a = self.class.new
       while exp.count > 0
