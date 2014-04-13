@@ -19,6 +19,6 @@ class Rarma::Thread < Rarma::Object
 
 #  __on_destroy
   def terminate!
-    terminate __ref
+    terminate @ref
   end
 end

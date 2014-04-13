@@ -4,7 +4,7 @@ class Rarma::Hash
   attr_reader :dataset
 
   def initialize _default=[] 
-    __dataset = _default
+    @dataset = _default
   end
 
   # Sets a key with a value - Overwrites existing key if any.
@@ -20,9 +20,9 @@ class Rarma::Hash
   #     ["set", "aKey", "this is the value"] call _hash;
   #     hint (["get", "aKey"] call _hash);
   def set _key, _value
-    __dataset.each_with_index do |_array, _i|
+    @dataset.each_with_index do |_array, _i|
       if _array[_i] == _key
-        __dataset[_i] = [_key, _value]
+        @dataset[_i] = [_key, _value]
       end
     end
   end
