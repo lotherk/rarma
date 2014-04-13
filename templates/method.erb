@@ -7,7 +7,7 @@
 <%       m[:args].each_with_index do |a,i| -%>
 <%         if a[0] =~/^_/ -%>
            private "<%= a[0] -%>";
-           <%= a[0] -%> = [_this, <%= i -%>, <%= a[1] -%>] call Rarma_Kernel_fnc_params;
+           <%= a[0] -%> = [_this, <%= a[1] -%>, <%= i -%>] call Rarma_Kernel_fnc_params;
 <%         end -%>
 <%       end -%>
 <%     end -%>
