@@ -82,7 +82,7 @@ module Rarma::SQF::Compiler::Processor::Call
       ppcmd = "process_preprocessor_#{func.to_s.gsub(/^__/, '')}".to_sym
       raise "Unknown preprocessor command #{ppcmd}" unless respond_to?(ppcmd)
       send(ppcmd, exp)
-    elsif Rarma::SQF::Commands.instance_methods.include?func and left.strip.empty?
+    elsif Rarma::SQF::Commands.instance_methods.include?func and left.strip.empty? or left.strip == "SQF"
       a = self.class.new
       while exp.count > 0
         a.process exp.shift
