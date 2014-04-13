@@ -1,4 +1,12 @@
 <% @classes.each do |c| -%>
+ <% c.meths.each do |m| -%>
+ <%   next if m[:access] != :static -%>
+ <%= c -%>_fnc_<%= m[:name] -%> = {
+ <%= ERB.new(load_template("method"), nil, "-",eoutvar='_subm10').result(binding) -%>
+ };
+ <% end -%>
+ <% end -%>
+<% @classes.each do |c| -%>
   <%- if c.inherit -%>
 CLASS_EXTEND("<%= c -%>", "<%= c.inherit %>")
 <%   else -%>
@@ -16,6 +24,7 @@ CLASS("<%= c -%>")
 <%    end -%>
 <%  end -%>
 <%   c.meths.each do |m| -%>
+<%   next if m[:access] != :instance -%>
     <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= m[:name] -%>") {
 <%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
     };

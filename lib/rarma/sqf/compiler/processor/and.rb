@@ -10,7 +10,7 @@ module Rarma::SQF::Compiler::Processor::And
       end
     end
     #@script << results.join(" and ")
-    @script << res.join(" and ")
+    @script << res.join(" && ")
     exp
   end
 end

@@ -27,6 +27,7 @@ module Rarma::SQF::Compiler::Processor::Defn
     @meth[:type] = type
     @meth[:sig] = :public # ..
     @meth[:body] = []
+    @meth[:access] = :instance
     process args
 
     if $natives.include?name

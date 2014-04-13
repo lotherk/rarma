@@ -17,6 +17,7 @@ module Rarma::SQF::Compiler::Processor::Defs
     end rescue nil
     $aliases=nil
     @meth[:body] = []
+    @meth[:access] = :static
     process args
 
     a = self.class.new

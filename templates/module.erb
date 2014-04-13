@@ -1,16 +1,25 @@
 <% @modules.each do |c| -%>
+<% c.meths.each do |m| -%>
+<%   next if m[:access] != :static -%>
+<%= c -%>_fnc_<%= m[:name] -%> = {
+<%= ERB.new(load_template("method"), nil, "-",eoutvar='_subm10').result(binding) -%>
+};
+<% end -%>
+<% end -%>
+<% @modules.each do |c| -%>
 <%= c -%> = {
     private ["_method", "_methods", "_args"];
     _method = RPARAMS(0, "")
     _args = RPARAMS(0, [])
-    <%- methss = []; c.meths.each { |m| methss << '"' + m[:name] + '"' } -%>
+    <%- methss = []; c.meths.each { |m| methss << '"' + m[:name].to_s + '"' } -%>
     _methods = [ <%= methss.join(", ") -%> ];
     switch(_method) do {
 <%   c.meths.each do |m| -%>
+<%   next if m[:access] != :instance -%>
         case "<%= m[:name] -%>": {
             private ["_this"];
             _this = _args;
-<%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
+<%= ERB.new(load_template("method"), nil, "-",eoutvar='_subm09').result(binding) -%>
         };
 <%   end -%>
         default {

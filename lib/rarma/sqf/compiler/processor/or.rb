@@ -7,7 +7,7 @@ module Rarma::SQF::Compiler::Processor::Or
       a.process exp.shift
       results << a.script.join("")
     end
-    @script << results.join(" or ")
+    @script << results.join(" || ")
     exp
   end
 end
