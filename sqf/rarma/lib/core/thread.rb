@@ -1,5 +1,4 @@
 class Rarma::Thread < Rarma::Object
-  __classname :Thread
   attr_reader :ref, :terminate
 
   __native

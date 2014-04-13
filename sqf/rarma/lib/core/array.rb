@@ -7,7 +7,8 @@ class Rarma::Array
      <<-SQF
      private ["_default"];
      _default = RPARAM([]);
-     MEMBER("@dataset", _default);
+     if(typeName _default != 'ARRAY') exitWith { throws ["ArgumentError", "Argument must be an ARRAY"]; };
+     MEMBER("@dataset", RPARAM([]);
      SQF
    end
 
@@ -34,9 +35,9 @@ class Rarma::Array
   __alias :<<, :"+=", :+, :"[]="
   def add _value
     <<-SQF
-    _set = MEMBER("@dataset", nil);
-    _set = _set + [_value];
-    MEMBER("@dataset", _set);
+    MEMBER("@dataset", nil) set [count MEMBER("@dataset", nil), _value];
+    //_set = _set + [_value];
+    //MEMBER("@dataset", _set);
     SQF
   end
 
@@ -45,6 +46,7 @@ class Rarma::Array
   def get _index
     <<-SQF
     _set = MEMBER("@dataset", nil);
+    if(count _set >= _index) exitWith { throws ["OutOfBoundError", "Index out of bound: " + str(_index)]; };
     _set select _index
     SQF
   end
@@ -65,12 +67,12 @@ class Rarma::Array
   #    }] call _array;
   def each_with_index _code
     <<-SQF
-	_set = MEMBER("@dataset", nil);
     {
+      private "_args";
       _args = [];
       _args = _args + [_x] + [_forEachIndex];
       _args call _code;
-    } forEach _set;
+    } forEach MEMBER("@dataset", nil);
     SQF
   end
 
@@ -89,10 +91,9 @@ class Rarma::Array
   #    }] call _array;
   def each _code
     <<-SQF
-	_set = MEMBER("@dataset", nil);
     {
         [_x] call _code;
-    } count _set;
+    } count MEMBER("@dataset", nil);
     SQF
   end
 

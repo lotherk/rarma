@@ -2,41 +2,9 @@
 # Rarma SQF Kernel Functions
 #
 #
-__native
-def Rarma_Kernel_fnc_param
-  <<-SQF
-  private["__this", "_default"];
-  __this = _this select 0;
-  _default = _this select 1;
-  if(isNil "__this") exitWith { _default };
-  __this
-  SQF
-end
-__native
-def Rarma_Kernel_fnc_params
-  <<-SQF
-    private ["__this", "_index", "_default"];
-    __this = _this select 0
-    _default = RPARAMS(1, nil);
-    _index = RPARAMS(2, nil);
-    if(!isNil "__this") then {
-      if(typeName __this == 'ARRAY') then {
-        if(count __this > _index) then {
-          __this select _index
-        } else {
-          _default
-        }
-      } else {
-        __this
-      }
-    } else {
-      _default
-    }
-  SQF
-end
 module Rarma::Kernel
   __native
-  def self.init
+  def init
     <<-SQF
     _succ = ("Arma2Net.Unmanaged" callExtension "PY import rarma");
     if(_succ == "") then {
@@ -49,8 +17,35 @@ module Rarma::Kernel
     SQF
   end
   __native
-  def self.params #__this, _index, _default
+  def self.param
     <<-SQF
+    private["__this", "_default"];
+    __this = _this select 0;
+    _default = _this select 1;
+    if(isNil "__this") exitWith { _default };
+    __this
+    SQF
+  end
+  __native
+  def self.params
+    <<-SQF
+     private ["__this", "_index", "_default"];
+     __this = _RPARAMS(0, nil);
+     _default = RPARAMS(1, nil);
+     _index = RPARAMS(2, nil);
+     if(!isNil "__this") then {
+       if(typeName __this == 'ARRAY') then {
+         if(count __this > _index) then {
+           __this select _index
+         } else {
+           _default
+         }
+       } else {
+         __this
+       }
+     } else {
+       _default
+     }
     SQF
   end
 end

@@ -30,6 +30,10 @@ module Rarma::SQF::Compiler::Processor::Call
       @script << '(%s %s %s)' % [left, func, a.script.join("")]
       Rarma.logger.debug "Comparison #{left} #{func} #{a.script.join("")}"
 #    elsif func.to_s == '%'
+    elsif func.to_s == 'require'
+      pkg = exp.shift[1].to_s
+      pkg.gsub!(/\//, '\\')
+      @script << 'RARMA_REQUIRE("%s")' % pkg
     elsif func.to_s == 'raise'
       msg = nil
       excp = nil

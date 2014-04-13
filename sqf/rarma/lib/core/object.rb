@@ -16,5 +16,4 @@ class Rarma::Object
     format["%1", _className];
     SQF
   end
-
 end

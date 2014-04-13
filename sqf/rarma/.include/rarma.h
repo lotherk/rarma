@@ -20,3 +20,5 @@
 
 #define RPARAM(dft) if(!isNil "_this") then {_this} else {dft}
 // not working: #define RCVAR(var) MEMBER(format["@%1",var],nil)
+
+#define RARMA_REQUIRE(package) call compileFinal preProcessFileLineNumbers format["%1\\__init__.sqf", package]

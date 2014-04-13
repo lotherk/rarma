@@ -38,11 +38,11 @@ class Rarma::SQF::Compiler::ScriptBuilder
 #    @build = BuildModule.
   end
   def build_from_source instance
-    require 'pp'
+#    require 'pp'
     source_file = "#{Dir.pwd}/#{instance}" if instance !~ /^\//
     source = File.read(source_file)
     sexp = RubyParser.new.parse(source)
-    pp sexp
+#    pp sexp
     p = Rarma::SQF::Compiler::Processor.new
     p.process sexp
     Rarma::SQF::Compiler::Script.get_instance.code << Rarma::SQF::Compiler::Script.indent(p.script).join("\n")
