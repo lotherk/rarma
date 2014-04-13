@@ -17,52 +17,72 @@ class Rarma::Unit < Rarma::SQFObject
     @handgun_items = []
   end
 
+  # actually create unit
+  def create _marker=[], _special="FORM"
+    raise "No side set" unless @side
+    @group ||= Group.new(@side)
+    @this = SQF.createUnit @group, @classname, @posATL, _marker.to_a, 0, _special
+  end
+
   def setScore _score
     @score = _score
-    setScore @this, _score
+    SQF.setScore @this, _score
   end
 
   def setRating _rating
     @rating = _rating
-    setRating @this, _rating
+    SQF.setRating @this, _rating
   end
 
   def setRank _rank
     @rank = _rank
-    setRank @this, _rank
+    SQF.setRank @this, _rank
   end
 
   # dunno if this works
   def addWeapon _wep
-    addWeapon @this, _wep
-    @weapons = weapons @this
+    SQF.addWeapon @this, _wep
+    @weapons = SQF.weapons @this
   end
 
-  # same here
   def addMagazine _mag
-    addMagazine @this, _mag
-    @magazines = magazines @this
+    SQF.addMagazine @this, _mag
+    @magazines = SQF.magazines @this
   end
 
-  # same here
   def addMagazines _mag, _count
-    addMagazine @this, _mag, _count
-    @magazines = magazines @this
+    SQF.addMagazine @this, _mag, _count
+    @magazines = SQF.magazines @this
   end
 
-  def add_primary_weapon_item _item
-    @primary_weapon_items << _item
-    addPrimaryWeaponItem @this, _item
+  # spooky shit; ruby, Y U NO allow easy overloading?!
+  # it's less code, though..
+  def setSkill *args
+    if args.count == 2
+      SQF.setSkill @this, args[0], args[1]
+      @skill = SQF.skill @this
+      @subskills[args[0].to_sym] = args[1]
+    elsif args.count == 1
+      SQF.setSkill @this, _args[0]
+      @skill = SQF.skill @this
+    else
+      raise "setSkill: only 1 or 2 arguments allowed"
+    end
   end
 
-  def add_secondary_weapon_item _item
-    @secondary_weapon_items << _item
-    addSecondaryWeaponItem @this, _item
+  def addPrimaryWeaponItem _item
+    SQF.addPrimaryWeaponItem @this, _item
+    @primary_weapon_items = SQF.primaryWeaponItems @this
   end
 
-  def add_handgun_item _item
-    @handgun_items << _item
-    addHandgunItem @this, _item
+  def addSecondaryWeaponItem _item
+    SQF.addSecondaryWeaponItem @this, _item
+    @secondary_weapon_items = SQF.secondaryWeaponItems @this
+  end
+
+  def addHandgunItem _item
+    SQF.addHandgunItem @this, _item
+    @handgun_items = SQF.handgunItems @this
   end
 
 end
