@@ -42,12 +42,12 @@ USAGE
 
       case true
         when Dir.exists?(arg)
-          Dir["#{arg}/**/*.rb"].each do |f|
+          Dir["#{arg.gsub(/\/$/,'')}/**/*.rb"].each do |f|
             out = "#{destdir}/#{output_strip(f)}.sqf"
             compile_file f, out
           end
         when File.exists?(arg)
-          out = "#{destdir}/#{output_strip(arg)}.sqf"
+          out = "#{destdir.gsub(/\/$/,'')}/#{output_strip(arg)}.sqf"
           compile_file arg, out
         else
           $stderr.puts "Can not handle input #{arg}"
