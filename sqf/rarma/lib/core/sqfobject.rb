@@ -1,7 +1,7 @@
 class Rarma::SQFObject
   attr_accessor :posATL, :posASL, :dir, :damage, :alive, :simulation, :name,
   :special, :group, :vehicle_var_name, :ammo
-  attr_reader :variables, :netid, :classname, :side
+  attr_reader :variables, :netid, :classname, :side, :this
 
   # ====Arguments
   # * +_classname+ - classname of the object
@@ -15,7 +15,8 @@ class Rarma::SQFObject
     @variables = {}
     @simulation = false
     @special = "NONE"
-    @side = "CIVILIAN"
+    @side = SQF.CIVILIAN
+    @this = nil
   end
 
   # sets a variable to the object
