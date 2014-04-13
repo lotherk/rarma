@@ -30,11 +30,11 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%   end -%>
 <%  c.vars.each do |v| -%>
 <%    if v[:access] == :accessor or v[:access] == :reader -%>
-    PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("@<%= v[:name] -%>");
+    PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("__<%= v[:name] -%>");
 <%    end -%>
 <%    if v[:access] == :accessor or v[:access] == :writer -%>
-    PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
-    PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
+    PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("__<%= v[:name] -%>", _this); };
+    PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("__<%= v[:name] -%>", _this); }
 <%    end -%>
 <%  end -%>
 ENDCLASS;
