@@ -15,13 +15,6 @@ CLASS("<%= c -%>")
 <%-%>
 <%  c.vars.each do |v| -%>
     PRIVATE VARIABLE("any", "@<%= v[:name] -%>");
-<%    if v[:access] == :accessor or v[:access] == :reader -%>
-    PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("@<%= v[:name] -%>");
-<%    end -%>
-<%    if v[:access] == :accessor or v[:access] == :writer -%>
-    PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
-    PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
-<%    end -%>
 <%  end -%>
 <%   c.meths.each do |m| -%>
 <%   next if m[:access] != :instance -%>
@@ -35,5 +28,14 @@ CLASS("<%= c -%>")
     <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= a -%>") { MEMBER("<%= m[:name] -%>", _this); };
     <%- end -%>
 <%   end -%>
+<%  c.vars.each do |v| -%>
+<%    if v[:access] == :accessor or v[:access] == :reader -%>
+    PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("@<%= v[:name] -%>");
+<%    end -%>
+<%    if v[:access] == :accessor or v[:access] == :writer -%>
+    PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("@<%= v[:name] -%>", _this); };
+    PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("@<%= v[:name] -%>", _this); }
+<%    end -%>
+<%  end -%>
 ENDCLASS;
 <% end %>
