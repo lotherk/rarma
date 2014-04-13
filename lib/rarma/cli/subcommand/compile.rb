@@ -1,5 +1,14 @@
 require 'rarma/sqf/compiler'
 require "fileutils"
+class PackagesList
+  attr_accessor :packages
+  def initialize
+    @packages=[]
+  end
+  def get_binding
+    binding
+  end
+end
 class Rarma::CLI::Subcommand::Compile
   attr_reader :description
   def initialize
@@ -17,14 +26,15 @@ USAGE
     end
     FileUtils.mkdir_p(opts[:output]) if opts[:output]
     @opts = opts
-    opts[:include] ||= []
-    opts[:include] << "#{Rarma.gem_root}/sqf/rarma/.include"
+    @includes = []
+    @includes << "#{Rarma.gem_root}/sqf/rarma/.include"
+    @includes << opts[:include]
 
     if ARGV.count == 0
       $stderr.puts "No input files"
       exit 1
     end
-
+    @packages = {}
     destdir = opts[:output] if opts[:output]
     destdir ||= "."
     ARGV.each do |arg|
@@ -43,6 +53,17 @@ USAGE
           $stderr.puts "Can not handle input #{arg}"
       end
     end
+    @packages.each do |k,v|
+      outfile = "#{k}/__init__.sqf"
+      pl = PackagesList.new
+      v.each do |pkg|
+        pl.packages << pkg
+      end
+      erb = ERB.new(File.read("#{Rarma.gem_root}/templates/__init__.erb"),nil,"-").result(pl.get_binding)
+      f = File.open(outfile, "w")
+      f.write(erb.to_s)
+      f.close
+    end
   end
 
   private
@@ -59,8 +80,10 @@ USAGE
     puts "Compiling #{arg} -> #{out}"
     script = Rarma::SQF::Compiler.compile(arg)
     dirname = File.dirname out
+    @packages[dirname] ||= []
+    @packages[dirname] << out.gsub("#{@opts[:output]}", "").gsub(/^\//, '').gsub('/', '\\')
     FileUtils.mkdir_p(dirname)
-    @opts[:include].each do |inc|
+    @includes.flatten.each do |inc|
       FileUtils.cp_r(inc, dirname)
     end
     f = File.open(out, "w")
