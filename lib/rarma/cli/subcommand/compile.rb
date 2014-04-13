@@ -63,7 +63,7 @@ USAGE
       f = File.open(outfile, "w")
       f.write(erb.to_s)
       f.close
-    end
+    end unless @opts[:output].empty? rescue nil
   end
 
   private
@@ -85,7 +85,7 @@ USAGE
     FileUtils.mkdir_p(dirname)
     @includes.flatten.each do |inc|
       FileUtils.cp_r(inc, dirname)
-    end if @opts[:output]
+    end unless @opts[:output].empty? rescue nil
     f = File.open(out, "w")
     f.write(script.to_sqf)
     f.close
