@@ -1,3 +1,4 @@
+require "securerandom"
 module Rarma::SQF::Compiler::Processor::Op_asgn_or
   def process_op_asgn_or exp
     a = self.class.new
@@ -6,8 +7,13 @@ module Rarma::SQF::Compiler::Processor::Op_asgn_or
     a = self.class.new
     a.process exp.shift
     right = a.script.join("\n")
+    rvar = "_pls_fix_macro_#{SecureRandom.hex}"
     @script << <<-SQF
-      if(isNil #{left}) then { #{right} };
+      private "#{rvar}";
+      #{rvar} = #{left};
+      if(isNil "#{rvar}") then {
+          #{right}
+      };
     SQF
     exp
   end

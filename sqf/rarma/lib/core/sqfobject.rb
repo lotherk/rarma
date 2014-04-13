@@ -76,7 +76,7 @@ class Rarma::SQFObject
 
   def setVehicleVarName _name
     @vehicle_var_name = _name
-    SQF.setVehiceVarName @this, _name
+    SQF.setVehicleVarName @this, _name
   end
 
   # Sets id (integer value) to vehicle. By this id vehicle is referenced by triggers and waypoints. 
@@ -93,12 +93,12 @@ class Rarma::SQFObject
 
   def setVehicleAmmo _ammo
     @ammo = _ammo
-    SQF.setVehicleAmmo _ammo
+    SQF.setVehicleAmmo @this, _ammo
   end
 
   def setVehicleAmmoDef _ammo
     @ammo = _ammo
-    SQF.setVehicleAmmoDef _ammo
+    SQF.setVehicleAmmoDef @this, _ammo
   end
 
 end
