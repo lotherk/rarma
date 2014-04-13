@@ -64,7 +64,6 @@ module Rarma::SQF::Compiler::Processor::If
   end
 
   def make_lazy s
-    s = "{ #{s} }" unless ['true','false'].include?s
-    s
+    "{ #{s} }"
   end
 end
