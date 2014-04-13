@@ -85,7 +85,7 @@ USAGE
     FileUtils.mkdir_p(dirname)
     @includes.flatten.each do |inc|
       FileUtils.cp_r(inc, dirname)
-    end
+    end if @opts[:output]
     f = File.open(out, "w")
     f.write(script.to_sqf)
     f.close
