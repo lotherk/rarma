@@ -47,7 +47,7 @@ USAGE
             compile_file f, out
           end
         when File.exists?(arg)
-          out = "#{destdir.gsub(/\/$/,'')}/#{output_strip(arg)}.sqf"
+          out = "#{destdir}/#{output_strip(arg)}.sqf"
           compile_file arg, out
         else
           $stderr.puts "Can not handle input #{arg}"
