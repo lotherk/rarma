@@ -10,7 +10,7 @@
   <%- if c.inherit -%>
 CLASS_EXTEND("<%= c -%>", "<%= c.inherit %>")
 <%   else -%>
-CLASS("<%= c -%>")
+CLASS_EXTEND("<%= c -%>", "Rarma_Object")
 <%   end -%>
 <%-%>
 <%  c.vars.each do |v| -%>
