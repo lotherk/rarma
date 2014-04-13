@@ -14,7 +14,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%   end -%>
 <%-%>
 <%  c.vars.each do |v| -%>
-    PRIVATE VARIABLE("any", "@<%= v[:name] -%>");
+    PRIVATE VARIABLE("any", "<%= v[:name] -%>");
 <%  end -%>
 <%   c.meths.each do |m| -%>
 <%   next if m[:access] != :instance -%>
