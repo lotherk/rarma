@@ -7,7 +7,7 @@ class Rarma::Array
      <<-SQF
      private ["_default"];
      _default = RPARAM([]);
-     if(typeName _default != 'ARRAY') exitWith { throws ["ArgumentError", "Argument must be an ARRAY"]; };
+     if(typeName _default != 'ARRAY') exitWith { throw ["ArgumentError", "Argument must be an ARRAY"]; };
      MEMBER("@dataset", RPARAM([]);
      SQF
    end

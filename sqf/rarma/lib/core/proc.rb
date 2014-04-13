@@ -6,10 +6,10 @@ class Proc
   end
 
   def call _args = []
-    call _args, @code
+    SQF.call _args, @code
   end
 
   def spawn _args=[]
-    spawn _args, @code
+    SQF.spawn _args, @code
   end
 end
