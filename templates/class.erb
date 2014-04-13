@@ -8,9 +8,9 @@
  <% end -%>
 <% @classes.each do |c| -%>
   <%- if c.inherit -%>
-CLASS_EXTEND("<%= c -%>", "<%= c.inherit %>")
+CLASS_EXTENDS("<%= c -%>", "<%= c.inherit %>")
 <%   else -%>
-CLASS_EXTEND("<%= c -%>", "Rarma_Object")
+CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%   end -%>
 <%-%>
 <%  c.vars.each do |v| -%>

@@ -19,7 +19,7 @@ class Rarma::SQF::Compiler::Script
 
   def to_sqf
     Rarma.logger.debug "Generating SQF...."
-    erb = ERB.new(load_template("script"), nil, "-").result(binding)
+    ERB.new(load_template("script"), nil, "-").result(binding)
   end
 
   def load_template name
@@ -48,7 +48,7 @@ class Rarma::SQF::Compiler::Script
       end
       indent = 0 if indent < 0
       line = "#{" " * indent}#{n}"
-      line += ";" unless line.match(/(\;$|\{$|\:$|^CLASS|^\s*\/|^\s*\*)/)
+      line += ";" unless line.match(/(\;$|\{$|\:$|^CLASS|^\s*\/|^\s*\*|^\s*#|\\$)/)
       res << line
       if n.strip =~ /{$/ or n.strip =~ /^CLASS.*$/
         indent += spaces
