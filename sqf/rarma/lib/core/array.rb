@@ -8,7 +8,7 @@ class Rarma::Array
      private ["_default"];
      _default = RPARAM([]);
      if(typeName _default != 'ARRAY') exitWith { throw ["ArgumentError", "Argument must be an ARRAY"]; };
-     MEMBER("@dataset", RPARAM([]);
+     MEMBER("@dataset", _default);
      SQF
    end
 
@@ -46,7 +46,7 @@ class Rarma::Array
   def get _index
     <<-SQF
     _set = MEMBER("@dataset", nil);
-    if(count _set >= _index) exitWith { throws ["OutOfBoundError", "Index out of bound: " + str(_index)]; };
+    if(count _set >= _index) exitWith { throw ["OutOfBoundError", "Index out of bound: " + str(_index)]; };
     _set select _index
     SQF
   end

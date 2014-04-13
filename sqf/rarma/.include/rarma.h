@@ -2,9 +2,6 @@
 #include "debug.h"
 
 #define CONSTRUCTOR_METHOD "initialize"
-#define FINALIZE_CLASS default {\
-                           if(CHECK_MEMBER("method_missing")) then { MEMBER("method_missing",[_member, _this]) }; \
-}};};};};}]
 
 #define RPARAMS(idx,dflt) if(!isNil "_this") then {\
     if(typeName _this == 'ARRAY') then {\
@@ -21,4 +18,4 @@
 #define RPARAM(dft) if(!isNil "_this") then {_this} else {dft}
 // not working: #define RCVAR(var) MEMBER(format["@%1",var],nil)
 
-#define RARMA_REQUIRE(package) call compileFinal preProcessFileLineNumbers format["%1\\__init__.sqf", package]
+#define RARMA_REQUIRE(package) call compileFinal preProcessFileLineNumbers format["%1\__init__.sqf", package]
