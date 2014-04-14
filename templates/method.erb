@@ -2,13 +2,19 @@
 <%       if m[:args][0][0] =~/^_/ -%>
            private "<%= m[:args][0][0] -%>";
 <%       end -%>
-           <%= m[:args][0][0] -%> = [_this, <%= m[:args][0][1] -%>] call Rarma_Kernel_fnc_param;
+           <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
+           private <%= rval -%>;
+           <%= rval -%> = <%= m[:args][0][1] %>
+           <%= m[:args][0][0] -%> = RPARAM(<%= rval -%>);
 <%     else -%>
 <%       m[:args].each_with_index do |a,i| -%>
 <%         if a[0] =~/^_/ -%>
            private "<%= a[0] -%>";
-           <%= a[0] -%> = [_this, <%= a[1] -%>, <%= i -%>] call Rarma_Kernel_fnc_params;
-<%         end -%>
+           <%- end -%>
+           <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
+           private <%= rval -%>;
+           <%= rval -%> = <%= a[1] %>
+           <%= a[0] -%> = RPARAMS(<%= i -%>,<%= a[1] -%>);
 <%       end -%>
 <%     end -%>
 <%     m[:body].each do |b| -%>
