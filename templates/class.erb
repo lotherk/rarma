@@ -21,7 +21,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%  end -%>
 <%   c.meths.each do |m| -%>
 <%   next if m[:access] != :instance -%>
-    <%= m[:sig].upcase -%> FUNCTION("any", "<%= m[:name] -%>") {
+    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= m[:name] -%>") {
 <%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
     };
     <%- m[:aliases].each do |a| -%>
