@@ -22,7 +22,7 @@
            <%- else -%>
            <%- rval = "nil" -%>
            <%- end -%>
-           <%= a[0] -%> = RPARAMS(<%= i -%>,<%= a[1] -%>);
+           <%= a[0] -%> = RPARAMS(<%= i -%>,<%= rval -%>);
 <%       end -%>
 <%     end -%>
 <%     m[:body].each do |b| -%>
