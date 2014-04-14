@@ -20,7 +20,7 @@ class Rarma::Unit < Rarma::SQFObject
   # actually create unit
   def create _marker=[], _special="FORM"
     raise "No side set" unless @side
-    @group ||= Group.new(@side)
+    @group ||= Rarma::Group.new(@side)
     @this = SQF.createUnit @group, @classname, @posATL, _marker.to_a, 0, _special
   end
 
