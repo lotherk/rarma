@@ -3,7 +3,10 @@ class Rarma::Array
   attr_reader :dataset
 
   __native :initialize
-  def initialize 
+  #--
+  # dummy param needed for "any" in sqf class >:| grrrrr.....
+  #++
+  def initialize _dummy
      <<-SQF
      private ["_default", "_def"];
      _def = [];
@@ -15,9 +18,9 @@ class Rarma::Array
 
   __native :set
   # Sets a value at the given index - Overwrites existing value if any.
-  # 
+  #
   # ==== Attributes
-  # 
+  #
   # * +_index+ - They index to set
   # * +_value+ - The value to set
   #
