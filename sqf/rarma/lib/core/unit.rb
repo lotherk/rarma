@@ -70,12 +70,12 @@ class Rarma::Unit < Rarma::SQFObject
   # spooky shit; ruby, Y U NO allow easy overloading?!
   # it's less code, though..
   #++
-  def setSkill *args
-    if args.count == 2
-      SQF.setSkill @this, args[0], args[1]
+  def setSkill *_args
+    if _args.count == 2
+      SQF.setSkill @this, _args[0], _args[1]
       @skill = SQF.skill @this
-      @subskills[args[0].to_sym] = args[1]
-    elsif args.count == 1
+      @subskills[_args[0]] = _args[1]
+    elsif _args.count == 1
       SQF.setSkill @this, _args[0]
       @skill = SQF.skill @this
     else
