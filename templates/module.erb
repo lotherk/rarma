@@ -16,7 +16,7 @@
     _default_args = [];
     _args = RPARAMS(1, _default_args);
     <%- methss = []; c.meths.each { |m| methss << '"' + m[:name].to_s + '"' } -%>
-    _methods = [ <%= methss.join(", ") -%> ];
+    _methods = [<%= methss.join(", ") -%>];
     switch(_method) do {
 <%   c.meths.each do |m| -%>
 <%   next if m[:access] != :instance -%>
