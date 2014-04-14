@@ -1,3 +1,4 @@
+# Represents a unit in the game world
 class Rarma::Unit < Rarma::SQFObject
   attr_accessor :group, :score, :rating, :rank, :weapons, :magazines, 
     :skill, :subskills, :unitpos, :uniform, :vest, :headgear, :items, 
@@ -18,20 +19,25 @@ class Rarma::Unit < Rarma::SQFObject
   end
 
   # actually create unit
+  # ==== Arguments
+  # * +_marker+ - array of markers. The engine will choose one randomly and 
+  #   spawn the unit at the marker position
+  # * +_special+ - string, defining a special spawn mode. Might be "NONE", "FORM",
+  #   "CAN_COLLIDE" or "FLY"
   def create _marker=[], _special="FORM"
     raise "No side set" unless @side
     @group ||= Rarma::Group.new(@side)
     @this = SQF.createUnit @group, @classname, @posATL, _marker.to_a, 0, _special
   end
 
-  def setScore _score
+  def addScore _score
     @score = _score
-    SQF.setScore @this, _score
+    SQF.addScore @this, _score
   end
 
-  def setRating _rating
+  def addRating _rating
     @rating = _rating
-    SQF.setRating @this, _rating
+    SQF.addRating @this, _rating
   end
 
   def setRank _rank
@@ -39,12 +45,17 @@ class Rarma::Unit < Rarma::SQFObject
     SQF.setRank @this, _rank
   end
 
-  # dunno if this works
+  # adds a weapon to the unit
+  # ==== Arguments
+  # * +_wep+ - the classname of the weapon to add
   def addWeapon _wep
     SQF.addWeapon @this, _wep
     @weapons = SQF.weapons @this
   end
 
+  # adds a magazine to the unit
+  # ==== Arguments
+  # * +_mag+ - the classname of the magazine to add
   def addMagazine _mag
     SQF.addMagazine @this, _mag
     @magazines = SQF.magazines @this
@@ -55,8 +66,10 @@ class Rarma::Unit < Rarma::SQFObject
     @magazines = SQF.magazines @this
   end
 
+  #--
   # spooky shit; ruby, Y U NO allow easy overloading?!
   # it's less code, though..
+  #++
   def setSkill *args
     if args.count == 2
       SQF.setSkill @this, args[0], args[1]

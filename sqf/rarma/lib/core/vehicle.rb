@@ -46,8 +46,16 @@ class Rarma::Vehicle < Rarma::SQFObject
   # sets the amount of fuel of the vehicle. 
   # ==== Arguments
   # * +_fuel+ - amount of fuel. Value between 0 (empty) and 1 (full)
-  def setVehicleFuel _fuel
-    SQF.setVehicleFuel @this, _fuel
+  def setFuel _fuel
+    SQF.setFuel @this, _fuel
+  end
+
+  # sets the amount of fuel left in cargo space of 
+  # a refueling vehicle
+  # ==== Arguments
+  # * +_fuel+ - amount of fuel in the cargo space. Value between 0 and 1
+  def setFuelCargo _fuel
+    SQF.setFuelCargo @this, _fuel
   end
 
   # sets the lock of the vehicle
