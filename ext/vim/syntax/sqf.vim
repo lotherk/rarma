@@ -9,7 +9,7 @@ endif
 
 syn case match
 syn keyword sqfOOP CLASS CLASS_EXTENDS PUBLIC FUNCTION VARIABLE MEMBER GETVAR FUNC_GETVAR
-syn keyword sqfOOP PRIVATE DELETE_VARIABLE ENDCLASS
+syn keyword sqfOOP PRIVATE DELETE_VARIABLE ENDCLASS PROTECTED
 
 syn case ignore
 syn keyword sqfStatement abs accTime acos action actionKeys actionKeysImages actionKeysNames
