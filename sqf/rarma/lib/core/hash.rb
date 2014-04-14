@@ -2,11 +2,6 @@
 class Rarma::Hash < Rarma::Array
 
   attr_reader :dataset
-
-  def initialize _default=[] 
-    @dataset = _default
-  end
-
   # Sets a key with a value - Overwrites existing key if any.
   # 
   # ==== Attributes
@@ -19,12 +14,22 @@ class Rarma::Hash < Rarma::Array
   #     _hash = ["new"] call Hash;
   #     ["set", "aKey", "this is the value"] call _hash;
   #     hint (["get", "aKey"] call _hash);
+  __native
+  __alias :update
   def set _key, _value
-    @dataset.each_with_index do |_array, _i|
-      if _array[_i] == _key
-        @dataset[_i] = [_key, _value]
-      end
-    end
+    <<-SQF
+    {
+      if (!isNil "_x" && {typeName _x == 'ARRAY'} && {count _x == 2}) then {
+          _k = _x select 0;
+          _v = _x select 1;
+          _i = _forEachIndex;
+          if(_key == _k) exitWith {
+              MEMBER("__dataset",nil) set [_i, [_key,_value]];
+          };
+      };
+    } forEach MEMBER("__dataset",nil);
+    MEMBER("__dataset",nil) set [count(MEMBER("__dataset",nil)), [_key,_value]];
+    SQF
   end
   __native :add
   # adds an element to the hash
@@ -45,11 +50,5 @@ class Rarma::Hash < Rarma::Array
       if (_k == _key) exitWith { _v }; 
     } count _set;
     SQF
-  end
-
-  __native :to_a
-  # Returns native array
-  def to_a
-    "[\"to_a\"] call MEMBER(\"__dataset\", nil)"
   end
 end
