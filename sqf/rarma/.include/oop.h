@@ -168,6 +168,7 @@
       _member = _this select 1; \
       _access = DEFAULT_PARAM(3,0); \
       _this = DEFAULT_PARAM(2,nil); \
+      _this = if (isNil "_this") then { [] } else { _this }; \
       _argType = if (isNil "_this") then {""} else {typeName _this}; \
       switch (true) do {
       
