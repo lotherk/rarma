@@ -11,9 +11,10 @@
     <%- c.header.each do |h| -%>
     <%= h %>
     <%- end %>
-    private ["_method", "_methods", "_args"];
-    _method = RPARAMS(0, "")
-    _args = RPARAMS(0, [])
+    private ["_method", "_methods", "_args", "_default_args"];
+    _method = RPARAMS(0, "");
+    _default_args = [];
+    _args = RPARAMS(1, _default_args);
     <%- methss = []; c.meths.each { |m| methss << '"' + m[:name].to_s + '"' } -%>
     _methods = [ <%= methss.join(", ") -%> ];
     switch(_method) do {
