@@ -9,6 +9,7 @@ module Rarma::SQF::Compiler::Processor::Class
       name = name.to_s
     end
     @current_class = Rarma::SQF::Compiler::Script::Class.new(name)
+    $current_class = @current_class
     inherit = exp.shift
     body = []
     while exp.count > 0
@@ -26,6 +27,7 @@ module Rarma::SQF::Compiler::Processor::Class
     end
     Rarma::SQF::Compiler::Script.get_instance.classes << @current_class
     @current_class = nil
+    $current_class = nil
     $VARIABLES=nil
     exp
   end
