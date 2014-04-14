@@ -128,7 +128,10 @@ module Rarma::SQF::Compiler::Processor::Call
           if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
             rvar = "_pls_fix_macro_#{SecureRandom.hex}"
             @script << <<-SQF
-              private "#{rvar}"; #{rvar} = [#{a.script.join(", ")}]; MEMBER("#{func}",#{rvar});
+              private "#{rvar}"; 
+              #{rvar} = [#{a.script.join(", ")}]; 
+              MEMBER("#{func}",#{rvar});
+              #{rvar} = nil;
             SQF
           elsif $current_class.is_a?Rarma::SQF::Compiler::Script::Module
             @script << '["%s", [%s]] call %s' % [func, a.script.join(", "), $current_class]

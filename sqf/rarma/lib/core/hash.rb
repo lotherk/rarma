@@ -1,5 +1,5 @@
 # Represents a key value Hash
-class Rarma::Hash
+class Rarma::Hash < Rarma::Array
 
   attr_reader :dataset
 
@@ -30,64 +30,15 @@ class Rarma::Hash
   # adds an element to the hash
   def add _key, _value
     <<-SQF
+    if(isNil "_key" or isNil "_value") exitWith { throw ["ArgumentError", "Arguments must be key, value"]; };
     ["add", [_key, _value]] call MEMBER("__dataset", nil);
-    SQF
-  end
-
-  __native :each_with_index
-  # Iterates each key-value pair with an index and executes _code.
-  #
-  # ==== Attributes
-  #
-  # * +_code+ - The code to execute
-  #
-  # ==== Examples
-  #
-  #    ["each_with_index", {
-  #        _key = DEFAULT_PARAM(0, nil);
-  #        _value = DEFAULT_PARAM(1, nil);
-  #        _index = DEFAULT_PARAM(2, nil);
-  #        hint format["Current index is %1, the key is %2 and it's value is %3", _index, _key, _value];
-  #    }] call _hash;
-  def each_with_index _code
-    <<-SQF
-	_set = MEMBER("__dataset", nil);
-    {
-      private "_args";
-      _args = [];
-	  _args = _args + [_x] + [_forEeachIndex]
-      _args call _code;
-    } forEach _set;
-    SQF
-  end
-
-  __native :each
-  # Iterates each key-value pair and executes _code
-  #
-  # ==== Attributes
-  #
-  # * +_code+ - The code to execute
-  #
-  # ==== Examples
-  #
-  #    ["each", {
-  #        _key = DEFAULT_PARAM(0, nil);
-  #        _value = DEFAULT_PARAM(1, nil);
-  #        hint format["The key is %1 and it's value is %2", _key, _value];
-  #    }] call _hash;
-  def each _code
-    <<-SQF
-	_set = MEMBER("__dataset", nil);
-    {
-      [_x] call _code;
-    } count _set;
     SQF
   end
 
   __native :get
   def get _key
     <<-SQF
-	_set = MEMBER("__dataset", nil);
+    _set = MEMBER("__dataset", nil);
     {
       _k = _x select 0;
       _v = _x select 1;

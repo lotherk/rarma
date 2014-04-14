@@ -1,4 +1,4 @@
-class Proc
+class Rarma::Proc
   attr_reader :code
   def initialize _code
     raise "No code" if _code.nil?
