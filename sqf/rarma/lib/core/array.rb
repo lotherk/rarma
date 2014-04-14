@@ -102,4 +102,8 @@ class Rarma::Array
   def to_a
     "MEMBER(\"__dataset\", nil)"
   end
+
+  def includes? _m
+    SQF.in _m, @dataset
+  end
 end

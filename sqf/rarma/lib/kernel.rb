@@ -70,18 +70,21 @@ module Rarma::Kernel
     SQF
   end
 end
+
+
 class Rarma::Object
+  attr_accessor :self
+  attr_reader :methods
   __native :respond_to?
   def respond_to? _m
     <<-SQF
-    if (! isNil format["%1", _m]) then {
-      true
-    } else {
-      false
-    };
+    _m in MEMBER("__methods",nil)) 
     SQF
   end
-
+  __native
+  def class
+    "_class"
+  end
   __native :to_s
   def to_s
     <<-SQF
