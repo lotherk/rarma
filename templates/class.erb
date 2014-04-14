@@ -9,6 +9,9 @@
 <% @classes.each do |c| -%>
   <%- if c.inherit -%>
 CLASS_EXTENDS("<%= c -%>", "<%= c.inherit %>")
+<%- elsif c.to_s == "Rarma_Object" -%>
+// Mother of objects
+CLASS("Rarma_Object")
 <%   else -%>
 CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%   end -%>
@@ -18,7 +21,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%  end -%>
 <%   c.meths.each do |m| -%>
 <%   next if m[:access] != :instance -%>
-    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= m[:name] -%>") {
+    <%= m[:sig].upcase -%> FUNCTION("any", "<%= m[:name] -%>") {
 <%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
     };
     <%- m[:aliases].each do |a| -%>

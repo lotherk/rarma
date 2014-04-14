@@ -78,7 +78,7 @@ class Rarma::Object
   __native :respond_to?
   def respond_to? _m
     <<-SQF
-    _m in MEMBER("__methods",nil)) 
+    _m in MEMBER("__methods",nil)
     SQF
   end
   __native

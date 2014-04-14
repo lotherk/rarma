@@ -5,8 +5,9 @@ class Rarma::Array
   __native :initialize
   def initialize 
      <<-SQF
-     private ["_default"];
-     _default = RPARAM([]);
+     private ["_default", "_def"];
+     _def = [];
+     _default = RPARAM(_def);
      if(typeName _default != 'ARRAY') exitWith { throw ["ArgumentError", "Argument must be an ARRAY"]; };
      MEMBER("__dataset", _default);
      SQF
