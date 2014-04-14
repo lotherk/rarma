@@ -155,7 +155,7 @@
       _code = compile format ['CHECK_THIS; ENSURE_INDEX(1,nil); (["%1", (_this select 0), (_this select 1), 0]) call GETCLASS(className);', (className + "_" + str(GET_AUTO_INC(className)))]; \
       ENSURE_INDEX(1,nil); \
       [CONSTRUCTOR_METHOD, (_this select 1)] call _code; \
-      ["self=", _code] call _code;
+      ["self=", _code] call _code; \
       _code; \
     }; \
     case "delete": { \
