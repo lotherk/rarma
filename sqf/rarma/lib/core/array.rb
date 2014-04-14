@@ -11,7 +11,7 @@ class Rarma::Array
      if(typeName _default != 'ARRAY') exitWith { throw ["ArgumentError", "Argument must be an ARRAY"]; };
      MEMBER("__dataset", _default);
      SQF
-   end
+  end
 
   __native :set
   # Sets a value at the given index - Overwrites existing value if any.

@@ -8,7 +8,8 @@ if exists("b:current_syntax")
 endif
 
 syn case match
-syn keyword sqfOOP CLASS CLASS_EXTENDS PUBLIC FUNCTION VARIABLE MEMBER GETVAR FUNC_GETVAR PRIVATE
+syn keyword sqfOOP CLASS CLASS_EXTENDS PUBLIC FUNCTION VARIABLE MEMBER GETVAR FUNC_GETVAR
+syn keyword sqfOOP PRIVATE DELETE_VARIABLE ENDCLASS
 
 syn case ignore
 syn keyword sqfStatement abs accTime acos action actionKeys actionKeysImages actionKeysNames
