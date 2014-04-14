@@ -4,7 +4,7 @@
 <%       end -%>
            <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
            <%- if m[:args][0][1] != "nil" -%>
-           private <%= rval -%>;
+           private "<%= rval -%>";
            <%= rval -%> = <%= m[:args][0][1] %>
            <%- else -%>
            <%- rval = "nil" -%>
@@ -17,7 +17,7 @@
            <%- end -%>
            <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
            <%- if m[:args][0][1] != "nil" -%>
-           private <%= rval -%>;
+           private "<%= rval -%>";
            <%= rval -%> = <%= a[1] %>
            <%- else -%>
            <%- rval = "nil" -%>
