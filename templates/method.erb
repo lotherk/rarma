@@ -3,8 +3,12 @@
            private "<%= m[:args][0][0] -%>";
 <%       end -%>
            <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
+           <%- if m[:args][0][1] != "nil" -%>
            private <%= rval -%>;
            <%= rval -%> = <%= m[:args][0][1] %>
+           <%- else -%>
+           <%- rval = "nil" -%>
+           <%- end -%>
            <%= m[:args][0][0] -%> = RPARAM(<%= rval -%>);
 <%     else -%>
 <%       m[:args].each_with_index do |a,i| -%>
@@ -12,8 +16,12 @@
            private "<%= a[0] -%>";
            <%- end -%>
            <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
+           <%- if m[:args][0][1] != "nil" -%>
            private <%= rval -%>;
            <%= rval -%> = <%= a[1] %>
+           <%- else -%>
+           <%- rval = "nil" -%>
+           <%- end -%>
            <%= a[0] -%> = RPARAMS(<%= i -%>,<%= a[1] -%>);
 <%       end -%>
 <%     end -%>
