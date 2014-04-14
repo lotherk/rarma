@@ -10,7 +10,13 @@ module Rarma::SQF::Compiler::Processor::Attrasgn
     a = self.class.new
     a.process val
     val = a.script.join("")
-    @script << '(["%s", [%s]] call %s)' % [attr, val, obj]
+    if attr.to_s == "[]="
+      a = self.class.new
+      a.process exp.shift
+      @script << '(["set", [%s,%s]] call %s)' % [val, a.script.join(""), obj]
+    else
+      @script << '(["%s", [%s]] call %s)' % [attr, val, obj]
+    end
     require 'pp'
     while exp.count > 0
       exp.shift
