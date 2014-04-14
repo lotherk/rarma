@@ -1,5 +1,6 @@
 module Rarma::SQF::Compiler::Processor::Defn
   def process_defn exp
+    $ACCESS_MODIFIER ||= :public
   Rarma.logger.debug "#{self} Processing defn #{exp}"
     name = exp.shift
     args = exp.shift
@@ -25,7 +26,7 @@ module Rarma::SQF::Compiler::Processor::Defn
     end rescue nil
     $aliases=nil
     @meth[:type] = type
-    @meth[:sig] = :public # ..
+    @meth[:sig] = $ACCESS_MODIFIER
     @meth[:body] = []
     @meth[:access] = :instance
     process args

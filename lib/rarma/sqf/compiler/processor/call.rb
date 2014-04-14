@@ -1,3 +1,4 @@
+require "securerandom"
 module Rarma::SQF::Compiler::Processor::Call
   def process_call exp
     Rarma.logger.debug("#{self} Processing call with #{exp}")
@@ -24,6 +25,8 @@ module Rarma::SQF::Compiler::Processor::Call
       key = a.script.join("").chomp
       @script << '(["get", %s] call %s)' % [key, left]
       Rarma.logger.debug "Hash access for #{left}, key #{key}"
+    elsif func == :private or func == :public or func == :protected
+      $ACCESS_MODIFIER = func
     elsif operands.include?(func.to_s)
       a = self.class.new
       a.process exp.shift
@@ -122,13 +125,31 @@ module Rarma::SQF::Compiler::Processor::Call
         #@script << a.script
       else
         if a.script.count > 0
-          @script << "([%s] call %s)" % [a.script.join(", "), func]
+          if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
+            rvar = "_pls_fix_macro_#{SecureRandom.hex}"
+            @script << <<-SQF
+              private "#{rvar}"; #{rvar} = [#{a.script.join(", ")}]; MEMBER("#{func}",#{rvar});
+            SQF
+          elsif $current_class.is_a?Rarma::SQF::Compiler::Script::Module
+            @script << '["%s", [%s]] call %s' % [func, a.script.join(", "), $current_class]
+          else
+            @script << "([%s] call %s)" % [a.script.join(", "), func]
+          end
         else
           $VARIABLES ||= []
           if $VARIABLES.include? func
             @script << "%s" % func
           else
-            @script << "(call %s)" % func
+            if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
+              rvar = "_pls_fix_macro_#{SecureRandom.hex}"
+              @script << <<-SQF
+                MEMBER("#{func}",nil);
+              SQF
+            elsif $current_class.is_a?Rarma::SQF::Compiler::Script::Module
+              @script << '["%s"] call %s' % [func, $current_class]
+            else
+              @script << "(call %s)" % [func]
+            end
           end
         end
       end
