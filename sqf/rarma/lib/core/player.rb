@@ -1,6 +1,7 @@
 # represents a (human) player unit
 class Rarma::Player < Rarma::SQFObject
-  attr_accessor :selected_units
+  attr_accessor :selected_units, :magazines
+  attr_reader :this
 
   # create player object with given netid or
   # if no id is given create the object as
@@ -9,7 +10,7 @@ class Rarma::Player < Rarma::SQFObject
   # ==== Arguments
   #
   # * +_netid+ - net id of the player
-  # 
+  #
   # ==== Example
   #   # create player from netid
   #   player = Player.new(123)
@@ -28,5 +29,10 @@ class Rarma::Player < Rarma::SQFObject
   # returns the selected units in the group of the player
   def selected_units
     @selected_units = SQF.groupSelectedUnits @this
+  end
+
+  def classname
+    @classname ||= SQF.typeOf @this
+    @classname
   end
 end

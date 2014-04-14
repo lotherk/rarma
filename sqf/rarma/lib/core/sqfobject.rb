@@ -1,6 +1,6 @@
 class Rarma::SQFObject
-  attr_accessor :posATL, :posASL, :dir, :damage, :alive, :simulation, :name,
-  :special, :group, :vehicle_var_name, :ammo
+  attr_accessor :posATL, :posASL, :dir, :damage, :alive, :simulated, :name,
+  :special, :group, :vehicle_var_name
   attr_reader :variables, :netid, :classname, :side, :this
 
   # ====Arguments
@@ -14,7 +14,7 @@ class Rarma::SQFObject
     @alive = false
     @variables = {}
     @simulation = false
-    @special = "NONE"
+    @special = "FORM"
     @side = SQF.CIVILIAN
     @this = nil
   end
@@ -45,28 +45,80 @@ class Rarma::SQFObject
   # * +_pos+ - position in the form of an array [x,y,z]
   __alias :setPos
   def setPosASL _pos
+    @posASL = _pos
     SQF.setPosASL @this, _pos
+    @posATL = SQF.getPosATL @this
   end
 
   # sets the position of the object, relative to the terrain
   # ==== Arguments
   # * +_pos+ - position in the form of an array [x,y,z]
   def setPosATL _pos
+    @posATL = _pos
     SQF.setPosATL @this, _pos
+    @posASL = SQF.getPosASL @this
+  end
+
+  __alias :pos
+  def posASL
+    _pos = SQF.getPosASL @this
+    @posASL = _pos
+    @posASL
+  end
+
+  def posATL
+    _pos = SQF.getPosATL @this
+    @posATL = _pos
+    @posATL
+  end
+
+  def dir
+    _dir = SQF.getDir @this
+    @dir = _dir
+    @dir
+  end
+
+  def damage
+    _damage = SQF.damage @this
+    @damage = _damage
+    @damage
+  end
+
+  __alias :alive?
+  def alive
+    _alive = SQF.alive @this
+    @alive = _alive
+    @alive
+  end
+
+  __alias :simulated?
+  def simulated
+    _simulated = SQF.simulationEnabled @this
+    @simulated = _simulated
+    @simulated
+  end
+
+  def group
+    _group = SQF.group @this
+    @group = _group
+    @group
   end
 
   # sets the direction the object is facing to.
   # ==== Arguments
   # * +_dir+ - integer value between 0 and 360
   def setDir _dir
+    @dir = _dir
     SQF.setDir @this, _dir
   end
 
   def setDamage _damage
+    @damage = _damage
     SQF.setDamage @this, _damage
   end
 
   def enableSimulation _sim
+    @simulated = _sim
     SQF.enableSimulation @this, _sim
   end
 
@@ -79,7 +131,7 @@ class Rarma::SQFObject
     SQF.setVehicleVarName @this, _name
   end
 
-  # Sets id (integer value) to vehicle. By this id vehicle is referenced by triggers and waypoints. 
+  # Sets id (integer value) to vehicle. By this id vehicle is referenced by triggers and waypoints.
   # ==== Arguments
   # * +_id+ - the integer id
   def setVehicleId _id
@@ -88,7 +140,8 @@ class Rarma::SQFObject
   end
 
   def vehicleVarName
-    @vehicle_var_name = SQF.vehicleVarName @this
+    _vehicle_var_name = SQF.vehicleVarName @this
+    @vehicle_var_name = _vehicle_var_name
   end
 
   def setVehicleAmmo _ammo
