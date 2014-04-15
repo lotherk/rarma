@@ -1,23 +1,25 @@
 # Represents a unit in the game world
 class Rarma::Unit < Rarma::SQFObject
-  attr_accessor :group, :score, :rating, :rank, :weapons, :magazines,
+  attr_accessor :group, :rating, :rank, :weapons, :magazines,
     :skill, :subskills, :unitpos, :uniform, :vest, :headgear, :items,
-    :waypoints, :formation_pos, :linked_items, :primary_weapon, :secondary_weapon,
+    :formation_pos, :assigned_items, :primary_weapon, :secondary_weapon,
     :handgun, :primary_weapon_items, :secondary_weapon_items, :handgun_items,
-    :ammo
+    :name, :ammo
   attr_reader :this
 
-  def initialize
-    @score = 0
-    @weapons = []
-    @magazines = []
-    @items = []
-    @waypoints = []
-    @subskills = []
-    @linked_items = []
-    @primary_weapon_items = []
-    @secondary_weapon_items = []
-    @handgun_items = []
+  def initialize _classname, _side
+    @classname = _classname
+    @side = _side
+   # @score = 0
+   # @weapons = []
+   # @magazines = []
+   # @items = []
+   # @waypoints = []
+   # @subskills = []
+   # @linked_items = []
+   # @primary_weapon_items = []
+   # @secondary_weapon_items = []
+   # @handgun_items = []
   end
 
   # actually create unit
@@ -27,18 +29,43 @@ class Rarma::Unit < Rarma::SQFObject
   # * +_special+ - string, defining a special spawn mode. Might be "NONE", "FORM",
   #   "CAN_COLLIDE" or "FLY"
   def create _marker=[], _special="FORM"
-    raise "No side set" unless @side
+    #raise "No side set" unless @side
     @group ||= Rarma::Group.new(@side)
-    @this = SQF.createUnit @group, @classname, @posATL, _marker.to_a, 0, _special
+    _grp = @group.this
+    _mrka = _marker.to_a
+    @this = SQF.createUnit _grp, @classname, @posATL, _mrka, 0, _special
+    updateUnit
   end
 
-  # adds a score, shown on the score board in MP, to the unit
-  # negative values substract from the score
-  # ==== Arguments
-  # * +_score+ - integer value, score to add
-  def addScore _score
-    @score = _score
-    SQF.addScore @this, _score
+  #--
+  # See sqfobject.rb updateObject for details
+  # about this fucked up function name
+  #++
+  def updateUnit
+    # dirty hack
+    _checkthis = @this
+    unless _checkthis.nil?
+       updateObject
+       @skill = SQF.skill @this
+       @weapons = SQF.weapons @this
+       @magazines = SQF.magazines @this
+       @items = SQF.items @this
+       @assigned_items = SQF.assignedItems @this
+       @rating = SQF.rating @this
+       @rank = SQF.rank @this
+       @unitpos = SQF.unitPos @this
+       @uniform = SQF.uniform @this
+       @vest = SQF.vest @this
+       @headgear = SQF.headgear @this
+       @formation_pos = SQF.formationPosition @this
+       @primary_weapon = SQF.primaryWeapon @this
+       @secondary_weapon = SQF.secondaryWeapon @this
+       @handgun = SQF.handgunWeapon @this
+       @primary_weapon_items = SQF.primaryWeaponItems @this
+       @secondary_weapon_items = SQF.secondaryWeaponItems @this
+       @handgun_items = SQF.handgunItems @this
+       @ammo = SQF.ammo @this, @primary_weapon
+    end
   end
 
   def addRating _rating
@@ -73,6 +100,12 @@ class Rarma::Unit < Rarma::SQFObject
   def addMagazines _mag, _count
     SQF.addMagazine @this, _mag, _count
     @magazines = SQF.magazines @this
+  end
+
+  def magazines
+    _mags = SQF.magazines @this
+    @magazines = _mags
+    @magazines
   end
 
   # sets the skill of the unit. This method allows either
@@ -136,6 +169,24 @@ class Rarma::Unit < Rarma::SQFObject
   # * +_count+ - the new roundcount of the magazine
   def setAmmo _wep, _count
     SQF.setAmmo @this, _wep, _count
+  end
+
+  __alias :name=
+  def setIdentity _name
+    @name = _name
+    SQF.setIdentity @this, _name
+  end
+
+  def assignItem _item
+  end
+
+  def unassignItem _item
+  end
+
+  def linkItem _item
+  end
+
+  def unlinkItem _item
   end
 
 end

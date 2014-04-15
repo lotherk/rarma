@@ -1,6 +1,6 @@
 # represents a (human) player unit
 class Rarma::Player < Rarma::Unit
-  attr_accessor :selected_units
+  attr_accessor :selected_units, :score
   attr_reader :this
 
   # create player object with given netid or
@@ -24,6 +24,8 @@ class Rarma::Player < Rarma::Unit
     else
       @this = SQF.player
     end
+
+    @score = SQF.score @this
   end
 
   # returns the selected units in the group of the player
@@ -35,4 +37,14 @@ class Rarma::Player < Rarma::Unit
     @classname ||= SQF.typeOf @this
     @classname
   end
+
+  # adds a score, shown on the score board in MP, to player
+  # negative values substract from the score
+  # ==== Arguments
+  # * +_score+ - integer value, score to add
+  def addScore _score
+    @score = _score
+    SQF.addScore @this, _score
+  end
+
 end

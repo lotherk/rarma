@@ -1,22 +1,43 @@
 class Rarma::SQFObject
-  attr_accessor :posATL, :posASL, :dir, :damage, :alive, :simulated, :name,
-  :special, :group, :vehicle_var_name
+  attr_accessor :posATL, :posASL, :dir, :damage, :alive, :simulated,
+  :special, :group, :vehicle_var_name, :ammo, :pos
   attr_reader :variables, :netid, :classname, :side, :this
 
   # ====Arguments
   # * +_classname+ - classname of the object
   def initialize _classname=nil
     @classname = _classname
-    @posASL = [0,0,0]
-    @posATL = [0,0,0]
-    @dir = 0
-    @damage = 0
-    @alive = false
+   # @posASL = [0,0,0]
+   # @posATL = [0,0,0]
+   # @dir = 0
+   # @damage = 0
+   # @alive = false
     @variables = {}
-    @simulation = false
+   # @simulation = false
     @special = "FORM"
     @side = SQF.CIVILIAN
-    @this = nil
+   # @this = nil
+  end
+
+  #--
+  # nasty function name, i'd love to
+  # call it just update and call super.update
+  # in all subclasses...
+  #++
+  def updateObject
+    _checkthis = @this
+    unless _checkthis.nil?
+      @posASL = SQF.getPosASL @this
+      @pos = @posASL
+      @posATL = SQF.getPosATL @this
+      @dir = SQF.getDir @this
+      @damage = SQF.damage @this
+      @alive = SQF.alive @this
+      @simulated = SQF.simulationEnabled @this
+      @name = SQF.name @this
+      @group = SQF.group @this
+      @vehicle_var_name = SQF.vehicleVarName @this
+    end
   end
 
   # sets a variable to the object
@@ -104,6 +125,7 @@ class Rarma::SQFObject
     @group
   end
 
+  __alias :dir=
   # sets the direction the object is facing to.
   # ==== Arguments
   # * +_dir+ - integer value between 0 and 360
@@ -112,11 +134,14 @@ class Rarma::SQFObject
     SQF.setDir @this, _dir
   end
 
+
+  __alias :damage=
   def setDamage _damage
     @damage = _damage
     SQF.setDamage @this, _damage
   end
 
+  __alias :simulation=
   def enableSimulation _sim
     @simulated = _sim
     SQF.enableSimulation @this, _sim
@@ -126,11 +151,14 @@ class Rarma::SQFObject
     SQF.addEventHandler @this, _type, _code
   end
 
+
+  __alias :vehicle_var_name=
   def setVehicleVarName _name
     @vehicle_var_name = _name
     SQF.setVehicleVarName @this, _name
   end
 
+  __alias :vehicle_id=
   # Sets id (integer value) to vehicle. By this id vehicle is referenced by triggers and waypoints.
   # ==== Arguments
   # * +_id+ - the integer id
@@ -139,18 +167,19 @@ class Rarma::SQFObject
     SQF.setVehicleId @this, _id
   end
 
+  __alias :vehicle_var_name
   def vehicleVarName
     _vehicle_var_name = SQF.vehicleVarName @this
     @vehicle_var_name = _vehicle_var_name
   end
 
+  __alias :ammo=
   def setVehicleAmmo _ammo
-    @ammo = _ammo
     SQF.setVehicleAmmo @this, _ammo
   end
 
+  __alias :ammo_def=
   def setVehicleAmmoDef _ammo
-    @ammo = _ammo
     SQF.setVehicleAmmoDef @this, _ammo
   end
 

@@ -11,7 +11,7 @@ class Rarma::Group
   # Returns the group
   def initialize _side
     @side = _side
-    @this = SQF.createGroup @side
+    @this = SQF.createGroup _side
     @waypoints = []
   end
 
@@ -58,7 +58,7 @@ class Rarma::Group
   # ==== Arguments
   # * +_num+ - integer index of waypoint to remove
   def delete_waypoint _num
-    SQF.deleteWaypoint @this, _num
+    SQF.deleteWaypoint [@this, _num].to_a
   end
 
   # returns the index of the current waypoint

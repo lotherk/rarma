@@ -1,5 +1,7 @@
+<% @methss = [] %>
 <% @classes.each do |c| -%>
  <% c.meths.each do |m| -%>
+ <%   @methss << m[:name].to_s %>
  <%   next if m[:access] != :static -%>
  <%= c -%>_fnc_<%= m[:name] -%> = {
  <%= ERB.new(load_template("method"), nil, "-",eoutvar='_subm10').result(binding) -%>
@@ -32,6 +34,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
     <%- end -%>
 <%   end -%>
 <%  c.vars.each do |v| -%>
+<%    next if @methss.include? v[:name].to_s %>
 <%    if v[:access] == :accessor or v[:access] == :reader -%>
     PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("__<%= v[:name] -%>");
 <%    end -%>
