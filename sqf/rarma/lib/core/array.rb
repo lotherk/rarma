@@ -3,10 +3,7 @@ class Rarma::Array
   attr_reader :dataset
 
   __native :initialize
-  #--
-  # dummy param needed for "any" in sqf class >:| grrrrr.....
-  #++
-  def initialize _dummy
+  def initialize
      <<-SQF
      private ["_default", "_def"];
      _def = [];

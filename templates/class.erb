@@ -23,7 +23,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%  end -%>
 <%   c.meths.each do |m| -%>
 <%   next if m[:access] != :instance -%>
-    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= m[:name] -%>") {
+    <%= m[:sig].upcase -%> FUNCTION("any", "<%= m[:name] -%>") {
 <%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
     };
     <%- m[:aliases].each do |a| -%>
@@ -36,7 +36,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%  c.vars.each do |v| -%>
 <%    next if @methss.include? v[:name].to_s %>
 <%    if v[:access] == :accessor or v[:access] == :reader -%>
-    PUBLIC FUNCTION("", "<%= v[:name] -%>") FUNC_GETVAR("__<%= v[:name] -%>");
+    PUBLIC FUNCTION("any", "<%= v[:name] -%>") FUNC_GETVAR("__<%= v[:name] -%>");
 <%    end -%>
 <%    if v[:access] == :accessor or v[:access] == :writer -%>
     PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("__<%= v[:name] -%>", _this); };
