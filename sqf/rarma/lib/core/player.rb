@@ -1,6 +1,6 @@
 # represents a (human) player unit
-class Rarma::Player < Rarma::SQFObject
-  attr_accessor :selected_units, :magazines
+class Rarma::Player < Rarma::Unit
+  attr_accessor :selected_units
   attr_reader :this
 
   # create player object with given netid or

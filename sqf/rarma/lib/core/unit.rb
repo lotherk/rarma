@@ -3,7 +3,8 @@ class Rarma::Unit < Rarma::SQFObject
   attr_accessor :group, :score, :rating, :rank, :weapons, :magazines,
     :skill, :subskills, :unitpos, :uniform, :vest, :headgear, :items,
     :waypoints, :formation_pos, :linked_items, :primary_weapon, :secondary_weapon,
-    :handgun, :primary_weapon_items, :secondary_weapon_items, :handgun_items
+    :handgun, :primary_weapon_items, :secondary_weapon_items, :handgun_items,
+    :ammo
   attr_reader :this
 
   def initialize
@@ -125,6 +126,16 @@ class Rarma::Unit < Rarma::SQFObject
   def addHandgunItem _item
     SQF.addHandgunItem @this, _item
     @handgun_items = SQF.handgunItems @this
+  end
+
+  # sets the roundcount of the currently loaded
+  # magazine of the suplied weapon
+  # ==== Arguments
+  # * +_wep+ - the weapon of which the currently loaded magazine
+  #   should be changed
+  # * +_count+ - the new roundcount of the magazine
+  def setAmmo _wep, _count
+    SQF.setAmmo @this, _wep, _count
   end
 
 end

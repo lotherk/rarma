@@ -5,7 +5,7 @@ class Rarma::Proc
     @code = _code
   end
 
-  def call _args = []
+  def call _args=[]
     SQF.call _args, @code
   end
 
