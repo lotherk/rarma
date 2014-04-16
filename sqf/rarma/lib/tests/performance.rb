@@ -13,9 +13,11 @@ module Rarma::Performance
 
     _stop = diag_tickTime;
     _time = _stop - _start;
+    _avg = _time / _cycles;
 
     if(_log) then {
-      LOGGER_DEBUG(format ["%1 cycles of %2 needed %3 ms to run.", _cycles, _code, _time]);
+      _str = format ["%1 cycles of %2 needed %3 ms to run. Average: %4", _cycles, _code, _time, _avg];
+      LOGGER_DEBUG(_str);
     };
 
     _time
