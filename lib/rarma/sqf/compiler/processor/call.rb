@@ -98,6 +98,24 @@ module Rarma::SQF::Compiler::Processor::Call
         @script << '(%s %s)' % [func, a.script.join(", ").strip.chomp]
       end
       #raise "HAHA #{func}, #{left}"
+    elsif left.strip == "Macro"
+      a = self.class.new
+      while exp.count > 0
+        a.process exp.shift
+      end
+      if a.script.count == 1
+        code = a.script[0]
+        lvar = "_pls_fix_macro_#{SecureRandom.hex}"
+        @script << <<-SQF
+        private "#{lvar}";
+        #{lvar} = #{code};
+        #{func.to_s}(#{lvar});
+        SQF
+      else
+        Rarma.logger.warning "Can't handle Macro with multiple statements."
+      end
+      exp.shift
+      #sqf macro
     else
 #      @script << "#{func} moep"
       a = self.class.new
@@ -128,8 +146,8 @@ module Rarma::SQF::Compiler::Processor::Call
           if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
             rvar = "_pls_fix_macro_#{SecureRandom.hex}"
             @script << <<-SQF
-              private "#{rvar}"; 
-              #{rvar} = [#{a.script.join(", ")}]; 
+              private "#{rvar}";
+              #{rvar} = [#{a.script.join(", ")}];
               MEMBER("#{func}",#{rvar});
               #{rvar} = nil;
             SQF

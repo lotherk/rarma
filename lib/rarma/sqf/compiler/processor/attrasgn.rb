@@ -15,7 +15,7 @@ module Rarma::SQF::Compiler::Processor::Attrasgn
       a.process exp.shift
       @script << '(["set", [%s,%s]] call %s)' % [val, a.script.join(""), obj]
     else
-      @script << '(["%s", [%s]] call %s)' % [attr, val, obj]
+      @script << '(["%s", %s] call %s)' % [attr, val, obj]
     end
     require 'pp'
     while exp.count > 0
