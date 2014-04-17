@@ -64,11 +64,11 @@ class Rarma::SQFObject
   # sets the position of the object
   # ==== Arguments
   # * +_pos+ - position in the form of an array [x,y,z]
-  __alias :setPos
+  __alias :setPos, :pos=
   def setPosASL _pos
     @posASL = _pos
+    @posATL = SQF.ASLToATL _pos
     SQF.setPosASL @this, _pos
-    @posATL = SQF.getPosATL @this
   end
 
   # sets the position of the object, relative to the terrain
@@ -76,26 +76,23 @@ class Rarma::SQFObject
   # * +_pos+ - position in the form of an array [x,y,z]
   def setPosATL _pos
     @posATL = _pos
+    @posASL = SQF.ATLToASL _pos
     SQF.setPosATL @this, _pos
-    @posASL = SQF.getPosASL @this
   end
 
   __alias :pos
   def posASL
-    _pos = SQF.getPosASL @this
-    @posASL = _pos
+    @posASL = SQF.getPosASL @this
     @posASL
   end
 
   def posATL
-    _pos = SQF.getPosATL @this
-    @posATL = _pos
+    @posATL = SQF.getPosATL @this
     @posATL
   end
 
   def dir
-    _dir = SQF.getDir @this
-    @dir = _dir
+    @dir = SQF.getDir @this
     @dir
   end
 

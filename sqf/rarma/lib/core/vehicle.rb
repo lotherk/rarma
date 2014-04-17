@@ -18,9 +18,10 @@ class Rarma::Vehicle < Rarma::SQFObject
   __native :create
   def create _marker=[], _special="FORM"
     <<-SQF
+    private ["_marker", "_classname", "_pos", "_vec", "_special"];
     _marker = ["to_a"] call _marker;
     _classname = call compile GETVAR("__classname");
-    _pos = call compile GETVAR("__posATL");
+    _pos = call compile GETVAR("__posASL");
 
     _vec = createVehicle [_classname, _pos, _marker, 0, _special];
     MEMBER("__this", _vec);
@@ -29,38 +30,33 @@ class Rarma::Vehicle < Rarma::SQFObject
 
   # returns the driver of the vehicle
   def driver
-    _driver = SQF.driver @this
-    @driver = _driver
+    @driver = SQF.driver @this
     @driver
   end
 
   # returns the gunner of the vehicle
   def gunner
-    _gunner = SQF.gunner @this
-    @gunner = _gunner
+    @gunner = SQF.gunner @this
     @gunner
   end
 
   # returns the commander of the vehicle
   def commander
-    _commander = SQF.commander @this
-    @commander = _commander
+    @commander = SQF.commander @this
     @commander
   end
 
   # returns all units in the vehicle in the format:
   # [driver, gunner, commander, turrets, cargo]
   def crew
-    _crew = SQF.crew @this
-    @crew = _crew
+    @crew = SQF.crew @this
     @crew
   end
 
   # returns the amount of fuel left in the gas tank
   # of a vehicle
   def fuel
-    _fuel = SQF.fuel @this
-    @fuel = _fuel
+    @fuel = SQF.fuel @this
     @fuel
   end
 

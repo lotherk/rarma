@@ -17,22 +17,19 @@ class Rarma::Group
 
   # returns an array of units which are in the group
   def units
-    _units = SQF.units @this
-    @units = _units
+    @units = SQF.units @this
     @units
   end
 
   # returns the leader of the group
   def leader
-    _leader = SQF.leader @this
-    @leader = _leader
+    @leader = SQF.leader @this
     @leader
   end
 
   # returns and array of waypoints of this group
   def waypoints
-    _waypoints = SQF.waypoints @this
-    @waypoints = _waypoints
+    @waypoints = SQF.waypoints @this
     @waypoints
   end
 
@@ -64,8 +61,7 @@ class Rarma::Group
   # returns the index of the current waypoint
   __alias :current_waypoint
   def currentWaypoint
-    _curwp = SQF.currentWaypoint @this
-    @current_waypoint = _curwp
+    @current_waypoint = SQF.currentWaypoint @this
     @current_waypoint
   end
 
@@ -91,8 +87,7 @@ class Rarma::Group
 
   # returns the identification/callsign of the group
   def groupId
-    _groupid = SQF.groupID @this
-    @groupid = _groupid
+    @groupid = SQF.groupID @this
     @groupid
   end
 

@@ -33,7 +33,7 @@ class Rarma::Unit < Rarma::SQFObject
     @group ||= Rarma::Group.new(@side)
     _grp = @group.this
     _mrka = _marker.to_a
-    @this = SQF.createUnit _grp, @classname, @posATL, _mrka, 0, _special
+    @this = SQF.createUnit _grp, @classname, @posASL, _mrka, 0, _special
     updateUnit
   end
 
@@ -103,8 +103,7 @@ class Rarma::Unit < Rarma::SQFObject
   end
 
   def magazines
-    _mags = SQF.magazines @this
-    @magazines = _mags
+    @magazines = SQF.magazines @this
     @magazines
   end
 

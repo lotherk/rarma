@@ -26,11 +26,13 @@ class Rarma::Player < Rarma::Unit
     end
 
     @score = SQF.score @this
+    updateUnit
   end
 
   # returns the selected units in the group of the player
   def selected_units
     @selected_units = SQF.groupSelectedUnits @this
+    @selected_units
   end
 
   def classname
