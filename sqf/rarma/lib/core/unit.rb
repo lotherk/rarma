@@ -42,7 +42,7 @@ class Rarma::Unit < Rarma::SQFObject
   # about this fucked up function name
   #++
   def updateUnit
-    # dirty hack
+    # dirty hack, see issue #6
     _checkthis = @this
     unless _checkthis.nil?
        updateObject
@@ -177,15 +177,19 @@ class Rarma::Unit < Rarma::SQFObject
   end
 
   def assignItem _item
+    SQF.assignItem @this, _item
   end
 
   def unassignItem _item
+    SQF.unassignItem @this, _item
   end
 
   def linkItem _item
+    SQF.linkItem @this, _item
   end
 
   def unlinkItem _item
+    SQF.unlinkItem @this, _item
   end
 
 end

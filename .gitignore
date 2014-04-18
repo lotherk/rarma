@@ -18,3 +18,4 @@ tmp
 *.rb.sqf
 *.pyc
 python/rarma/.idea
+count-lines.sh
