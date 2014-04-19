@@ -21,6 +21,11 @@ class Rarma::Group
     @units
   end
 
+  def leader= _leader
+    @leader = _leader
+    SQF.setLeader @this, _leader
+  end
+
   # returns the leader of the group
   def leader
     @leader = SQF.leader @this
@@ -34,7 +39,7 @@ class Rarma::Group
   end
 
   # adds a waypoint for the group
-  def addWaypoint _center, _radius, _index=-1
+  def add_waypoint _center, _radius, _index=-1
     if _index == -1
       _wp = Rarma::Waypoint.new @this, _center, _radius
     else
@@ -59,20 +64,21 @@ class Rarma::Group
   end
 
   # returns the index of the current waypoint
-  __alias :current_waypoint
-  def currentWaypoint
+  __alias :currentWaypoint
+  def current_waypoint
     @current_waypoint = SQF.currentWaypoint @this
     @current_waypoint
   end
 
   # sets the index for the current waypoint
-  def setCurrentWaypoint _wp
+  def current_waypoint= _wp
     @current_waypoint = _wp
     SQF.setCurrentWaypoint @this, _wp
   end
 
   # disable switching to the next waypoint
-  def lockWP _lock
+  __alias :lockWP
+  def lock_wp _lock
     @lockWP = _lock
     SQF.lockWP @this, _lock
   end
@@ -80,13 +86,15 @@ class Rarma::Group
   # sets the group id (callsign)
   # ==== Arguments
   # * +_id+ - identification/name/callsign of the group as a string
-  def setGroupId _id
+  __alias :setGroupId
+  def groupid= _id
     @groupid = _id
     SQF.setGroupId @this, _id
   end
 
   # returns the identification/callsign of the group
-  def groupId
+  __alias :groupId
+  def groupid
     @groupid = SQF.groupID @this
     @groupid
   end
