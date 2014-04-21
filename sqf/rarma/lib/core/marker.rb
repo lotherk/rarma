@@ -10,17 +10,38 @@ class Rarma::Marker
     @dir = _dir
   end
 
+  __native :create
   def create _local=false
-    @local = _local
-    unless _local
-      @this = SQF.createMarker @name, @pos
-      SQF.setMarkerShape @this, @shape
-      SQF.setMarkerType @this, @type
-    else
-      @this = SQF.createMarkerLocal @name, @pos
-      SQF.setMarkerShapeLocal @this, @shape
-      SQF.setMarkerTypeLocal @this, @type
-    end
+    <<-SQF
+    private ["_local", "_name", "_pos", "_shape", "_type", "_mrk"];
+    _local = RPARAM(false);
+    _name = MEMBER("__name", nil);
+    _pos = MEMBER("__pos", nil);
+    _shape = MEMBER("__shape", nil);
+    _type = MEMBER("__type", nil);
+    if(_local) then {
+      _mrk = createMarkerLocal [_name, _pos]
+      _mrk setMarkerShapeLocal _shape;
+      _mrk setMarkerTypeLocal _type;
+      MEMBER("__this", _mrk);
+
+    } else {
+      _mrk = createMarker [_name, _pos]
+      _mrk setMarkerShape _shape;
+      _mrk setMarkerType _type;
+      MEMBER("__this", _mrk);
+    };
+    SQF
+   # @local = _local
+   # unless _local
+   #   @this = SQF.createMarker [@name, @pos]
+   #   SQF.setMarkerShape @this, @shape
+   #   SQF.setMarkerType @this, @type
+   # else
+   #   @this = SQF.createMarkerLocal [@name, @pos]
+   #   SQF.setMarkerShapeLocal @this, @shape
+   #   SQF.setMarkerTypeLocal @this, @type
+   # end
   end
 
   def delete
@@ -125,7 +146,7 @@ class Rarma::Marker
   end
 
   def brush
-    @brush = SQF.markerBrush
+    @brush = SQF.markerBrush @this
     @brush
   end
 
@@ -139,7 +160,7 @@ class Rarma::Marker
   end
 
   def alpha
-    @alpha = SQF.markerAlpha
+    @alpha = SQF.markerAlpha @this
     @alpha
   end
 
