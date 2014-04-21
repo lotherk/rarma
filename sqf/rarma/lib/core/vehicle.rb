@@ -61,14 +61,16 @@ class Rarma::Vehicle < Rarma::SQFObject
   end
 
   # creates the crew (AI units) for the vehicle
-  def createVehicleCrew
+  __alias :createVehicleCrew
+  def create_crew
     SQF.createVehicleCrew @this
   end
 
   # sets the amount of fuel of the vehicle.
   # ==== Arguments
   # * +_fuel+ - amount of fuel. Value between 0 (empty) and 1 (full)
-  def setFuel _fuel
+  __alias :setFuel
+  def fuel= _fuel
     @fuel = _fuel
     SQF.setFuel @this, _fuel
   end
@@ -77,7 +79,8 @@ class Rarma::Vehicle < Rarma::SQFObject
   # a refueling vehicle
   # ==== Arguments
   # * +_fuel+ - amount of fuel in the cargo space. Value between 0 and 1
-  def setFuelCargo _fuel
+  __alias :setFuelCargo
+  def fuel_cargo= _fuel
     @fuel_cargo = _fuel
     SQF.setFuelCargo @this, _fuel
   end
@@ -85,7 +88,8 @@ class Rarma::Vehicle < Rarma::SQFObject
   # sets the lock of the vehicle
   # ==== Arguments
   # * +_lock+ - Set how vehicle is locked for player. Possible values: "UNLOCKED", "DEFAULT" or "LOCKED".
-  def setVehicleLock _lock
+  __alias :setVehicleLock
+  def lock= _lock
     @lock = _lock
     SQF.setVehicleLock @this, _lock
   end
@@ -93,7 +97,8 @@ class Rarma::Vehicle < Rarma::SQFObject
   # sets the armor of a vehicle
   # ==== Arguments
   # * +_armor+ - Sets the armor state of the vehicle (a value from 0 to 1).
-  def setVehicleArmror _armor
+  __alias :setVehicleArmror
+  def armor= _armor
     @armor = _armor
     SQF.setVehicleArmor @this, _armor
   end
@@ -101,16 +106,19 @@ class Rarma::Vehicle < Rarma::SQFObject
   # sets the velocity vector of the vehicle
   # ==== Arguments
   # * +_velo+ - velocity vector
-  def setVelocity _velo
+  __alias :setVelocity
+  def velocity= _velo
     @velocity = _velo
     SQF.setVelocity @this, _velo
   end
 
-  def setVehiclePosition _position, _markers, _placement
+  __alias :setVehiclePosition
+  def random_position  _position, _markers, _placement
     SQF.setVehiclePosition @this, _position, _markers, _placement
   end
 
-  def setVehicleTiPars _pars
+  __alias :setVehicleTiPars
+  def ti_parameters= _pars
     SQF.setVehicleTiPars @this, _pars
   end
 
