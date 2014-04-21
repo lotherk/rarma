@@ -34,18 +34,18 @@ class Rarma::Unit < Rarma::SQFObject
     _grp = @group.this
     _mrka = _marker.to_a
     @this = SQF.createUnit _grp, @classname, @posASL, _mrka, 0, _special
-    updateUnit
+    update_unit
   end
 
   #--
   # See sqfobject.rb updateObject for details
   # about this fucked up function name
   #++
-  def updateUnit
+  def update_unit
     # dirty hack, see issue #6
     _checkthis = @this
     unless _checkthis.nil?
-       updateObject
+       update_object
        @skill = SQF.skill @this
        @weapons = SQF.weapons @this
        @magazines = SQF.magazines @this
@@ -68,7 +68,7 @@ class Rarma::Unit < Rarma::SQFObject
     end
   end
 
-  def addRating _rating
+  def add_rating _rating
     @rating = _rating
     SQF.addRating @this, _rating
   end
@@ -76,7 +76,8 @@ class Rarma::Unit < Rarma::SQFObject
   # sets a rank for the unit
   # ==== Arguments
   # * +_rank+ - the rank to set the unit to
-  def setRank _rank
+  __alias :setRank
+  def rank= _rank
     @rank = _rank
     SQF.setRank @this, _rank
   end
@@ -84,7 +85,8 @@ class Rarma::Unit < Rarma::SQFObject
   # adds a weapon to the unit
   # ==== Arguments
   # * +_wep+ - the classname of the weapon to add
-  def addWeapon _wep
+  __alias :addWeapon
+  def add_weapon _wep
     SQF.addWeapon @this, _wep
     @weapons = SQF.weapons @this
   end
@@ -92,12 +94,14 @@ class Rarma::Unit < Rarma::SQFObject
   # adds a magazine to the unit
   # ==== Arguments
   # * +_mag+ - the classname of the magazine to add
-  def addMagazine _mag
+  __alias :addMagazine
+  def add_magazine _mag
     SQF.addMagazine @this, _mag
     @magazines = SQF.magazines @this
   end
 
-  def addMagazines _mag, _count
+  __alias :addMagazines
+  def add_magazines _mag, _count
     SQF.addMagazine @this, _mag, _count
     @magazines = SQF.magazines @this
   end
@@ -123,7 +127,8 @@ class Rarma::Unit < Rarma::SQFObject
   # spooky shit; ruby, Y U NO allow easy overloading?!
   # it's less code, though..
   #++
-  def setSkill *_args
+  __alias :setSkill
+  def skill= *_args
     if _args.count == 2
       SQF.setSkill @this, _args[0], _args[1]
       @skill = SQF.skill @this
@@ -139,7 +144,8 @@ class Rarma::Unit < Rarma::SQFObject
   # adds a weapon item to the primary weapon
   # ==== Arguments
   # * +_item+ - classname of the item to add to the primary weapon
-  def addPrimaryWeaponItem _item
+  __alias :addPrimaryWeaponItem
+  def add_primary_weapon_item _item
     SQF.addPrimaryWeaponItem @this, _item
     @primary_weapon_items = SQF.primaryWeaponItems @this
   end
@@ -147,7 +153,8 @@ class Rarma::Unit < Rarma::SQFObject
   # adds a weapon item to the secondary weapon
   # ==== Arguments
   # * +_item+ - classname of the item to add to the secondary weapon
-  def addSecondaryWeaponItem _item
+  __alias :addSecondaryWeaponItem
+  def add_secondary_weapon_item _item
     SQF.addSecondaryWeaponItem @this, _item
     @secondary_weapon_items = SQF.secondaryWeaponItems @this
   end
@@ -155,7 +162,8 @@ class Rarma::Unit < Rarma::SQFObject
   # adds a weapon item to the handgun
   # ==== Arguments
   # * +_item+ - classname of the item to add to the handgun
-  def addHandgunItem _item
+  __alias :addHandgunItem
+  def add_handgun_item _item
     SQF.addHandgunItem @this, _item
     @handgun_items = SQF.handgunItems @this
   end
@@ -166,29 +174,34 @@ class Rarma::Unit < Rarma::SQFObject
   # * +_wep+ - the weapon of which the currently loaded magazine
   #   should be changed
   # * +_count+ - the new roundcount of the magazine
-  def setAmmo _wep, _count
+  __alias :setAmmo
+  def ammo= _wep, _count
     SQF.setAmmo @this, _wep, _count
   end
 
-  __alias :name=
-  def setIdentity _name
+  __alias :name=, :setIdentity
+  def identity= _name
     @name = _name
     SQF.setIdentity @this, _name
   end
 
-  def assignItem _item
+  __alias :assignItem
+  def assign_item _item
     SQF.assignItem @this, _item
   end
 
-  def unassignItem _item
+  __alias :unassignItem
+  def unassign_item _item
     SQF.unassignItem @this, _item
   end
 
-  def linkItem _item
+  __alias :linkItem
+  def link_item _item
     SQF.linkItem @this, _item
   end
 
-  def unlinkItem _item
+  __alias :unlinkItem
+  def unlink_item _item
     SQF.unlinkItem @this, _item
   end
 
