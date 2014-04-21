@@ -107,4 +107,9 @@ class Rarma::Array
   def includes? _m
     SQF.in _m, @dataset
   end
+
+  def count
+    SQF.count @dataset
+  end
+
 end
