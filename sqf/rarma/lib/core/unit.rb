@@ -10,6 +10,7 @@ class Rarma::Unit < Rarma::SQFObject
   def initialize _classname, _side
     @classname = _classname
     @side = _side
+    @skill = 0.5
    # @score = 0
    # @weapons = []
    # @magazines = []
