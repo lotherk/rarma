@@ -35,6 +35,8 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
 <%   end -%>
 <%  c.vars.each do |v| -%>
 <%    next if @methss.include? v[:name].to_s %>
+<%    next if @methss.include? (v[:name].to_s + "=") %>
+<%    next if @methss.include? (v[:name].to_s + "?") %>
 <%    if v[:access] == :accessor or v[:access] == :reader -%>
     PUBLIC FUNCTION("any", "<%= v[:name] -%>") FUNC_GETVAR("__<%= v[:name] -%>");
 <%    end -%>
