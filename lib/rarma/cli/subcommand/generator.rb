@@ -21,7 +21,7 @@ USAGE
     dst ||= "./generated"
     Rarma.logger.debug "Building filetree for #{src}..."
     files = {}
-    skippers = ["mission.rb", "description.rb", "init.rb"]
+    skippers = ["mission.rb", "description.rb", "init.rb", "parameters.rb"]
     Dir["#{src}/**/*.rb"].sort.each do |f|
       filename = f.gsub(/^#{src}\//, '')
       next if skippers.include?(filename)
@@ -54,6 +54,7 @@ USAGE
         load f
         $stdout = STDOUT
         stdout.rewind
+        Rarma.logger.debug "output for #{f}:\n#{stdout.read}"
       end
     end
   end
