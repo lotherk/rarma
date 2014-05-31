@@ -1,0 +1,3 @@
+module Rarma::Framework
+
+end
