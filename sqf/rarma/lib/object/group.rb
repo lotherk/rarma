@@ -99,4 +99,23 @@ class Rarma::Group
     @groupid
   end
 
+  __alias :combatMode
+  def combat_mode
+    SQF.combatMode @this
+  end
+
+  __alias :setCombatMode
+  def combat_mode= _mode
+    SQF.setCombatMode @this, _mode
+  end
+
+  def behaviour
+    SQF.behaviour @this
+  end
+
+  __alias :setBehaviour
+  def behaviour= _beh
+    SQF.setBehaviour @this, _beh
+  end
+
 end
