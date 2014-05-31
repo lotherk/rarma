@@ -79,7 +79,7 @@ module Rarma::SQF::Compiler::Processor::Call
         @current_class.vars << var
       end
     elsif func.to_s == 'nil?'
-      @script << '(isNil "%s")' % left
+      @script << '(isNil str(%s))' % left
     elsif func.to_s =~ /^__/
       # rarma preprocessor command
       ppcmd = "process_preprocessor_#{func.to_s.gsub(/^__/, '')}".to_sym
