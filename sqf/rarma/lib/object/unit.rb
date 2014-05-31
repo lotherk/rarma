@@ -206,4 +206,33 @@ class Rarma::Unit < Rarma::SQFObject
     SQF.unlinkItem @this, _item
   end
 
+  __alias :commandFire
+  def command_fire _target
+    SQF.commandFire @this, _target
+  end
+
+  __alias :doFire
+  def do_fire _target
+    SQF.doFire @this, _target
+  end
+
+  def fire _wep
+    SQF.fire @this, _wep
+  end
+
+  __alias :forceWeaponFire
+  def force_weapon_fire _wep
+    SQF.forceWeaponFire @this, _wep
+  end
+
+  __alias :selectWeapon
+  def select_weapon _wep
+    SQF.selectWeapon @this, _wep
+  end
+
+  __alias :combatMode
+  def combat_mode 
+    SQF.combatMode @this
+  end
+
 end
