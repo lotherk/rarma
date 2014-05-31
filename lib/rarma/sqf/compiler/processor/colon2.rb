@@ -11,6 +11,7 @@ module Rarma::SQF::Compiler::Processor::Colon2
         result << cur
       end
     end
+    Rarma.logger.debug  result.flatten.join("_")
     @script << result.flatten.join("_")
     exp
   end

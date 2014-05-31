@@ -31,7 +31,7 @@ module Rarma::SQF::Compiler::Processor::Iter
 #    raise "foo"
     block << "\n}"
     line = a.script.join("")
-    line = line.sub(/"\]/, "\", [#{block.join("\n")}]]")
+    line = line.sub(/\](?!.*\])/, "\", [#{block.join("\n")}]]")
     require 'pp'
 #    @script << "[#{block.join("\n")}] call #{a.script.join("")}"
     @script << line   

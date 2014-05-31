@@ -124,6 +124,9 @@ module Rarma::SQF::Compiler::Processor::Call
         if cur.is_a? Sexp
           Rarma.logger.debug("#{self} Processing nested Sexp: #{cur}")
           a.process cur
+          if cur[0] == :colon2
+#            @script << a.script.flatten.join("_") + "FOO"
+          end
         else
           Rarma.logger.debug "cur is a #{cur.class} => #{cur}"
         end

@@ -1,6 +1,8 @@
 module Rarma::SQF::Compiler::Processor::Const
   def process_const exp
-   @script << exp.shift.to_s
+   const = exp.shift.to_s
+   Rarma.logger.debug const
+   @script << const
    exp
   end
 end
