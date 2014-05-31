@@ -32,7 +32,7 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
     /**
      * Alias method for #<%= m[:name] %>
      */
-    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= a -%>") { MEMBER("<%= m[:name] -%>", _this); };
+    <%= m[:sig].upcase -%> FUNCTION("<%= m[:type].downcase -%>", "<%= a -%>") { MEMBER("<%= m[:name] -%>", _this); (call compile GETVAR("<%= m[:name] -%>")) };
     <%- end -%>
 <%   end -%>
 <%  c.vars.each do |v| -%>
