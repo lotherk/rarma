@@ -15,7 +15,7 @@ module Rarma::SQF::Compiler::Processor::Iasgn
       @script << 'private "%s"; %s = %s' % [rval, rval, val]
       val = rval
     end
-    @script << 'MEMBER("%s", %s)' % [name, val]
+    @script << '(MEMBER("%s", %s); %s)' % [name, val, name]
     exp
   end
 end
