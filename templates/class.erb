@@ -26,7 +26,9 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
     <%= m[:sig].upcase -%> FUNCTION("any", "<%= m[:name] -%>") {
 <%= ERB.new(load_template("method"), nil, "-",eoutvar='_sub09').result(binding) -%>
     };
-    <%- m[:aliases].each do |a| -%>
+    <%- m[:aliases].each do |a|
+        @methss << a.to_s
+    -%>
     /**
      * Alias method for #<%= m[:name] %>
      */
@@ -34,13 +36,10 @@ CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
     <%- end -%>
 <%   end -%>
 <%  c.vars.each do |v| -%>
-<%    next if @methss.include? v[:name].to_s %>
-<%    next if @methss.include? (v[:name].to_s + "=") %>
-<%    next if @methss.include? (v[:name].to_s + "?") %>
-<%    if v[:access] == :accessor or v[:access] == :reader -%>
+<%    if !@methss.include?(v[:name]) and (v[:access] == :accessor or v[:access] == :reader )-%>
     PUBLIC FUNCTION("any", "<%= v[:name] -%>") FUNC_GETVAR("__<%= v[:name] -%>");
 <%    end -%>
-<%    if v[:access] == :accessor or v[:access] == :writer -%>
+<%    if !@methss.include?("#{v[:name]}=") and (v[:access] == :accessor or v[:access] == :writer )-%>
     PUBLIC FUNCTION("any", "<%= v[:name] -%>=") { MEMBER("__<%= v[:name] -%>", _this); };
     PUBLIC FUNCTION("any", "set_<%= v[:name] -%>") { MEMBER("__<%= v[:name] -%>", _this); }
 <%    end -%>
