@@ -21,7 +21,10 @@ USAGE
     dst ||= "./generated"
     Rarma.logger.debug "Building filetree for #{src}..."
     files = {}
+    skippers = ["mission.rb", "description.rb", "init.rb"]
     Dir["#{src}/**/*.rb"].sort.each do |f|
+      filename = f.gsub(/^#{src}\//, '')
+      next if skippers.include?(filename)
       spl = f.split(".")
       type = :eval
       if spl.count > 2
@@ -32,17 +35,26 @@ USAGE
       files[type] ||= []
       files[type] << f
     end
-
     Rarma.logger.debug "Got:\n#{files}"
 
-    stdout = StringIO.new
-    $stdout = stdout
-    files[:eval].each do |file|
+    files[:eval].flatten.each do |file|
+      stdout = StringIO.new
+      $stdout = stdout
       load file
+      $stdout = STDOUT
+      stdout.rewind
+      Rarma.logger.debug "output for #{file}:\n#{stdout.read}"
+    end if files[:eval]
+    skippers.each do |f|
+      Rarma.logger.debug "Checking for #{f}"
+      if File.exists?("#{src}/#{f}")
+        Rarma.logger.debug "Loading #{f}"
+        stdout = StringIO.new
+        $stdout = stdout
+        load f
+        $stdout = STDOUT
+        stdout.rewind
+      end
     end
-    $stdout = STDOUT
-    stdout.rewind
-
-    Rarma.logger.debug "Output created: #{stdout.read}"
   end
 end
