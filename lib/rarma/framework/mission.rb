@@ -1,3 +1,5 @@
 class Rarma::Framework::Mission
-  include Rarma::Framework::Mission::Parameter
+  require "rarma/framework/mission/parameter"
+  extend Rarma::Framework::Mission::Parameter
+  extend Rarma::Framework::Mission::Playable
 end
