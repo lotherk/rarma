@@ -50,6 +50,9 @@ module Rarma::SQF::Compiler::Processor::If
         @script << "} else {"
         @script << else_body
       end
+    else
+      @script << "if (%s) then {" % condition
+      @script << if_body
     end
     @script << "}"
     exp
