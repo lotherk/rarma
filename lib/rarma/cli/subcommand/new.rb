@@ -20,5 +20,11 @@ USAGE
       exit 1
     end
 
+    FileUtils.mkdir(project_path)
+
+    Dir["#{Rarma.gem_root}/templates/mission/**/*"].each do |file|
+      Rarma.logger.debug "Template file #{file}"
+    end
+
   end
 end
