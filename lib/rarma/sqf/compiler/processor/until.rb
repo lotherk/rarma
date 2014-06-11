@@ -1,7 +1,7 @@
-module Rarma::SQF::Compiler::Processor::While
-  def process_while exp
+module Rarma::SQF::Compiler::Processor::Until
+  def process_until exp
     condition = exp.shift
-    Rarma.logger.debug "While condition: #{condition}"
+    Rarma.logger.debug "until condition: #{condition}"
     a = self.class.new
     a.process condition
     condition = a.script.join("")
@@ -14,8 +14,9 @@ module Rarma::SQF::Compiler::Processor::While
       end
     end
 
-    @script << "while { (%s) } do {" % condition
+    @script << "waitUntil {"
     @script << a.script.join("\n")
+    @script << "(%s)" % condition
     @script << "\n}\n"
     exp
   end

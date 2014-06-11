@@ -13,7 +13,7 @@ module Rarma::SQF::Compiler::Processor::Preprocessor
   end
 
   def process_preprocessor_only_on exp
-    raise "__only_on works only on modules." unless @current_class.is_a?(Rarma::SQF::Compiler::Script::Module)
+    #raise "__only_on works only on modules." unless @current_class.is_a?(Rarma::SQF::Compiler::Script::Module)
 
     on = exp.shift[1]
     opt = exp.shift
@@ -33,13 +33,17 @@ module Rarma::SQF::Compiler::Processor::Preprocessor
     raise "__only_on: unknown target: #{on}" unless [:client,:server,:dedicated,:headless].include?on
     case on
       when :server
-        @current_class.header << 'if(!isServer) exitWith {}'
+        #@current_class.header << 'if(!isServer) exitWith {}'
+        @script << 'if(!isServer) exitWith {}'
       when :dedicated
-        @current_class.header << 'if(!isDedicated) exitWith {}'
+        #@current_class.header << 'if(!isDedicated) exitWith {}'
+        @script << 'if(!isDedicated) exitWith {}'
       when :client
-        @current_class.header << 'if(!hasInterface || {isServer} || {isDedicated}) exitWith {}'
+        #@current_class.header << 'if(!hasInterface || {isServer} || {isDedicated}) exitWith {}'
+        @script << 'if(!hasInterface || {isServer} || {isDedicated}) exitWith {}'
       when :headless
-        @current_class.header << 'if(hasInterface || {isServer} || {isDedicated}) exitWith {}'
+        #@current_class.header << 'if(hasInterface || {isServer} || {isDedicated}) exitWith {}'
+        @script << 'if(hasInterface || {isServer} || {isDedicated}) exitWith {}'
     end
   end
 end
