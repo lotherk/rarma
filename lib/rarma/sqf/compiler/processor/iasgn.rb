@@ -11,8 +11,8 @@ module Rarma::SQF::Compiler::Processor::Iasgn
     val = a.script.join("")
     val = "nil" if val.empty?
     if val =~ /(\[|\])/
-      rval = "_pls_fix_macro_#{SecureRandom.hex}"
-      @script << 'private "%s"; %s = %s' % [rval, rval, val]
+      rval = "DEF_VAL_#{SecureRandom.hex}"
+      @script << '#define %s %s' % [rval, rval, val]
       val = rval
     end
     @script << 'MEMBER("%s", %s); (call compile GETVAR("%s"))' % [name, val, name]

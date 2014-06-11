@@ -111,10 +111,9 @@ module Rarma::SQF::Compiler::Processor::Call
       end
       if a.script.count == 1
         code = a.script[0]
-        lvar = "_pls_fix_macro_#{SecureRandom.hex}"
+        lvar = "DEF_VAL_#{SecureRandom.hex}"
         @script << <<-SQF
-        private "#{lvar}"
-        #{lvar} = #{code}
+        #define #{lvar}  #{code}
         #{func.to_s}(#{lvar})
         SQF
       else
@@ -153,10 +152,9 @@ module Rarma::SQF::Compiler::Processor::Call
       else
         if a.script.count > 0
           if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
-            rvar = "_pls_fix_macro_#{SecureRandom.hex}"
+            rvar = "DEF_VAL_#{SecureRandom.hex}"
             @script << <<-SQF
-              private "#{rvar}"
-              #{rvar} = [#{a.script.join(", ")}]
+              #define #{rvar} [#{a.script.join(", ")}]
               MEMBER("#{func}",#{rvar})
               #{rvar} = nil
             SQF
@@ -171,7 +169,7 @@ module Rarma::SQF::Compiler::Processor::Call
             @script << "%s" % func
           else
             if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
-              rvar = "_pls_fix_macro_#{SecureRandom.hex}"
+              rvar = "DEF_VAL_#{SecureRandom.hex}"
               @script << <<-SQF
                 MEMBER("#{func}",nil)
               SQF
