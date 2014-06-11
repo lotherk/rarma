@@ -56,29 +56,4 @@ class Rarma::SQF::Compiler::ScriptBuilder
   def build!
 
   end
-
-  def indent script
-    spaces = 4
-    indent = 0
-    res = []
-    script.each do |n|
-      n.chomp!
-      n.strip!
-      next if n.empty?
-      if n=~/^CLASS.*;$/
-        n.gsub!(/;/, '')
-      end
-      if n=~/^}/ or n =~ /^ENDCLASS/
-        indent -= spaces
-      end
-      indent = 0 if indent < 0
-      line = "#{" " * indent}#{n}"
-      line += ";" unless line.match(/(\;$|\{$|\:$|^CLASS)/)
-      res << line
-      if n=~ /{$/ or n=~/^CLASS.*$/
-        indent += spaces
-      end
-    end
-    res
-  end
 end

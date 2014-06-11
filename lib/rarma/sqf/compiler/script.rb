@@ -40,15 +40,20 @@ class Rarma::SQF::Compiler::Script
       n.chomp!
       n.strip!
       next if n.empty?
-      if n=~/^CLASS.*;$/
-        n.gsub!(/;/, '')
-      end
+#      if n=~/^CLASS.*;$/
+#        n.gsub!(/;/, '')
+#      end
       if n=~/^}/ or n =~ /^ENDCLASS/
         indent -= spaces
       end
       indent = 0 if indent < 0
       line = "#{" " * indent}#{n}"
-      line += ";" unless line.match(/(\;$|\{$|\:$|^CLASS|^\s*\/|^\s*\*|^\s*#|\\$)/)
+      unless line.match(/(\;$|\{$|\:$|^CLASS|^\s*\/|^\s*\*|^\s*#|\\$)/)
+        line += ";"
+      else
+        line.sub!(/;$/, '')
+      end
+
       res << line
       if n.strip =~ /{$/ or n.strip =~ /^CLASS.*$/
         indent += spaces
