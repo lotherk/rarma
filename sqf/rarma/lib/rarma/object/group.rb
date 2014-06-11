@@ -118,4 +118,13 @@ class Rarma::Group
     SQF.setBehaviour @this, _beh
   end
 
+  def formation
+    SQF.formation @this
+  end
+
+  __alias :setFormation
+  def formation= _form
+    SQF.setFormation @this, _form
+  end
+
 end
