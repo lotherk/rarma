@@ -10,7 +10,7 @@ module Rarma::SQF::Compiler::Processor::Gasgn
     val = a.script.join("")
     val = "nil" if val.empty?
     @script << '%s = %s' % [name, val]
-    @script << 'publicVariable "%s"' % name
+#    @script << 'publicVariable "%s"' % name
     exp
   end
 end
