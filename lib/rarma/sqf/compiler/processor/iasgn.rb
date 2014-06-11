@@ -1,7 +1,7 @@
 require "securerandom"
 module Rarma::SQF::Compiler::Processor::Iasgn
   def process_iasgn exp
-    Rarma.logger.debug "#{self} Processing asgn #{exp}"
+    Rarma.logger.debug "#{self} Processing iasgn #{exp}"
     name = exp.shift
     name = name.to_s.gsub(/^@/, '__')
     a = self.class.new
@@ -15,7 +15,7 @@ module Rarma::SQF::Compiler::Processor::Iasgn
       @script << 'private "%s"; %s = %s' % [rval, rval, val]
       val = rval
     end
-    @script << '(MEMBER("%s", %s); %s)' % [name, val, name]
+    @script << 'MEMBER("%s", %s); (call compile GETVAR("%s"))' % [name, val, name]
     exp
   end
 end

@@ -14,9 +14,13 @@ module Rarma::SQF::Compiler::Processor::Lasgn
       value = value.to_s
     end
     $VARIABLES ||= []
-    $VARIABLES << name
     if name !~ /^_/
-      name = "_#{name}"
+      Rarma.logger.warn "Assigned variable #{name} should be private!"
+#      name = "_#{name}"
+    end
+    if ! $VARIABLES.include?name
+      $VARIABLES << name
+#      @script << 'private "%s"' % name
     end
     @script << '%s = %s' % [name, value]
     s()

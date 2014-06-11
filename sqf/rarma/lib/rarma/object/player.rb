@@ -13,10 +13,10 @@ class Rarma::Player < Rarma::Unit
   #
   # ==== Example
   #   # create player from netid
-  #   player = Player.new(123)
+  #   _player = Player.new(123)
   #
   #   # create local player, the same as the player keyword in SQF
-  #   player = Player.new
+  #   _player = Player.new
   #
   def initialize _netid=-1
     if _netid != -1
@@ -24,29 +24,40 @@ class Rarma::Player < Rarma::Unit
     else
       @this = SQF.player
     end
-
-    @score = SQF.score @this
     updateUnit
   end
 
   # returns the selected units in the group of the player
   def selected_units
-    @selected_units = SQF.groupSelectedUnits @this
-    @selected_units
+    SQF.groupSelectedUnits @this
   end
 
   def classname
-    @classname ||= SQF.typeOf @this
-    @classname
+    SQF.typeOf @this
   end
 
   # adds a score, shown on the score board in MP, to player
   # negative values substract from the score
   # ==== Arguments
   # * +_score+ - integer value, score to add
-  def addScore _score
-    @score = _score
+  def addScore _score=0
     SQF.addScore @this, _score
   end
 
+  # return all playable units
+  __native
+  def self.playable
+    <<-SQF
+    ["new", playableUnits] call Rarma_Array
+    SQF
+  end
+
+  # return all players
+  # see http://dev.withsix.com/docs/cba/files/common/fnc_players-sqf.html
+  __native
+  def self.players
+    <<-SQF
+    ["new", (call CBA_fnc_players)] call Rarma_Array
+    SQF
+  end
 end

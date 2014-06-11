@@ -9,11 +9,11 @@ module Rarma::SQF::Compiler::Processor::Op_asgn_or
     right = a.script.join("\n")
     rvar = "_pls_fix_macro_#{SecureRandom.hex}"
     @script << <<-SQF
-      private "#{rvar}";
-      #{rvar} = #{left};
+      private "#{rvar}"
+      #{rvar} = #{left}
       if(isNil "#{rvar}") then {
           #{right}
-      };
+      }
     SQF
     exp
   end

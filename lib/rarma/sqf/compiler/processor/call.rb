@@ -85,7 +85,13 @@ module Rarma::SQF::Compiler::Processor::Call
       ppcmd = "process_preprocessor_#{func.to_s.gsub(/^__/, '')}".to_sym
       raise "Unknown preprocessor command #{ppcmd}" unless respond_to?(ppcmd)
       send(ppcmd, exp)
-    elsif Rarma::SQF::Commands.instance_methods.include?func and left.strip.empty? or left.strip == "SQF"
+    elsif left.strip == "LOG"
+      a = self.class.new
+      while exp.count > 0
+        a.process exp.shift
+      end
+      @script << "['%s', %s, [%s], __LINE__, __FILE__] call Rarma_Logger" % [func, a.script.shift, a.script.join(",")]
+    elsif left.strip == "SQF"
       a = self.class.new
       while exp.count > 0
         a.process exp.shift
@@ -107,9 +113,9 @@ module Rarma::SQF::Compiler::Processor::Call
         code = a.script[0]
         lvar = "_pls_fix_macro_#{SecureRandom.hex}"
         @script << <<-SQF
-        private "#{lvar}";
-        #{lvar} = #{code};
-        #{func.to_s}(#{lvar});
+        private "#{lvar}"
+        #{lvar} = #{code}
+        #{func.to_s}(#{lvar})
         SQF
       else
         Rarma.logger.warning "Can't handle Macro with multiple statements."
@@ -149,10 +155,10 @@ module Rarma::SQF::Compiler::Processor::Call
           if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
             rvar = "_pls_fix_macro_#{SecureRandom.hex}"
             @script << <<-SQF
-              private "#{rvar}";
-              #{rvar} = [#{a.script.join(", ")}];
-              MEMBER("#{func}",#{rvar});
-              #{rvar} = nil;
+              private "#{rvar}"
+              #{rvar} = [#{a.script.join(", ")}]
+              MEMBER("#{func}",#{rvar})
+              #{rvar} = nil
             SQF
           elsif $current_class.is_a?Rarma::SQF::Compiler::Script::Module
             @script << '["%s", [%s]] call %s' % [func, a.script.join(", "), $current_class]
@@ -167,10 +173,10 @@ module Rarma::SQF::Compiler::Processor::Call
             if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
               rvar = "_pls_fix_macro_#{SecureRandom.hex}"
               @script << <<-SQF
-                MEMBER("#{func}",nil);
+                MEMBER("#{func}",nil)
               SQF
             elsif $current_class.is_a?Rarma::SQF::Compiler::Script::Module
-              @script << '["%s"] call %s' % [func, $current_class]
+              @script << '(["%s"] call %s)' % [func, $current_class]
             else
               @script << "(call %s)" % [func]
             end
