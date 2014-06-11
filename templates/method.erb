@@ -2,10 +2,9 @@
 <%       if m[:args][0][0] =~/^_/ -%>
            private "<%= m[:args][0][0] -%>";
 <%       end -%>
-           <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
+           <%- rval = "DEF_VAL_#{SecureRandom.hex}" -%>
            <%- if m[:args][0][1] != "nil" -%>
-           private "<%= rval -%>";
-           <%= rval -%> = <%= m[:args][0][1] %>
+           #define <%= rval -%> <%= m[:args][0][1] %>
            <%- else -%>
            <%- rval = "nil" -%>
            <%- end -%>
@@ -15,10 +14,9 @@
 <%         if a[0] =~/^_/ -%>
            private "<%= a[0] -%>";
            <%- end -%>
-           <%- rval = "_pls_fix_macro_#{SecureRandom.hex}" -%>
+           <%- rval = "DEF_VAL_#{SecureRandom.hex}" -%>
            <%- if m[:args][0][1] != "nil" -%>
-           private "<%= rval -%>";
-           <%= rval -%> = <%= a[1] %>
+           #define <%= rval -%> <%= a[1] %>
            <%- else -%>
            <%- rval = "nil" -%>
            <%- end -%>

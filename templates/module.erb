@@ -31,6 +31,8 @@
                 ["method_missing", [_method, _args]] call <%= c -%>;
             };
             // method not found handling
+            _str = format["undefined method <%= c -%>:%1", _method];
+            LOGGER_ERROR(_str);
         };
     };
 };
