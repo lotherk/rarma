@@ -32,7 +32,6 @@ module Rarma::SQF::Compiler::Processor::Iter
     block << "\n}"
     line = a.script.join("")
     line = line.sub("]", "\", [#{block.join("\n")}]]")
-    puts line
     require 'pp'
 #    @script << "[#{block.join("\n")}] call #{a.script.join("")}"
     @script << line   
