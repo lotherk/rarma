@@ -18,4 +18,13 @@ module Rarma::Logger
   def debug _message, _args, _lineno, _file
     log(_message, _args, _lineno, _file, "DEBUG")
   end
+  def error _message, _args, _lineno, _file
+    log(_message, _args, _lineno, _file, "ERROR")
+  end
+  def info _message, _args, _lineno, _file
+    log(_message, _args, _lineno, _file, "INFO")
+  end
+  def warn _message, _args, _lineno, _file
+    log(_message, _args, _lineno, _file, "WARN")
+  end
 end
