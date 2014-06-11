@@ -15,6 +15,9 @@ module Rarma::SQF::Compiler::Processor::Lasgn
     end
     $VARIABLES ||= []
     $VARIABLES << name
+    if name !~ /^_/
+      name = "_#{name}"
+    end
     @script << '%s = %s' % [name, value]
     s()
   end
