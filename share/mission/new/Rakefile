@@ -1,4 +1,2 @@
 require 'rarma/tasks'
-Rarma::Tasks.load_tasks
-
 # Put your own tasks here

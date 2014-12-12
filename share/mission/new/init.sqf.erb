@@ -1,0 +1,14 @@
+/*
+ * @mission <%= @mission[:title] %>
+ * @author <%= @mission[:author] %>
+ *
+ * Place a useful description here
+ *
+ *
+ */
+
+#include "macros\rarma.h"
+
+RARMA_REQUIRE("<%= @mission[:name] -%>");
+
+['init'] call <%= @mission[:name].capitalize -%>;
