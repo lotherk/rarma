@@ -17,6 +17,7 @@ module Rarma::SQF::Compiler::Processor::Call
 #    @script << a.script
     Rarma.logger.debug "left: #{left} (#{left.class}), func: #{func} (#{func.class})"
     operands = ["+", "-", "-=", "+=", "!=", "==", "*", "*=", "/", "/=", "%", "<=", ">=", "<", ">"]
+    bool_ops = ["!"]
     if func.to_s == "[]"
       # hash access, retval should be hash name.
       key = exp.shift
@@ -25,6 +26,8 @@ module Rarma::SQF::Compiler::Processor::Call
       key = a.script.join("").chomp
       @script << '(["get", %s] call %s)' % [key, left]
       Rarma.logger.debug "Hash access for #{left}, key #{key}"
+    elsif bool_ops.include? func.to_s
+      @script << "#{func} #{left}"
     elsif func == :private or func == :public or func == :protected
       $ACCESS_MODIFIER = func
     elsif operands.include?(func.to_s)

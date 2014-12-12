@@ -1,5 +1,4 @@
 require 'socket'
-require "rarma/queue"
 class Rarma::Server
   def self.start(opts)
     Rarma.logger.debug "Invoking Rarma Server with #{opts}"

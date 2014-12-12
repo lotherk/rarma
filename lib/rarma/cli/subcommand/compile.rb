@@ -27,7 +27,7 @@ USAGE
     FileUtils.mkdir_p(opts[:output]) if opts[:output]
     @opts = opts
     @includes = []
-    @includes << "#{Rarma.gem_root}/sqf/rarma/.include"
+    #@includes << "#{Rarma.gem_root}/sqf/rarma/.include"
     @includes << opts[:include]
 
     if ARGV.count == 0

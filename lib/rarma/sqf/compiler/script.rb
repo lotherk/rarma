@@ -48,10 +48,10 @@ class Rarma::SQF::Compiler::Script
       end
       indent = 0 if indent < 0
       line = "#{" " * indent}#{n}"
-      unless line.match(/(\;$|\{$|\:$|^CLASS|^\s*\/|^\s*\*|^\s*#|\\$)/)
-        line += ";"
-      else
+      if line.match(/(\{$|\:$|^CLASS|^\s*\/|^\s*\*|^\s*#|\\$)/)
         line.sub!(/;$/, '')
+      else
+        line += ";" unless line.match(/;$/)
       end
 
       res << line

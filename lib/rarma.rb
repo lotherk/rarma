@@ -1,12 +1,11 @@
 require "rarma/version"
 require "logger"
-require "rarma/sqf"
 module Rarma
 
   def self.gem_root
     @gem_root ||= Gem::Specification.find_by_name("rarma").gem_dir
   end
-  
+
   def self.logger(output=STDOUT)
     unless @logger
       @logger = Logger.new(output)
