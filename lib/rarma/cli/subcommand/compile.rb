@@ -77,7 +77,6 @@ USAGE
     out
   end
   def compile_file arg, out
-    puts "Compiling #{arg} -> #{out}"
     script = Rarma::SQF::Compiler.compile(arg)
     dirname = File.dirname out
     @packages[dirname] ||= []
