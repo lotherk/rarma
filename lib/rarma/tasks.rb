@@ -33,7 +33,6 @@ task :build => [:clean] do
     next if dir=~/macros/
     cp_r(macro_dir, dir)
   end
-  cp_r(File.join(Rarma.gem_root, 'share', 'rarmalib'), 'build')
 end
 
 desc "Cleans up project folder"
@@ -43,7 +42,7 @@ end
 
 desc "Creates .pbo file (needs cpbo in \$PATH)"
 task :package do
-
+  cp_r(File.join(Rarma.gem_root, 'share', 'rarmalib'), 'build')
 end
 
 
