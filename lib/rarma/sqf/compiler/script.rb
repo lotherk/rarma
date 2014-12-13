@@ -30,6 +30,8 @@ class Rarma::SQF::Compiler::Script
   def self.indent script
     spaces = 4
     indent = 0
+    macro = nil
+    macro_on = false
     flat = []
     res = []
     script.flatten.each do |f|
@@ -48,16 +50,26 @@ class Rarma::SQF::Compiler::Script
       end
       indent = 0 if indent < 0
       line = "#{" " * indent}#{n}"
-      if line.match(/(\{$|\:$|^CLASS|^\s*\/|^\s*\*|^\s*#|\\$)/)
+      if line.match(/(\{$|\:$|^CLASS|^\s*\/|^\s*\#|^\s*\*|^\s*#|\\$)/)
         line.sub!(/;$/, '')
       else
         line += ";" unless line.match(/;$/)
       end
-
-      res << line
-      if n.strip =~ /{$/ or n.strip =~ /^CLASS.*$/
+      if macro == indent
+        macro = nil
+        macro_on = false
+      end
+      if line.match(/\s*#/) and line.match(/\{$/)
+        macro = indent
+        macro_on = true
+      end
+      if n.strip =~ /{( \\)?$/ or n.strip =~ /^CLASS.*$/
         indent += spaces
       end
+      if macro_on and line !~ /\\$/
+        line += " \\"
+      end
+      res << line
     end
     res
   end

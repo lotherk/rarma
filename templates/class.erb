@@ -13,9 +13,9 @@
 CLASS_EXTENDS("<%= c -%>", "<%= c.inherit %>")
 <%- elsif c.to_s == "Rarma_Object" -%>
 // Mother of objects
-CLASS("Rarma_Object")
+CLASS("Rarmalib_Object")
 <%   else -%>
-CLASS_EXTENDS("<%= c -%>", "Rarma_Object")
+CLASS_EXTENDS("<%= c -%>", "Rarmalib_Object")
 <%   end -%>
 <%-%>
 <%  c.vars.each do |v| -%>

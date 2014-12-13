@@ -31,10 +31,10 @@ module Rarma::SQF::Compiler::Processor::Iter
 #    raise "foo"
     block << "\n}"
     line = a.script.join("")
-    line = line.sub("]", "\", [#{block.join("\n")}]]")
+    line = line.sub("]", ", [#{block.join("\n")}]]")
     require 'pp'
 #    @script << "[#{block.join("\n")}] call #{a.script.join("")}"
-    @script << line   
+    @script << line
 #    exit if a.script.join("") =~/Thread/
 
     Rarma.logger.debug("#{self} End of iteration")

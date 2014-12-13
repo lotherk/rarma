@@ -62,7 +62,7 @@ module Rarma::SQF::Compiler::Processor::Call
         raise "can't handle raise, to many exps: #{exp.to_s}"
       end
       @script << 'if(true) exitWith { throw ["%s",%s] }' % [excp, msg]
-    elsif func.to_s =~ /^attr_/ 
+    elsif func.to_s =~ /^attr_/
       a = self.class.new
       while exp.count > 0
         a.process exp.shift
@@ -106,7 +106,6 @@ module Rarma::SQF::Compiler::Processor::Call
       else
         @script << '(%s %s)' % [func, a.script.join(", ").strip.chomp]
       end
-      #raise "HAHA #{func}, #{left}"
     elsif left.strip == "Macro"
       a = self.class.new
       while exp.count > 0
@@ -116,7 +115,7 @@ module Rarma::SQF::Compiler::Processor::Call
         code = a.script[0]
         lvar = "DEF_VAL_#{SecureRandom.hex}"
         @script << <<-SQF
-        #define #{lvar}  #{code}
+        #define #{lvar} #{code}
         #{func.to_s}(#{lvar})
         SQF
       else
@@ -157,7 +156,7 @@ module Rarma::SQF::Compiler::Processor::Call
           if $current_class.is_a?Rarma::SQF::Compiler::Script::Class
             rvar = "DEF_VAL_#{SecureRandom.hex}"
             @script << <<-SQF
-              #define #{rvar} [#{a.script.join(", ")}]
+              #define #{rvar} [#{a.script.join(', ')}]
               MEMBER("#{func}",#{rvar})
               #{rvar} = nil
             SQF

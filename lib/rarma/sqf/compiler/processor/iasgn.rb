@@ -12,7 +12,7 @@ module Rarma::SQF::Compiler::Processor::Iasgn
     val = "nil" if val.empty?
     if val =~ /(\[|\])/
       rval = "DEF_VAL_#{SecureRandom.hex}"
-      @script << '#define %s %s' % [rval, rval, val]
+      @script << '#define %s %s' % [rval, val]
       val = rval
     end
     @script << 'MEMBER("%s", %s); (call compile GETVAR("%s"))' % [name, val, name]
