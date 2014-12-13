@@ -2,24 +2,39 @@ require 'rake'
 require 'rarma'
 desc "Builds scripts"
 task :build do
+  puts ">> Creating build structure"
   mkdir_p("build")
-  puts ">> Transompiling mission lib/ folder"
-  Dir[File.join('lib', '**', '*.rb')].each do |file|
-    sh "rarma compile -o build #{file}"
+  Dir[File.join('lib', '**', '*')].each do |file|
+    next unless File.directory?file
+    mkdir_p(File.join('build', file))
+  end
+  Dir[File.join('lib', '**', '*')].each do |file|
+    next if File.directory?file
+    if file=~/\.rb$/
+      sh "rarma compile -o build #{file}"
+    else
+      cp(file, File.join('build', file))
+    end
   end
 
-  puts ">> Transompiling mission folder"
-  Dir['*.rb'].each do |file|
-    sh "rarma compile -o build #{file}"
+  Dir['*'].each do |file|
+    next if File.directory?file
+    next if['Rakefile'].include?file
+    if file=~/\.rb$/
+      sh "rarma compile -o build #{file}"
+    else
+      cp(file, 'build')
+    end
   end
 
-  puts ">> Copying macros into build directory"
-  cp_r('macros', 'build')
+  macro_dir = File.join(Rarma.gem_root, 'share', 'macros')
+  cp_r(macro_dir, 'build')
   Dir[File.join('build', '**', '*')].each do |dir|
     next unless File.directory?dir
     next if dir=~/macros/
-    cp_r('macros', dir)
+    cp_r(macro_dir, dir)
   end
+  cp_r(File.join(Rarma.gem_root, 'share', 'rarmalib'), 'build')
 end
 
 desc "Cleans up project folder"
@@ -31,6 +46,7 @@ desc "Creates .pbo file (needs cpbo in \$PATH)"
 task :package do
 
 end
+
 
 task :prepare do
 end
