@@ -93,7 +93,7 @@ module Rarma::SQF::Compiler::Processor::Call
       while exp.count > 0
         a.process exp.shift
       end
-      @script << "['%s', %s, [%s], __LINE__, __FILE__] call Rarma_Logger" % [func, a.script.shift, a.script.join(",")]
+      @script << "['%s', %s, [%s], __LINE__, __FILE__] call Rarmalib_Logger" % [func, a.script.shift, a.script.join(",")]
     elsif left.strip == "SQF"
       a = self.class.new
       while exp.count > 0
