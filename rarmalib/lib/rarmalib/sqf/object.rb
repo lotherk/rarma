@@ -182,4 +182,10 @@ class Rarmalib::SQF::Object
     SQF.setVehicleAmmoDef @this, _ammo
   end
 
+  def add_action _name, _block
+    _action = Rarmalib::Util::Action.new(self, _name)
+    _block.call(_action)
+
+    SQF.addAction self
+  end
 end
