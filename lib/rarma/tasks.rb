@@ -1,8 +1,7 @@
 require 'rake'
 require 'rarma'
 desc "Builds scripts"
-task :build do
-  puts ">> Creating build structure"
+task :build => [:clean] do
   mkdir_p("build")
   Dir[File.join('lib', '**', '*')].each do |file|
     next unless File.directory?file
