@@ -1,4 +1,4 @@
-class Rarmalib::Vehicle < Rarmalib::SQFObject
+class Rarmalib::SQF::Vehicle < Rarmalib::SQF::Object
   attr_accessor :driver, :gunner, :commander, :turrets, :cargo,
     :ammo, :fuel, :lock, :armor, :vehicle_id, :velocity, :crew,
     :fuel_cargo

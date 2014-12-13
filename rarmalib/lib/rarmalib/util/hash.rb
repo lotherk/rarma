@@ -1,5 +1,5 @@
 # Represents a key value Hash
-class Rarmalib::Hash < Rarma::Array
+class Rarmalib::Util::Hash < Rarma::Util::Array
 
   attr_reader :dataset
   # Sets a key with a value - Overwrites existing key if any.

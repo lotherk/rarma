@@ -1,5 +1,5 @@
 # represents a group in the game world
-class Rarmalib::Group
+class Rarmalib::SQF::Group
   attr_reader :side, :this
   attr_accessor :units, :leader, :formation_leader, :groupid, :waypoints, :current_waypoint
 
@@ -41,9 +41,9 @@ class Rarmalib::Group
   # adds a waypoint for the group
   def add_waypoint _center, _radius, _index=-1
     if _index == -1
-      _wp = Rarmalib::Waypoint.new @this, _center, _radius
+      _wp = Rarmalib::SQF::Waypoint.new @this, _center, _radius
     else
-      _wp = Rarmalib::Waypoint.new @this, _center, _radius, _index
+      _wp = Rarmalib::SQF::Waypoint.new @this, _center, _radius, _index
     end
     _wp
   end

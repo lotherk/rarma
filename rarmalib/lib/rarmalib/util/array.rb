@@ -1,5 +1,5 @@
 # Represents an array
-class Rarmalib::Array
+class Rarmalib::Util::Array
   attr_reader :dataset
 
   __native :initialize

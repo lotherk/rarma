@@ -1,5 +1,5 @@
 # represents a (human) player unit
-class Rarmalib::Player < Rarmalib::Unit
+class Rarmalib::SQF::Player < Rarmalib::SQF::Unit
   attr_accessor :selected_units, :score
   attr_reader :this
 

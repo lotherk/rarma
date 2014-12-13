@@ -1,5 +1,5 @@
 # represents a waypoint for a group
-class Rarma::Waypoint
+class Rarma::SQF::Waypoint
   attr_reader :this, :group, :index, :center, :radius
   attr_accessor :type, :speed, :combat_mode, :formation,
     :behaviour, :completion_radius, :house_position, :timeout,

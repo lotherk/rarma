@@ -1,4 +1,4 @@
-class Rarma::Marker
+class Rarma::SQF::Marker
   attr_accessor :pos, :type, :shape, :color, :dir, :size, :brush, :alpha
   attr_reader :this, :name, :local
 

@@ -1,4 +1,4 @@
-class Rupc
+class Rarmalib::Rupc
   attr_reader :cid
 
   # ensure that child classes call this method.
@@ -9,7 +9,7 @@ class Rupc
     <<-SQF
        /*
         * acquire new class id by classname.
-        * 
+        *
         * _className should contain the current class name,
         * not a code reference. We need this to tell RUPC
         * what class on the ruby side we want to initiate.

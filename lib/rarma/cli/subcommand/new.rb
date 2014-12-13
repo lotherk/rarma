@@ -50,5 +50,11 @@ USAGE
         end
       end
     end
+
+    mission_share = File.join(mission_path, 'share')
+    FileUtils.mkdir_p(mission_share)
+    FileUtils.cp_r(File.join(Rarma.gem_root, 'share', 'macros'), mission_share)
+    FileUtils.cp_r(File.join(Rarma.gem_root, 'share', 'sqf', 'rarma'), mission_share)
+
   end
 end

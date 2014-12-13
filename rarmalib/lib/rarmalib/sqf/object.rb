@@ -1,4 +1,4 @@
-class Rarmalib::SQFObject
+class Rarmalib::SQF::Object
   attr_accessor :posATL, :posASL, :dir, :damage, :alive, :simulated,
   :special, :group, :vehicle_var_name, :ammo, :pos
   attr_reader :variables, :netid, :classname, :side, :this

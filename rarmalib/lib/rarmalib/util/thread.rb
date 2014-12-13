@@ -1,4 +1,4 @@
-class Rarmalib::Thread
+class Rarmalib::Util::Thread
   attr_reader :ref, :terminate
 
   __native

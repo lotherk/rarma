@@ -1,5 +1,5 @@
 # Represents a unit in the game world
-class Rarmalib::Unit < Rarmalib::SQFObject
+class Rarmalib::SQF::Unit < Rarmalib::SQF::Object
   attr_accessor :group, :rating, :rank, :weapons, :magazines,
     :skill, :subskills, :unitpos, :uniform, :vest, :headgear, :items,
     :formation_pos, :assigned_items, :primary_weapon, :secondary_weapon,
@@ -31,7 +31,7 @@ class Rarmalib::Unit < Rarmalib::SQFObject
   #   "CAN_COLLIDE" or "FLY"
   def create _marker=[], _special="FORM"
     #raise "No side set" unless @side
-    @group ||= Rarmalib::Group.new(@side)
+    @group ||= Rarmalib::SQF::Group.new(@side)
     _grp = @group.this
     _mrka = _marker.to_a
     @this = SQF.createUnit _grp, @classname, @posASL, _mrka, 0, _special
