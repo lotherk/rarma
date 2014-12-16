@@ -1,5 +1,6 @@
 module Rarma::SQF::Compiler::Processor::Module
   def process_module exp
+    check_comments exp
     name = exp.shift
     if name.is_a? Sexp
       a = self.class.new

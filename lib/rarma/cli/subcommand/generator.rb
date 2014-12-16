@@ -1,5 +1,4 @@
 require 'stringio'
-require 'rarma/framework'
 class Rarma::CLI::Subcommand::Generator
   attr_reader :description
   def initialize

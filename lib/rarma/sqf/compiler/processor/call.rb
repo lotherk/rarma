@@ -40,6 +40,10 @@ module Rarma::SQF::Compiler::Processor::Call
       pkg = exp.shift[1].to_s
       pkg.gsub!(/\//, '\\')
       @script << 'RARMA_REQUIRE("%s")' % pkg
+    elsif func.to_s == 'include'
+      raise "include not yet implemented"
+    elsif func.to_s == 'extend'
+      raise 'extend not yet implemented'
     elsif func.to_s == 'raise'
       msg = nil
       excp = nil

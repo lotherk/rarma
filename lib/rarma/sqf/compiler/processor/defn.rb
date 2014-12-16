@@ -1,5 +1,6 @@
 module Rarma::SQF::Compiler::Processor::Defn
   def process_defn exp
+    check_comments exp
     $ACCESS_MODIFIER ||= :public
   Rarma.logger.debug "#{self} Processing defn #{exp}"
     name = exp.shift

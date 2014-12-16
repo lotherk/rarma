@@ -10,6 +10,6 @@ require "rarmalib/version"
 
 module Rarmalib
   def init
-    # Your code starts here
+    LOGGER "Initializing Rarmalib #{Rarmalib::VERSION}"
   end
 end
