@@ -16,11 +16,33 @@ Tested:
 
 
 
-### Development Environment
+## Development Environment
 
 Rarma provides you an easy method to setup all the tools you need to develope ArmA code in a comfortable way. It will install steamCMD, ArmA 3 Dedicated Server files and CPBO.
 
-Before you can setup the environment, you have to create a ```development.yml``` inside the ```config``` directory. For this you can simply copy the existing [development.yml.example](config/development.yml.example). You then have to set your steamid in ```development.yml``` as we're using steam to install the ArmA 3 Dedicated Server files.
+### Requirements
+
+#### Windows
+
+You need to install [RubyInstaller for Windows](http://rubyinstaller.org/) and [Git for Windows](https://msysgit.github.io/). We'll use the ```Git Bash``` as our command line.
+
+#### Linux
+
+You need to install the following libraries to make steamCMD and cpbo work.
+
+##### Debian/Ubuntu
+
+```
+sudo apt-get install lib32gcc1 libboost1.55-dev
+```
+
+##### Other Distributions
+
+Check yourself. (TODO)
+
+### Create the environment
+
+Before you can create the environment, you have to create a ```development.yml``` inside the ```config``` directory. For this you can simply copy the existing [development.yml.example](config/development.yml.example). You then have to set your steamid in ```development.yml``` as we're using steam to install the ArmA 3 Dedicated Server files.
 
 After editing ```development.yml```, run
 
