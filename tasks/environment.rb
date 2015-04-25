@@ -43,7 +43,7 @@ task :environment do
     $stderr.puts "Please set your steamid in config/development.yml."
     exit 1
   end
- 
+
   FileUtils.mkdir_p('tmp')
 
   if RUBY_PLATFORM=~/linux/
@@ -61,5 +61,5 @@ task :environment do
   installer.install_arma
   installer.install_cpbo
 
-
+  puts "\nRarma development environment successfully installed."
 end
