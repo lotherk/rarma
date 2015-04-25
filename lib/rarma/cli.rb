@@ -38,7 +38,7 @@ module Rarma::CLI
     subcmd = ARGV.shift
 
     begin
-      Rarma::CLI::Subcommand[subcmd].main client
+      Rarma::CLI::Subcommand[subcmd].main
     rescue RuntimeError => e
       unless @options[:debug]
         puts "Error: #{e.message}"
