@@ -21,7 +21,7 @@ class Rarma::Rake::Task::Environment::Linux
   end
 
   def install_cpbo
-    unless File.directory? config['cpbodir']
+    unless File.exists? File.join(config['cpbodir'], 'bin', 'cpbo')
       puts "Cloning https://github.com/iAnomaly/cpbo to #{config['cpbodir']}"
       puts `git clone https://github.com/iAnomaly/cpbo #{config['cpbodir']}`
       puts "Compiling cpbo"
