@@ -3,8 +3,7 @@ class Rarma::Rake::Task::Environment::Linux
 
   def install_steam
     unless File.directory? config['steamdir']
-      puts "Downloading steamCMD"
-      puts `wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz -O tmp/steamcmd_linux.tar.gz`
+      super
 
       puts "Extracting steamCMD to #{config['steamdir']}"
       FileUtils.mkdir_p(config['steamdir'])

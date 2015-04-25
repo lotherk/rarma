@@ -1,9 +1,18 @@
 require 'yaml'
 require 'fileutils'
+require 'open-uri'
 
 module Rarma; module Rake; module Task; module Environment
   def install_steam
-    raise "not implemented"
+    unless File.exists? File.join("tmp", File.basename(@steamcmd_url))
+      puts "Downloading #{@steamcmd_url}"
+      File.open(File.join("tmp", File.basename(@steamcmd_url)), "wb") do |file|
+        file << open(@steamcmd_url).read
+      end
+      puts "download finished"
+    else
+      puts "File #{File.join("tmp", File.basename(@steamcmd_url))} already exists."
+    end
   end
 
   def install_arma
@@ -16,6 +25,11 @@ module Rarma; module Rake; module Task; module Environment
 
   def initialize config
     @config = config
+    @steamcmd_url = if RUBY_PLATFORM=~/linux/
+      "http://media.steampowered.com/installer/steamcmd_linux.tar.gz"
+    elsif RUBY_PLATFORM=~/mingw/
+      "http://media.steampowered.com/installer/steamcmd.zip"
+    end
   end
   def config
     @config
