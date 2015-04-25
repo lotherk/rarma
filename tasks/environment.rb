@@ -4,14 +4,14 @@ require 'open-uri'
 
 module Rarma; module Rake; module Task; module Environment
   def install_steam
-    unless File.exists? File.join("tmp", File.basename(@steamcmd_url))
+    unless File.exists? @steamcmd_file
       puts "Downloading #{@steamcmd_url}"
-      File.open(File.join("tmp", File.basename(@steamcmd_url)), "wb") do |file|
+      File.open(@steamcmd_file, "wb") do |file|
         file << open(@steamcmd_url).read
       end
       puts "download finished"
     else
-      puts "File #{File.join("tmp", File.basename(@steamcmd_url))} already exists."
+      puts "File #{@steamcmd_file} already exists."
     end
   end
 
@@ -30,6 +30,7 @@ module Rarma; module Rake; module Task; module Environment
     elsif RUBY_PLATFORM=~/mingw/
       "http://media.steampowered.com/installer/steamcmd.zip"
     end
+    @steamcmd_file = File.join("tmp", File.basename(@steamcmd_url))
   end
   def config
     @config
