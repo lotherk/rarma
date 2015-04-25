@@ -42,6 +42,8 @@ task :environment do
     $stderr.puts "Please set your steamid in config/development.yml."
     exit 1
   end
+ 
+  FileUtils.mkdir_p('tmp')
 
   if RUBY_PLATFORM=~/linux/
     require './tasks/environment/linux.rb'
