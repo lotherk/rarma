@@ -10,11 +10,14 @@ module Rarma::CLI
     Rarma::CLI::Subcommand.subcommands.each { |subcmd| subs << subcmd.to_s.downcase }
     p = Trollop::Parser.new do
       version Rarma::VERSION
-      banner "rarma #{Rarma::VERSION}"
-      banner ""
-      banner "usage: rarma [global options] <subcommand> [subcommand options]"
-      banner ""
-      banner "Available subcommands:"
+      banner <<EOB
+rarma #{Rarma::VERSION}
+
+Usage
+  rarma [global options] <subcommand> [subcommand options|
+
+Available subcommands:
+EOB
       Rarma::CLI::Subcommand.subcommands.each do |subcmd|
         subcmd = subcmd.downcase
         len = 16
