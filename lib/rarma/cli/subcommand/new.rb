@@ -29,5 +29,12 @@ EOB
       p.parse
     end
 
+    if @opts[:mission]
+      require 'rarma/cli/subcommand/new/mission.rb'
+      Rarma::CLI::Subcommand::New::Mission.new @opts
+    elsif @opts[:addon]
+      require 'rarma/cli/subcommand/new/addon.rb'
+      Rarma::CLI::Subcommand::New::Addon.new @opts
+    end
   end
 end
