@@ -1,4 +1,5 @@
 require "logger"
+require "colored"
 require "rarma/version"
 
 
@@ -14,7 +15,7 @@ module Rarma
         file = File.basename(file)
         "#{datetime} #{severity} #{file}:#{func}:#{ln}: #{msg}\n"
       }
-      @logger.level = Logger::WARN
+      @logger.level = Logger::INFO
     end
     @logger
   end

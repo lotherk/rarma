@@ -1,7 +1,7 @@
 require "fiddle"
 
 BUFFSIZE=4096
-RarmaDL = Fiddle.dlopen('./rarma.so')
+RarmaDL = Fiddle.dlopen('./rarma-ext.so')
 RarmaExt = Fiddle::Function.new(RarmaDL['RVExtension'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOID)
 @output_p = Fiddle::Pointer.malloc(BUFFSIZE)
 
@@ -15,4 +15,5 @@ Rarma::ProxyFactory.new ["MyModule::MyClass", 1, 2, "foobar"]
 EOF
 
 puts "Version #{rarma_write('version')}"
+rarma_write("init_rarma")
 puts rarma_write(funcname)
