@@ -25,6 +25,7 @@ module Rarma::Compiler
       if exp[0].is_a? Symbol
         raise "Please implement #{exp[0]} processor: #{exp}" unless respond_to? "process_#{exp[0].to_s}".to_sym
       end
+      #puts exp.comments
       super
     end
   end
