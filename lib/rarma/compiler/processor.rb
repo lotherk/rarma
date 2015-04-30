@@ -1,7 +1,7 @@
 require 'sexp_processor'
 
 module Rarma::Compiler
-  class Processor
+  class Processor < SexpProcessor
     Dir["#{Rarma.root}/lib/rarma/compiler/processor/*.rb"].each do |f|
       Rarma.logger.debug "Loading processor #{f}"
       load f
