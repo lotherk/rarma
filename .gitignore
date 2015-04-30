@@ -11,3 +11,5 @@
 *.so
 *.dll
 /buildenv/
+/steam/
+/ext/

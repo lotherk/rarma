@@ -5,13 +5,13 @@ require 'open-uri'
 module Rarma; module Rake; module Task; module Buildenv
   def install_steam
     unless File.exists? @steamcmd_file
-      puts "Downloading #{@steamcmd_url}"
+      puts "Downloading #{@steamcmd_url}".bold
       File.open(@steamcmd_file, "wb") do |file|
         file << open(@steamcmd_url).read
       end
-      puts "download finished"
+      puts "download finished".bold
     else
-      puts "File #{@steamcmd_file} already exists."
+      puts "File #{@steamcmd_file} already exists.".yellow
     end
   end
 
@@ -41,7 +41,7 @@ end; end; end; end
 task :buildenv do
   config = YAML.load_file(File.join('config','development.yml'))
   unless config['steamid']
-    $stderr.puts "Please set your steamid in config/development.yml."
+    $stderr.puts "Please set your steamid in config/development.yml.".red
     exit 1
   end
 
