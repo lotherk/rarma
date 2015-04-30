@@ -8,3 +8,7 @@ module Rarma::Compiler
     processor.process RubyParser.new.parse src
   end
 end
+
+Dir[File.join(Rarma.root, 'lib', 'rarma', 'compiler', '*.rb')].each do |req|
+  require req
+end

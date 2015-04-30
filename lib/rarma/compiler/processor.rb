@@ -9,11 +9,16 @@ module Rarma::Compiler
     Rarma::Compiler::Processor.constants.select do |c|
       Rarma::Compiler::Processor.const_get(c).instance_of? ::Module
     end.each do |c|
-      str = "Rarma::SQF::Compiler::Processor::#{c}"
+      str = "Rarma::Compiler::Processor::#{c}"
       include eval(str)
+    end
+    attr_reader :value, :context
+    def context= context
+      @context = context
     end
     def initialize
       super
+      @value = nil
       self.auto_shift_type = true
     end
     def process exp
