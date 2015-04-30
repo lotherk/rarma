@@ -1,7 +1,10 @@
-require 'rarma/compiler/parser'
+require 'ruby_parser'
+
+require 'rarma/compiler/processor'
 module Rarma::Compiler
   def self.compile src, opts={}
     # parse code
-    script = Parser.parse src
+    processor = Processor.new
+    processor.process RubyParser.new.parse src
   end
 end
