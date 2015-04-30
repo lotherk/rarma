@@ -1,6 +1,6 @@
-module Rarma::Compiler::Processor::Call
+module Rarma::Compiler::Processor::Template
   # process method call
-  def process_call exp
+  def process_template exp
     Rarma.logger.debug exp.to_s
     exp
   end

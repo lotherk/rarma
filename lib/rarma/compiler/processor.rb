@@ -19,6 +19,7 @@ module Rarma::Compiler
     def initialize
       super
       @result = []
+      @scope = Rarma::Compiler::Scope.new
       self.auto_shift_type = true
     end
     def process exp
