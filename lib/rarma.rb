@@ -19,4 +19,7 @@ module Rarma
     end
     @logger
   end
+  def self.root
+    Gem::Specification.find_by_name("rarma").gem_dir
+  end
 end

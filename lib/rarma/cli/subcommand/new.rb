@@ -1,3 +1,4 @@
+require 'erb'
 class Rarma::CLI::Subcommand::New
   extend Rarma::CLI::Subcommand
   attr_reader :description
@@ -36,6 +37,14 @@ EOB
     elsif @opts[:addon]
       require 'rarma/cli/subcommand/new/addon.rb'
       Rarma::CLI::Subcommand::New::Addon.new @opts
+    end
+  end
+
+  def self.install_skeleton_files directory, skels
+    skels.each do |skel|
+      Dir[File.join(Rarma.root, "share", "skeleton", skel.to_s, '**', '/', '*')].each do |e|
+        puts e
+      end
     end
   end
 end
