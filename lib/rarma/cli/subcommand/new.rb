@@ -8,13 +8,13 @@ class Rarma::CLI::Subcommand::New
     p = Trollop::Parser.new do
       banner <<EOB
 Usage
-  rarma [global options] new [options] name
+  rarma [global options] new [-a|-m] [options] name
 
 Create a mission/addon from scratch.
 EOB
       banner ""
       opt :mission, 'create a new mission', :short => 'm'
-      opt :addon, 'create a new addon', :short => 'a'
+      opt :addon, 'create a new addon', :short => 'a', :default => true
       opt :description, 'short description', :short => 'D', :default => ''
       opt :author, "author name", :default => ENV['USER'], :short => 'A'
       opt :version, "initial version", :default => '0.1.0', :short => 'V'
@@ -28,6 +28,7 @@ EOB
       raise Trollop::HelpNeeded if ARGV.empty?
       p.parse
     end
+
 
     if @opts[:mission]
       require 'rarma/cli/subcommand/new/mission.rb'

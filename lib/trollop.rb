@@ -245,7 +245,7 @@ class Parser
     syms.each { |sym| raise ArgumentError, "unknown option '#{sym}'" unless @specs[sym] }
     @constraints << [:depends, syms]
   end
-  
+
   ## Marks two (or more!) options as conflicting.
   def conflicts *syms
     syms.each { |sym| raise ArgumentError, "unknown option '#{sym}'" unless @specs[sym] }
@@ -648,7 +648,7 @@ private
     start = 0
     ret = []
     until start > str.length
-      nextt = 
+      nextt =
         if start + width >= str.length
           str.length
         else
