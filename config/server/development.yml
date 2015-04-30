@@ -1,0 +1,6 @@
+---
+server:
+  port: 2304
+  name: "Development Server"
+  password: "dev"
+  adminpassword: "admin"

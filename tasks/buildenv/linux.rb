@@ -1,5 +1,5 @@
-class Rarma::Rake::Task::Environment::Linux
-  include Rarma::Rake::Task::Environment
+class Rarma::Rake::Task::Buildenv::Linux
+  include Rarma::Rake::Task::Buildenv
 
   def install_steam
     unless File.directory? config['steamdir']
@@ -7,7 +7,7 @@ class Rarma::Rake::Task::Environment::Linux
 
       puts "Extracting steamCMD to #{config['steamdir']}"
       FileUtils.mkdir_p(config['steamdir'])
-      Rake.sh "tar xzf tmp/steamcmd_linux.tar.gz -C #{config['steamdir']}"
+      Rake.sh "tar xzf #{@steamcmd_file} -C #{config['steamdir']}"
     else
       puts "#{config['steamdir']} already exists, remove to reinstall."
       puts ""

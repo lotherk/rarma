@@ -1,11 +1,11 @@
-class Rarma::Rake::Task::Environment::Windows
-  include Rarma::Rake::Task::Environment
+class Rarma::Rake::Task::Buildenv::Windows
+  include Rarma::Rake::Task::Buildenv
 
   def install_steam
     super
     unless File.exists?config['steamdir']
       FileUtils.mkdir_p(config['steamdir'])
-      puts `unzip #{@steamcmd_file} -d #{config['steamdir']}` 
+      puts `unzip #{@steamcmd_file} -d #{config['steamdir']}`
     else
       puts "#{config['steamdir']} alrealdy exists, remove to reinstall"
     end

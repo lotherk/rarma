@@ -2,7 +2,7 @@ require 'yaml'
 require 'fileutils'
 require 'open-uri'
 
-module Rarma; module Rake; module Task; module Environment
+module Rarma; module Rake; module Task; module Buildenv
   def install_steam
     unless File.exists? @steamcmd_file
       puts "Downloading #{@steamcmd_url}"
@@ -24,34 +24,35 @@ module Rarma; module Rake; module Task; module Environment
   end
 
   def initialize config
+    @buildenv = ENV['buildenv'].lowercase rescue "development"
     @config = config
     @steamcmd_url = if RUBY_PLATFORM=~/linux/
       "http://media.steampowered.com/installer/steamcmd_linux.tar.gz"
     elsif RUBY_PLATFORM=~/mingw/
       "http://media.steampowered.com/installer/steamcmd.zip"
     end
-    @steamcmd_file = File.join("tmp", File.basename(@steamcmd_url))
+    @steamcmd_file = File.join("buildenv", File.basename(@steamcmd_url))
   end
   def config
     @config
   end
 end; end; end; end
 
-task :environment do
+task :buildenv do
   config = YAML.load_file(File.join('config','development.yml'))
   unless config['steamid']
     $stderr.puts "Please set your steamid in config/development.yml."
     exit 1
   end
 
-  FileUtils.mkdir_p('tmp')
+  FileUtils.mkdir_p('buildenv')
 
   if RUBY_PLATFORM=~/linux/
-    require './tasks/environment/linux.rb'
-    installer = Rarma::Rake::Task::Environment::Linux.new config
+    require './tasks/buildenv/linux.rb'
+    installer = Rarma::Rake::Task::Buildenv::Linux.new config
   elsif RUBY_PLATFORM=~/mingw/
-    require './tasks/environment/windows.rb'
-    installer = Rarma::Rake::Task::Environment::Windows.new config
+    require './tasks/buildenv/windows.rb'
+    installer = Rarma::Rake::Task::Buildenv::Windows.new config
   else
     $stderr.puts "Unsupported platform #{RUBY_PLATFORM}"
     exit 1
@@ -61,5 +62,5 @@ task :environment do
   installer.install_arma
   installer.install_cpbo
 
-  puts "\nRarma development environment successfully installed."
+  puts "\nRarma development buildenv successfully installed."
 end

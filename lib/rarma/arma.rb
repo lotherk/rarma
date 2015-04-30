@@ -1,0 +1,2 @@
+module Rarma::Arma
+end

@@ -33,7 +33,7 @@ You need to install the following libraries to make steamCMD and cpbo work.
 ##### Debian/Ubuntu
 
 ```
-sudo apt-get install lib32gcc1 libboost1.55-dev
+sudo apt-get install lib32gcc1 libboost-all-dev
 ```
 
 ##### Other Distributions
