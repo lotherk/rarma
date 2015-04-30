@@ -19,7 +19,7 @@ module Rarma::Compiler::Processor::Defn
     end
     puts method.inspect
 
-    @scope.add @method
+    @scope.add method
     exp
   end
 end

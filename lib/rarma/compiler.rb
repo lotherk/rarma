@@ -6,6 +6,7 @@ module Rarma::Compiler
     # parse code
     processor = Processor.new
     processor.process RubyParser.new.parse src
+    puts processor.scope.inspect
   end
 end
 
