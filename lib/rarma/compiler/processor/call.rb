@@ -5,6 +5,7 @@ module Rarma::Compiler::Processor::Call
     left = exp.shift
     if left.is_a? Sexp
       left_processor = self.class.new
+      left_processor.scope = @scope
       left_processor.process left
       left = left_processor.result.shift
     end
@@ -25,21 +26,23 @@ module Rarma::Compiler::Processor::Call
     # but for now we use it. We assume that 'left' at least is an RarmaLib_Array.
     if funcname.to_s == "[]"
       processor = self.class.new
+      processor.scope = @scope
       processor.process exp.shift
       @result << '(["get", %s] call %s)' % [processor.result.shift, left]
+      return exp
 
     # check if funcname is an operand
     elsif operands.include? funcname.to_s
       processor = self.class.new
+      processor.scope = @scope
       processor.process exp.shift
       @result << '(%s %s %s)' % [left, funcname, processor.result.shift]
-
+      return exp
     else
       while exp.count > 0
         puts exp.shift
       end
     end
-    puts exp
-    s()
+    exp
   end
 end

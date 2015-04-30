@@ -3,15 +3,19 @@ module Rarma::Compiler::Processor::Args
   def process_args exp
     Rarma.logger.debug @scope.inspect
     Rarma.logger.debug exp.to_s
+
+    sig = []
+
     while exp.count > 0
       # process each element
       e = exp.shift
       unless e.is_a?Symbol
         processor = self.class.new
         processor.process e
-        @scope.params.update processor.result.shift
+        processor.scope = @scope
+        sig
       else
-        @scope.params.update({ e => nil })
+        sig << { e.to_s => nil }
       end
     end
     exp

@@ -12,7 +12,9 @@ class Rarma::Compiler::Scope
     if @variables.has_key?varname.to_sym
       @variables[varname.to_sym]
     else
-      varname # return unmodified
+      new_varname = "_#{varname}"
+      @variables[varname.to_sym] = new_varname
+      new_varname # return modified
     end
   end
 end
