@@ -8,7 +8,7 @@ module Rarma::Compiler::Processor::Defn
     # process params
     params = exp.shift
     process_params = self.class.new
-    process_params.context = method
+    process_params.scope = method
     process_params.process params
     puts method.inspect
   end

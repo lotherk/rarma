@@ -12,13 +12,13 @@ module Rarma::Compiler
       str = "Rarma::Compiler::Processor::#{c}"
       include eval(str)
     end
-    attr_reader :value, :context
-    def context= context
-      @context = context
+    attr_reader :result, :scope
+    def scope= scope
+      @scope = scope
     end
     def initialize
       super
-      @value = nil
+      @result = []
       self.auto_shift_type = true
     end
     def process exp
