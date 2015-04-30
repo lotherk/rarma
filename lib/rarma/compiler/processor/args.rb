@@ -5,9 +5,14 @@ module Rarma::Compiler::Processor::Args
     Rarma.logger.debug exp.to_s
     while exp.count > 0
       # process each element
-      processor = self.class.new
-      processor.process exp.shift
-      @scope.params << processor.result.shift
+      e = exp.shift
+      unless e.is_a?Symbol
+        processor = self.class.new
+        processor.process e
+        @scope.params.update processor.result.shift
+      else
+        @scope.params.update({ e => nil })
+      end
     end
     exp
   end
