@@ -9,6 +9,12 @@ module Rarma
       @logger = Logger.new(output)
       @logger.formatter = proc { |severity, datetime, progname, msg|
         kaller = caller[4]
+	# fix for windows
+	if RUBY_PLATFORM=~/mingw/
+	  # replace leading DRIVE: from kaller
+	  kaller.gsub!(%r{^[A-Za-z]:}, '/')
+	end
+	# end fix
         file, ln, func  = kaller.split(":")
         _nil, func = func.split("`")
         func.gsub!(/[<>']/, "")

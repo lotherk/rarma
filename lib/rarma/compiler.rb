@@ -10,7 +10,5 @@ module Rarma::Compiler
     puts processor.result.inspect
   end
 end
-
-Dir[File.join(Rarma.root, 'lib', 'rarma', 'compiler', '*.rb')].each do |req|
-  require req
-end
+require 'rarma/compiler/scope.rb'
+require 'rarma/compiler/method.rb'
