@@ -21,22 +21,21 @@ module Rarma::Compiler::Processor::Call
       return exp
     end
 
+    processor = self.class.new
+    processor.scope = @scope
+
     # [] means we have an access to a hash/array
     # I still don't know the impact if accessing arrays/hashes through rarmalib,
     # but for now we use it. We assume that 'left' at least is an RarmaLib_Array.
     if funcname.to_s == "[]"
-      processor = self.class.new
-      processor.scope = @scope
       processor.process exp.shift
-      @result << '(["get", %s] call %s)' % [processor.result.shift, left]
+      @result << '(["get", %s] call (%s))' % [processor.result.shift, left]
       return exp
 
     # check if funcname is an operand
     elsif operands.include? funcname.to_s
-      processor = self.class.new
-      processor.scope = @scope
       processor.process exp.shift
-      @result << '(%s %s %s)' % [left, funcname, processor.result.shift]
+      @result << '(["%s", %s] call  %s)' % [funcname, processor.result.shift, left]
       return exp
     else
       while exp.count > 0

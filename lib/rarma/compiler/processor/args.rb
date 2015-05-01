@@ -11,8 +11,8 @@ module Rarma::Compiler::Processor::Args
       e = exp.shift
       unless e.is_a?Symbol
         processor = self.class.new
-        processor.process e
         processor.scope = @scope
+        processor.process e
         sig
       else
         sig << { e.to_s => nil }

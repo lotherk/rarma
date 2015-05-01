@@ -6,10 +6,10 @@ module Rarma::Compiler::Processor::Lasgn
     right = exp.shift
 
     right_processor = self.class.new
-    right_processor.process right
     right_processor.scope = @scope
+    right_processor.process right
 
-    @result << { left => right_processor.result.shift }
+    @result << "%s = %s" % [@scope.get_variable(left), right_processor.result.shift]
     exp
   end
 end

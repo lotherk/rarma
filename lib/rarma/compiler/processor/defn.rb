@@ -18,7 +18,10 @@ module Rarma::Compiler::Processor::Defn
       process_body.process exp.shift
     end
     puts method.inspect
-
+    @result << "%s = {" % method.name
+    @result << "private [\"%s\"]" % @scope.variables.values.join('","')
+    @result << process_body.result.flatten
+    @result << "}"
     @scope.add method
     exp
   end
