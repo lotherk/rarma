@@ -5,16 +5,16 @@ class Rarma::Rake::Task::Buildenv::Windows
     super
     unless File.exists?config['steamdir']
       FileUtils.mkdir_p(config['steamdir'])
-      puts `unzip #{@steamcmd_file} -d #{config['steamdir']}`
+      Rake.sh "unzip #{@steamcmd_file} -d #{config['steamdir']}"
     else
-      puts "#{config['steamdir']} alrealdy exists, remove to reinstall"
+      puts "#{config['steamdir']} alrealdy exists, remove to reinstall".yellow
     end
   end
 
   def install_arma
     puts "Installing/Updating arma3 in #{config['armadir']}"
     FileUtils.mkdir_p(config['armadir'])
-    puts `#{config['steamdir']}/steamcmd.exe +login #{config['steamid']} +force_install_dir #{config['armadir'].gsub('/', '\\')} +app_update 233780 +exit`
+    Rake.sh "#{config['steamdir']}/steamcmd.exe +login #{config['steamid']} +force_install_dir #{config['armadir'].gsub('/', '\\')} +app_update 233780 +exit"
   end
 
   def install_cpbo

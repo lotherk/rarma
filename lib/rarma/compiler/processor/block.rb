@@ -6,7 +6,7 @@ module Rarma::Compiler::Processor::Block
     @scope.add block_processor.scope
     block_processor.process exp.shift while exp.count > 0
     block_processor.scope.variables.each do |var|
-      @result << "private[\"%s\"]" % block_processor.scope.variables.values.join('","')
+      @result << "private [\"%s\"]" % block_processor.scope.variables.values.join('","')
     end
     @result << block_processor.result
     exp
