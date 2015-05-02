@@ -9,7 +9,7 @@ module Rarma::Compiler::Processor::Gasgn
     processor.scope = @scope
     processor.process right
 
-    @result << "%s = %s" % [@scope.get_global_variable(left), processor.result.shift]
+    @result << "%s = %s" % [@scope.set_global_variable(left, processor.result.first), processor.result.first]
     exp
   end
 end

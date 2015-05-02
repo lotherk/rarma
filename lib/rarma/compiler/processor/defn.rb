@@ -13,13 +13,12 @@ module Rarma::Compiler::Processor::Defn
 
     # rest in exp is method body
     process_body = self.class.new
-    process_body.scope = method
     while exp.count > 0
       process_body.process exp.shift
     end
     puts method.inspect
     @result << "%s = {" % method.name
-    @result << "private [\"%s\"]" % @scope.private_variables.values.join('","')
+    @result << "private [\"%s\"]" % process_body.scope.private_variables.values.join('","') if process_body.scope.private_variables.count > 0
     @result << process_body.result.flatten
     @result << "}"
     @scope.add method

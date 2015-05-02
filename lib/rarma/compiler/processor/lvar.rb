@@ -3,7 +3,7 @@ module Rarma::Compiler::Processor::Lvar
   def process_lvar exp
     Rarma.logger.debug exp.to_s
     lvar = exp.shift
-    @result << @scope.get_variable(lvar.to_sym)
+    @result << @scope.get_variable(lvar.to_sym, :private)
     exp
   end
 end

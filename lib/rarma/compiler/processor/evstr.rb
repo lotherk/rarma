@@ -6,9 +6,9 @@ module Rarma::Compiler::Processor::Evstr
     while exp.count > 0
       processor = self.class.new
       processor.process exp.shift
-      results << process.results.join("")
+      results << processor.result.join("")
     end
-    @results << results.joint(" + ")
+    @result << results.join(" + ")
     exp
   end
 end

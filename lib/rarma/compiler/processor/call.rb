@@ -40,9 +40,43 @@ module Rarma::Compiler::Processor::Call
 
     # common method call
     else
+      # process right
       while exp.count > 0
         processor.process exp.shift
       end
+
+      # native sqf method call.
+      if left == 'SQF'
+        # we need to determine the exact syntax
+        # for SQF as there are differences in calling a method
+        # with single or multiple parameters. I'm not even sure
+        # if there are exceptions. we do the following for now
+
+        if processor.result.count > 1
+          if processor.result.count > 2
+            # arg1 method [arg2, arg3]
+            @result << '(%s %s %s)' % [processor.result.shift, funcname, processor.result.shift]
+          else
+            # arg1 method arg2
+            @result << '(%s %s [%s])' % [processor.result.shift, funcname, processor.result.join(', ')]
+          end
+        else
+          # method arg1
+          @result << '(%s %s)' % [funcname, processor.result.shift]
+        end
+
+      # custom method call
+      else
+        # I think this is wrong, sorry, but for now we expect a "rarma style" environment.
+        # we assume left is a rarma object/module.
+
+        if processor.result.count > 1
+          @result << '(["%s", %s] call %s)' [funcname, processor.result.shift, left]
+        else
+          @result << '(["%s", [%s]] call %s)' [funcname, processor.result.join(', '), left]
+        end
+      end
+
     end
     exp
   end
