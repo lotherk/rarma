@@ -1,6 +1,6 @@
-module Rarma::Compiler::Processor::Lasgn
+module Rarma::Compiler::Processor::Gasgn
   # process left assignment
-  def process_lasgn exp
+  def process_gasgn exp
     Rarma.logger.debug exp.to_s
     left = exp.shift
     right = exp.shift
@@ -9,7 +9,7 @@ module Rarma::Compiler::Processor::Lasgn
     processor.scope = @scope
     processor.process right
 
-    @result << "%s = %s" % [@scope.get_private_viariable(left), processor.result.shift]
+    @result << "%s = %s" % [@scope.get_global_variable(left), processor.result.shift]
     exp
   end
 end
