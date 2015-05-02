@@ -37,9 +37,11 @@ module Rarma::Compiler::Processor::Call
       processor.process exp.shift
       @result << '(["%s", %s] call  %s)' % [funcname, processor.result.shift, left]
       return exp
+
+    # common method call
     else
       while exp.count > 0
-        puts exp.shift
+        processor.process exp.shift
       end
     end
     exp

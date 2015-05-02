@@ -3,6 +3,7 @@ class Rarma::Compiler::Scope
   def initialize
     @scopes = []
     @private_variables = {}
+    @global_variables = {}
   end
   def add scope
     @scopes << scope

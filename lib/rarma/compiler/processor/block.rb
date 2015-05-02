@@ -5,9 +5,7 @@ module Rarma::Compiler::Processor::Block
     block_processor = self.class.new
     @scope.add block_processor.scope
     block_processor.process exp.shift while exp.count > 0
-    block_processor.scope.variables.each do |var|
-      @result << "private [\"%s\"]" % block_processor.scope.variables.values.join('","')
-    end
+    @result << "private [\"%s\"]" % block_processor.scope.private_variables.values.join('","')
     @result << block_processor.result
     exp
   end

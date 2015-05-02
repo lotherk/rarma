@@ -9,7 +9,7 @@ module Rarma::Compiler::Processor::Lasgn
     processor.scope = @scope
     processor.process right
 
-    @result << "%s = %s" % [@scope.get_private_viariable(left), processor.result.shift]
+    @result << "%s = %s" % [@scope.get_private_variable(left), processor.result.shift]
     exp
   end
 end

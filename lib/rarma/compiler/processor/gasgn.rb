@@ -2,7 +2,7 @@ module Rarma::Compiler::Processor::Gasgn
   # process left assignment
   def process_gasgn exp
     Rarma.logger.debug exp.to_s
-    left = exp.shift
+    left = exp.shift.to_s.gsub('$', '')
     right = exp.shift
 
     processor = self.class.new
