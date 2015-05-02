@@ -4,8 +4,7 @@ module Rarma::Compiler::Processor::Call
     Rarma.logger.debug exp.to_s
     left = exp.shift
     if left.is_a? Sexp
-      left_processor = self.class.new
-      left_processor.scope = @scope
+      left_processor = new_processor
       left_processor.process left
       left = left_processor.result.shift
     end
@@ -17,12 +16,11 @@ module Rarma::Compiler::Processor::Call
     # call to a variable i.e. array access.
     # check variable name and return
     if left.nil?
-      @result << @scope.get_variable(funcname)
+      @result << @scope.get_private_variable(funcname)
       return exp
     end
 
-    processor = self.class.new
-    processor.scope = @scope
+    processor = new_processor
 
     # [] means we have an access to a hash/array
     # I still don't know the impact if accessing arrays/hashes through rarmalib,
@@ -53,12 +51,12 @@ module Rarma::Compiler::Processor::Call
         # if there are exceptions. we do the following for now
 
         if processor.result.count > 1
-          if processor.result.count > 2
+          if processor.result.count >= 3
             # arg1 method [arg2, arg3]
-            @result << '(%s %s %s)' % [processor.result.shift, funcname, processor.result.shift]
+            @result << '(%s %s [%s])' % [processor.result.shift, funcname, processor.result.join(', ')]
           else
             # arg1 method arg2
-            @result << '(%s %s [%s])' % [processor.result.shift, funcname, processor.result.join(', ')]
+            @result << '(%s %s %s)' % [processor.result.shift, funcname, processor.result.shift]
           end
         else
           # method arg1

@@ -8,8 +8,7 @@ module Rarma::Compiler::Processor::Dstr
         if [:str, :lit].include? e[0]
           results << { :str => e[1] }
         else
-          processor = self.class.new
-          processor.scope = @scope
+          processor = new_processor
           processor.process e
           results << { :sexp => processor.result.shift }
         end

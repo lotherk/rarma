@@ -1,6 +1,6 @@
-class Rarma::Compiler::Method < Rarma::Compiler::Scope
+class Rarma::Compiler::Scope::Method < Rarma::Compiler::Scope
   attr_accessor :name, :params, :return
-  def initialize
+  def initialize parent
     super
   end
   def params

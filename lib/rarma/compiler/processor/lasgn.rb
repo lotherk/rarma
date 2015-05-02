@@ -5,11 +5,10 @@ module Rarma::Compiler::Processor::Lasgn
     left = exp.shift
     right = exp.shift
 
-    processor = self.class.new
-    processor.scope = @scope
+    processor = new_processor
     processor.process right
-
-    @result << "%s = %s" % [@scope.set_private_variable(left, processor.result.first), processor.result.first]
+    @scope.set_private_variable(left, processor.result.first)
+    @result << "%s = %s" % [@scope.get_private_variable(left), processor.result.first]
     exp
   end
 end

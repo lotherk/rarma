@@ -4,7 +4,7 @@ module Rarma::Compiler::Processor::Evstr
     Rarma.logger.debug exp.to_s
     results = []
     while exp.count > 0
-      processor = self.class.new
+      processor = new_processor
       processor.process exp.shift
       results << processor.result.join("")
     end

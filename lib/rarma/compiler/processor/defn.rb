@@ -1,27 +1,34 @@
 module Rarma::Compiler::Processor::Defn
   # process method definition
   def process_defn exp
+    # add comments
+    add_comments(exp.comments) if exp.comments
     Rarma.logger.debug exp.to_s
-    method = Rarma::Compiler::Method.new
+    method = Rarma::Compiler::Scope::Method.new(self)
     method.name = exp.shift
 
     # process params
     params = exp.shift
-    process_params = self.class.new
-    process_params.scope = method
-    process_params.process params
+    processor = new_processor
+    processor.process params
 
     # rest in exp is method body
-    process_body = self.class.new
+    #process_body = new_processor process_params
     while exp.count > 0
-      process_body.process exp.shift
+      processor.process exp.shift
     end
-    puts method.inspect
     @result << "%s = {" % method.name
-    @result << "private [\"%s\"]" % process_body.scope.private_variables.values.join('","') if process_body.scope.private_variables.count > 0
-    @result << process_body.result.flatten
+    # privatize(?) variables.
+    @result << "private [\"%s\"]" % processor.scope.private_variables.join('","') if processor.scope.private_variables.count > 0
+    counter = 0
+    processor.scope.args.each do |arg, data|
+      var = processor.scope.get_private_variable(arg)
+      val = data[:value]
+      @result << '%s = [_this, %s, %s] call BIS_fnc_param' % [var, counter, val]
+      counter += 1
+    end
+    @result << processor.result.flatten
     @result << "}"
-    @scope.add method
     exp
   end
 end
