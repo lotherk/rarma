@@ -9,7 +9,7 @@ module Rarma::Compiler
       [:private, :global].each do |var_type|
         @namespace[:variables][var_type] = {}
       end
-      @namespace[:name] = nil
+      @namespace[:name] = processor.file
       @namespace[:args] = {}
       @namespace[:methods] = []
       @namespace[:modules] = []
@@ -39,6 +39,19 @@ module Rarma::Compiler
     def add_class scope
       @namespace[:classes] << scope
     end
+
+    def compile_body
+      if @namespace[:body][:exp]
+        processor = @processor.new_processor
+        processor.process @namespace[:body][:exp]
+        @namespace[:body][:sqf] = processor.result
+      elsif @processor.result # check if result left
+        @namespace[:body][:sqf] = @processor.result
+      else
+        Rarma.logger.warn "empty body for #{@processor.file}"
+      end
+    end
+
     def add_arg name, value="nil"
       @namespace[:args][name.to_sym] ||= {}
       @namespace[:args][name.to_sym][:value] = value

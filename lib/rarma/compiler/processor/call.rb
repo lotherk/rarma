@@ -70,7 +70,6 @@ module Rarma::Compiler::Processor::Call
       else
         # I think this is wrong, sorry, but for now we expect a "rarma style" environment.
         # we assume left is a rarma object/module.
-
         if processor.result.count > 1
           @result << '(["%s", %s] call %s)' % [funcname, processor.result.shift, left]
         else

@@ -8,6 +8,7 @@ module Rarma::Compiler
       processor = Processor.new
       @processors << processor
       processor.file = file
+      processor.new_scope :script
       processor.process RubyParser.new.parse File.read(file)
     end
     def self.namespace
@@ -18,11 +19,14 @@ module Rarma::Compiler
       @namespace
     end
     def self.build
-      puts @namespace.keys
+      # compile bodies
+      namespace.each do |k, v|
+        v.each { |o| o.compile_body }
+      end
     end
 
     def self.debug_dump
-      @namespace.each do |type, val|
+      namespace.each do |type, val|
         puts type
         val.each do |v|
           v.debug_dump
