@@ -7,8 +7,8 @@ module Rarma::Compiler::Processor::Lasgn
 
     processor = new_processor
     processor.process right
-    @scope.set_private_variable(left, processor.result.first)
-    @result << "%s = %s" % [@scope.get_private_variable(left), processor.result.first]
+    scope.set_private_variable(left, processor.result.first)
+    @result << "%s = %s" % [scope.get_private_variable(left), processor.result.first]
     exp
   end
 end

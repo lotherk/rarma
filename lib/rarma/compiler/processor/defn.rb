@@ -6,18 +6,18 @@ module Rarma::Compiler::Processor::Defn
     Rarma.logger.debug exp.to_s
 
     # create an own scope for a method.
-    method = Rarma::Compiler::Scope::Method.new(self)
-    @scope.add_method method # add scope to parent scope
+    method = new_scope :method
+    scope.add_method method
 
     method.name = exp.shift
 
     # process params
-    params = exp.shift
     processor = new_processor
-    processor.process params
+    processor.scope = method
+    processor.process exp.shift
 
-    # rest in exp is method body
-    method.body_exp = exp
+    # rest in exp is method body, do not process yet.
+    method.body_exp exp.shift
 
     exp
   end

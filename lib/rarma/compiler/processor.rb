@@ -10,7 +10,6 @@ module Rarma::Compiler
       super
       @result = []
       @childs = []
-      @scope = Rarma::Compiler::Scope.new(self)
       self.auto_shift_type = true
     end
     def process exp
@@ -21,11 +20,17 @@ module Rarma::Compiler
       #puts exp.comments
       super
     end
-    def file=file
+    def file= file
       @file = file
     end
-    def parent=parent
+    def parent= parent
       @parent = parent unless @parent
+    end
+    def scope
+      @scope ||= Rarma::Compiler::Scope.new(self)
+    end
+    def scope= scope
+      @scope = scope
     end
     def new_scope type=:script
       Rarma::Compiler::Scope.new self, type
@@ -42,6 +47,14 @@ module Rarma::Compiler
       comms.each do |comm|
         @result << '// %s' % comm.gsub(/^(\s*#)/, '').lstrip
       end
+    end
+
+    def debug_dump
+      @childs.each { |c| c.debug_dump }
+    end
+
+    def inspect
+      ""
     end
 
     Dir["#{Rarma.root}/lib/rarma/compiler/processor/*.rb"].each do |f|

@@ -1,47 +1,54 @@
 module Rarma::Compiler
   class Scope
-    attr_reader :body, :scopes, :type, :processor, :variables, :modules, :classes, :methods, :args
-    attr_accessor :name, :body_exp
+    attr_reader :body, :scopes, :type, :processor, :variables, :namespace, :args
     def initialize processor, type=:script
-      @type = type
       @scopes = []
-      @variables = {}
+      @namespace = {}
+      @namespace[:type] = type
+      @namespace[:variables] = {}
       [:private, :global].each do |var_type|
-        @variables[var_type] = {}
+        @namespace[:variables][var_type] = {}
       end
-      @name = nil
-      @args = {}
-      @methods = []
-      @modules = []
-      @classes = []
-      @body = {}
-      Assembly.namespace[type] << self
+      @namespace[:name] = nil
+      @namespace[:args] = {}
+      @namespace[:methods] = []
+      @namespace[:modules] = []
+      @namespace[:classes] = []
+      @namespace[:body] = {}
+      Assembly.namespace[@namespace[:type]] << self
       @processor = processor
+      Rarma.logger.debug "STARTING SCOPE"
     end
+    def name
+      @namespace[:name]
+    end
+    def name= name
+      @namespace[:name] = name
+    end
+
     def body_exp exp
-      @body[:exp] = exp.clone
-      exp = s()
+      @namespace[:body][:exp] = exp
     end
     def add_method scope
-      @methods << scope
+      @namespace[:methods] << scope
     end
     def add_module scope
-      @modules << scope
+      @namespace[:modules] << scope
     end
 
     def add_class scope
-      @classes << scope
+      @namespace[:classes] << scope
     end
     def add_arg name, value="nil"
-      @args[name.to_sym] ||= {}
-      @args[name.to_sym][:value] = value
+      @namespace[:args][name.to_sym] ||= {}
+      @namespace[:args][name.to_sym][:value] = value
       set_private_variable(name.to_sym, value)
     end
 
     def get_variable varname, scope_context
       scope_context = scope_context.to_sym
-      if @variables[scope_context].has_key?varname.to_sym
-        @variables[scope_context][varname.to_sym][:name]
+      if @namespace[:variables][scope_context].has_key?varname.to_sym
+        @namespace[:variables][scope_context][varname.to_sym][:name]
 
       # ask parent
       elsif processor.parent and processor.parent.scope.get_variable(varname, scope_context)
@@ -52,16 +59,16 @@ module Rarma::Compiler
     end
 
     def set_variable varname, value, scope_context
-      unless @variables[scope_context][varname.to_sym]
-        @variables[scope_context][varname.to_sym] = {}
+      unless @namespace[:variables][scope_context][varname.to_sym]
+        @namespace[:variables][scope_context][varname.to_sym] = {}
         if scope_context == :private
           name = "_#{varname}"
         else
           name = varname
         end
-        @variables[scope_context][varname.to_sym][:name] = name
+        @namespace[:variables][scope_context][varname.to_sym][:name] = name
       end
-      @variables[scope_context][varname.to_sym][:value] = value
+      @namespace[:variables][scope_context][varname.to_sym][:value] = value
     end
 
     def get_private_variable varname
@@ -82,12 +89,17 @@ module Rarma::Compiler
 
     def private_variables
       result = []
-      @variables[:private].each do |pv|
+      @namespace[:variables][:private].each do |pv|
         result << pv[1][:name]
       end
       result
     end
+    def to_s
+      @namespace.to_s
+    end
+    def debug_dump
+      puts "[%s (%s/%s): %s]" % [__id__, @namespace[:name], @namespace[:type], @namespace]
+    end
 
   end
 end
-require 'rarma/compiler/scope/method'

@@ -7,8 +7,8 @@ module Rarma::Compiler::Processor::Gasgn
 
     processor = new_processor
     processor.process right
-    @scope.set_global_variable(left, processor.result.first)
-    @result << "%s = %s" % [@scope.get_global_variable(left), processor.result.first]
+    scope.set_global_variable(left, processor.result.first)
+    @result << "%s = %s" % [scope.get_global_variable(left), processor.result.first]
     exp
   end
 end

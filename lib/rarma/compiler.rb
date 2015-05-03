@@ -15,6 +15,7 @@ module Rarma::Compiler
     # parse code
     Assembly.load_file file
     Assembly.build
+    Assembly.debug_dump
   end
 
   def self.load_file file

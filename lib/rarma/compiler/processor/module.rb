@@ -1,21 +1,17 @@
 module Rarma::Compiler::Processor::Module
-  # process method call
+  # process module_scope call
   def process_module exp
     Rarma.logger.debug exp.to_s
     module_scope = new_scope :module
-#    @scope.add_module module_scope
+    scope.add_module module_scope
 
-    # process name
-    name = exp.shift
-    if name.is_a?Sexp
-      processor = new_processor
-      processor.process exp.shift
-      module_scope.name = processor.result.shift
-    else
-      module_scope.name = name.to_s
-    end
-    # process body
-    module_scope.body_exp = exp.shift
+    module_scope.name = exp.shift
+
+    # process params
+    processor = new_processor
+    processor.scope = module_scope
+    processor.process exp.shift while exp.count > 0
+
     exp
   end
 end

@@ -15,7 +15,7 @@ module Rarma::Compiler::Processor::Call
     # call to a variable i.e. array access.
     # check variable name and return
     #if left.nil?
-    #  @result << @scope.get_private_variable(funcname)
+    #  @result << scope.get_private_variable(funcname)
      # return exp
     #end
 
