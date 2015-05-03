@@ -17,7 +17,7 @@ module Rarma::Compiler
       @namespace[:body] = {}
       Assembly.namespace[@namespace[:type]] << self
       @processor = processor
-      Rarma.logger.debug "STARTING SCOPE"
+      Rarma.logger.debug "new #{type} scope"
     end
     def name
       @namespace[:name]
