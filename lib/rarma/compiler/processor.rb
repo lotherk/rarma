@@ -2,7 +2,7 @@ require 'sexp_processor'
 
 module Rarma::Compiler
   class Processor < SexpProcessor
-    attr_reader :result, :scope, :parent, :childs
+    attr_reader :file, :result, :scope, :parent, :childs
 #    def scope= scope
  #     @scope = scope
   #  end
@@ -20,8 +20,14 @@ module Rarma::Compiler
       #puts exp.comments
       super
     end
+    def file=file
+      @file = file
+    end
     def parent=parent
       @parent = parent unless @parent
+    end
+    def new_scope type=:script
+      Rarma::Compiler::Scope.new self, type
     end
     def new_processor parent=self
       instance =  self.class.new

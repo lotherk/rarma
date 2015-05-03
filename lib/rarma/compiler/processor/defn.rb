@@ -29,6 +29,7 @@ module Rarma::Compiler::Processor::Defn
     end
     @result << processor.result.flatten
     @result << "}"
+    @scope.add_method method
     exp
   end
 end

@@ -10,15 +10,14 @@ module Rarma::Compiler::Processor::Call
     end
 
     operands = ["+", "-", "-=", "+=", "!=", "==", "*", "*=", "/", "/=", "%", "<=", ">=", "<", ">"]
-
     funcname = exp.shift
 
     # call to a variable i.e. array access.
     # check variable name and return
-    if left.nil?
-      @result << @scope.get_private_variable(funcname)
-      return exp
-    end
+    #if left.nil?
+    #  @result << @scope.get_private_variable(funcname)
+     # return exp
+    #end
 
     processor = new_processor
 
@@ -37,6 +36,10 @@ module Rarma::Compiler::Processor::Call
       return exp
 
     # common method call
+
+    # check if funcname is a reserved keyword
+    elsif left.nil? and RARMA_COMPILER_KEYWORDS.include? funcname.to_sym
+      process_keyword funcname.to_sym, exp
     else
       # process right
       while exp.count > 0

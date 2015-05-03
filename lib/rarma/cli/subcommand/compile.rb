@@ -15,14 +15,16 @@ Usage
 EOB
       banner ""
       opt :output, 'SQF output file', :short => 'o', :default => 'script.sqf'
+      opt :include, 'Include library path', :short => 'I', :type => :strings
     end
 
     @opts = Trollop::with_standard_exception_handling p do
       raise Trollop::HelpNeeded if ARGV.empty?
       p.parse
     end
-
-    Rarma::Compiler.compile File.read(ARGV.shift)
+    @opts[:include] ||= []
+    @opts[:include] << '.'
+    Rarma::Compiler.compile ARGV.shift, @opts
   end
 
 end
