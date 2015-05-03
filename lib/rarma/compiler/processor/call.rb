@@ -72,9 +72,9 @@ module Rarma::Compiler::Processor::Call
         # we assume left is a rarma object/module.
 
         if processor.result.count > 1
-          @result << '(["%s", %s] call %s)' [funcname, processor.result.shift, left]
+          @result << '(["%s", %s] call %s)' % [funcname, processor.result.shift, left]
         else
-          @result << '(["%s", [%s]] call %s)' [funcname, processor.result.join(', '), left]
+          @result << '(["%s", [%s]] call %s)' % [funcname, processor.result.join(', '), left]
         end
       end
 
