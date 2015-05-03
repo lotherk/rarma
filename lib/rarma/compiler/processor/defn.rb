@@ -4,7 +4,11 @@ module Rarma::Compiler::Processor::Defn
     # add comments
     add_comments(exp.comments) if exp.comments
     Rarma.logger.debug exp.to_s
+
+    # create an own scope for a method.
     method = Rarma::Compiler::Scope::Method.new(self)
+    @scope.add_method method # add scope to parent scope
+
     method.name = exp.shift
 
     # process params
@@ -13,23 +17,8 @@ module Rarma::Compiler::Processor::Defn
     processor.process params
 
     # rest in exp is method body
-    #process_body = new_processor process_params
-    while exp.count > 0
-      processor.process exp.shift
-    end
-    @result << "%s = {" % method.name
-    # privatize(?) variables.
-    @result << "private [\"%s\"]" % processor.scope.private_variables.join('","') if processor.scope.private_variables.count > 0
-    counter = 0
-    processor.scope.args.each do |arg, data|
-      var = processor.scope.get_private_variable(arg)
-      val = data[:value]
-      @result << '%s = [_this, %s, %s] call BIS_fnc_param' % [var, counter, val]
-      counter += 1
-    end
-    @result << processor.result.flatten
-    @result << "}"
-    @scope.add_method method
+    method.body_exp = exp
+
     exp
   end
 end

@@ -1,6 +1,7 @@
 module Rarma::Compiler::Processor::Block
   # process block
   def process_block exp
+    Rarma.logger.debug "Processing block (script)"
     Rarma.logger.debug exp.to_s
     block_processor = new_processor
     block_processor.process exp.shift while exp.count > 0

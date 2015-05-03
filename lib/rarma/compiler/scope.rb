@@ -14,10 +14,13 @@ module Rarma::Compiler
       @methods = []
       @modules = []
       @classes = []
-      @body_exp = nil
-      @body = nil
+      @body = {}
       Assembly.namespace[type] << self
       @processor = processor
+    end
+    def body_exp exp
+      @body[:exp] = exp.clone
+      exp = s()
     end
     def add_method scope
       @methods << scope
