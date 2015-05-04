@@ -3,18 +3,21 @@ module Rarma::Compiler
   end
   module Assembly
     @processors = []
+    @map = []
     def self.load_file file
+      return if @map.include? file
+      @map << file
       Rarma.logger.debug "Assembling #{file}"
-      processor = Processor.new
+      processor = Scope.namespace.processor.new_processor
+      processor.scope = Scope.namespace.processor.new_scope
       @processors << processor
       processor.file = file
-      processor.new_scope :script
-      processor.process RubyParser.new.parse File.read(file)
+      processor.process_file file
     end
     def self.namespace
       unless @namespace
          @namespace = Namespace.new
-        [:method, :module, :class, :script].each { |e| @namespace[e] = [] }
+        [:super, :method, :module, :class, :script].each { |e| @namespace[e] = [] }
       end
       @namespace
     end

@@ -3,14 +3,16 @@ require 'sexp_processor'
 module Rarma::Compiler
   class Processor < SexpProcessor
     attr_reader :file, :result, :scope, :parent, :childs
-#    def scope= scope
- #     @scope = scope
-  #  end
     def initialize
       super
       @result = []
+      @file = nil
       @childs = []
       self.auto_shift_type = true
+    end
+    def process_file filename
+      file = filename
+      process RubyParser.new.parse File.read(file)
     end
     def process exp
       return unless exp
@@ -24,7 +26,7 @@ module Rarma::Compiler
       @file = file
     end
     def parent= parent
-      @parent = parent unless @parent
+      @parent = parent
     end
     def scope
       @scope ||= Rarma::Compiler::Scope.new(self)
@@ -37,6 +39,7 @@ module Rarma::Compiler
     end
     def new_processor parent=self
       instance =  self.class.new
+      instance.file = @file
       instance.parent = parent
       @childs << instance
       instance

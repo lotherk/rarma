@@ -12,19 +12,16 @@ module Rarma::Compiler::Processor::Call
     operands = ["+", "-", "-=", "+=", "!=", "==", "*", "*=", "/", "/=", "%", "<=", ">=", "<", ">"]
     funcname = exp.shift
 
-    # call to a variable i.e. array access.
-    # check variable name and return
-    #if left.nil?
-    #  @result << scope.get_private_variable(funcname)
-     # return exp
-    #end
-
     processor = new_processor
+    processor.scope = scope
+    if left.nil? and exp.count == 0
+      @result << scope.get_private_variable(funcname)
+      return exp
 
     # [] means we have an access to a hash/array
     # I still don't know the impact if accessing arrays/hashes through rarmalib,
     # but for now we use it. We assume that 'left' at least is an RarmaLib_Array.
-    if funcname.to_s == "[]"
+    elsif funcname.to_s == "[]"
       processor.process exp.shift
       @result << '(["get", %s] call (%s))' % [processor.result.shift, left]
       return exp
@@ -35,11 +32,12 @@ module Rarma::Compiler::Processor::Call
       @result << '(["%s", %s] call  %s)' % [funcname, processor.result.shift, left]
       return exp
 
-    # common method call
 
     # check if funcname is a reserved keyword
     elsif left.nil? and RARMA_COMPILER_KEYWORDS.include? funcname.to_sym
       process_keyword funcname.to_sym, exp
+
+    # common method call
     else
       # process right
       while exp.count > 0

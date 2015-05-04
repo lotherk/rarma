@@ -1,8 +1,13 @@
 module Rarma::Compiler
   class Scope
-    attr_reader :body, :scopes, :type, :processor, :variables, :namespace, :args
+    attr_reader :body, :scopes, :processor, :variables, :namespace, :args
+    attr_accessor :file
+    def self.namespace
+      @scope ||= self.new(Processor.new, :super)
+    end
     def initialize processor, type=:script
       @scopes = []
+      @file = nil
       @namespace = {}
       @namespace[:type] = type
       @namespace[:variables] = {}
@@ -14,10 +19,14 @@ module Rarma::Compiler
       @namespace[:methods] = []
       @namespace[:modules] = []
       @namespace[:classes] = []
+      @namespace[:scripts] = []
       @namespace[:body] = {}
       Assembly.namespace[@namespace[:type]] << self
       @processor = processor
       Rarma.logger.debug "new #{type} scope"
+    end
+    def type
+      @namespace[:type]
     end
     def name
       @namespace[:name]
@@ -31,6 +40,9 @@ module Rarma::Compiler
     end
     def add_method scope
       @namespace[:methods] << scope
+    end
+    def add_script scope
+      @namespace[:scripts] << scope
     end
     def add_module scope
       @namespace[:modules] << scope
@@ -58,16 +70,30 @@ module Rarma::Compiler
       set_private_variable(name.to_sym, value)
     end
 
-    def get_variable varname, scope_context
+    def get_variable varname, scope_context, recurse=true
+      Rarma.logger.debug processor.parent
       scope_context = scope_context.to_sym
       if @namespace[:variables][scope_context].has_key?varname.to_sym
         @namespace[:variables][scope_context][varname.to_sym][:name]
 
       # ask parent
-      elsif processor.parent and processor.parent.scope.get_variable(varname, scope_context)
+      elsif recurse and processor.parent and processor.parent.scope.get_variable(varname, scope_context)
         processor.parent.scope.get_variable(varname, scope_context)
-      else
+
+      # if we're super, we're allowed to ask childs 1 level
+      elsif type == :super
+        Rarma.logger.debug "Asking my childs"
+        processor.childs.each do |childp|
+          begin
+            retval = childp.get_variable varname, scope_context, false
+          rescue
+          end
+          Rarma.logger.debug retval
+          return retval if retval
+        end
         raise RuntimeError, "accessing undefined variable '#{varname}'"
+      else
+        raise RuntimeError, "accessing undefined variable '#{varname}' : #{type} :: #{processor.parent.scope.type}"
       end
     end
 
