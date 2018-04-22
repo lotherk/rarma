@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 prototypes
 *.gem
 *.rbc
@@ -21,3 +22,20 @@ tmp
 python/rarma/.idea
 count-lines.sh
 **/build
+=======
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/config/*.yml
+*.so
+*.dll
+/buildenv/
+/steam/
+/ext/
+>>>>>>> 1aa7ba52591fcc54cd093333fabb12ce2eff0d34
